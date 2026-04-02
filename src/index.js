@@ -19,4 +19,11 @@ require('aframe-thumb-controls-component');
 requireAll(require.context('./components/', true, /\.js$/));
 requireAll(require.context('./state/', true, /\.js$/));
 
+// Require optical hand tracking components
+require('./components/optical-hand-tracking');
+require('./components/optical-saber-controls');
+
+// Require Twitch integration
+require('./components/twitch-integration');
+
 require('./index.css');

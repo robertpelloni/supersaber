@@ -32,5 +32,5 @@ module.exports = {
   MINE_RED: '#1c060e',
   MINE_RED_EMISSION: '#2a0d1b',
   MINE_BLUE: '#011114',
-  MINE_BLUE_EMISSION: '#072020',
+  MINE_BLUE_EMISSION: '#072020'
 };

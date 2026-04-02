@@ -19,8 +19,7 @@ AFRAME.registerComponent('twister', {
 
   pulse: function (twist) {
     if (!this.data.enabled) { return; }
-    if (twist == 0) { twist = 0.03 + Math.random() * 0.25; }
-    else twist = Math.min(twist * 0.4, 0.4);
+    if (twist == 0) { twist = 0.03 + Math.random() * 0.25; } else twist = Math.min(twist * 0.4, 0.4);
     twist *= Math.random() < 0.5 ? -1 : 1; // random direction
     this.el.setAttribute('twister', {twist: twist});
   },
@@ -102,7 +101,7 @@ AFRAME.registerComponent('twister', {
     }
     this.geometry.attributes.position.needsUpdate = true;
 
-    if (Math.abs(this.data.twist - this.currentTwist) < 0.001){
+    if (Math.abs(this.data.twist - this.currentTwist) < 0.001) {
       this.animate = false;
     }
   }

@@ -53,6 +53,7 @@ AFRAME.registerState({
     genres: require('../constants/genres'),
     genreMenuOpen: false,
     inVR: false,
+    is2DDesktopMode: false, // Windowed "corner of desk" mode
     isGameOver: false,  // Game over screen.
     isPaused: false,  // Playing, but paused. Not active during menu.
     isPlaying: false,  // Actively playing (slicing beats).
@@ -460,10 +461,15 @@ AFRAME.registerState({
 
     'enter-vr': (state) => {
       state.inVR = true;
+      state.is2DDesktopMode = false;
     },
 
     'exit-vr': (state) => {
       state.inVR = false;
+    },
+
+    'toggle-2d-mode': (state) => {
+      state.is2DDesktopMode = !state.is2DDesktopMode;
     },
 
     victory: function (state) {
@@ -508,6 +514,36 @@ AFRAME.registerState({
 
     wallhitstart: function (state) {
       takeDamage(state);
+    },
+
+    /**
+     * Twitch Integration Events
+     */
+    'twitch-spawn-obstacle': function (state) {
+      if (!state.isPlaying) return;
+      // Emit event for beat-loader or obstacle manager to handle
+      this.el.emit('spawn-random-obstacle');
+    },
+
+    'twitch-speed-up': function (state) {
+      if (!state.isPlaying) return;
+      state.score.multiplier = Math.min(state.score.multiplier * 2, 8);
+      // Actual audio/beat speedup would require modifying howler.js audio rate
+      // For this phase, we add a visual indicator or multiplier bump
+      console.log('Twitch Speed Up Applied!');
+    },
+
+    'twitch-slow-down': function (state) {
+      if (!state.isPlaying) return;
+      state.score.multiplier = Math.max(state.score.multiplier / 2, 1);
+      console.log('Twitch Slow Down Applied!');
+    },
+
+    'twitch-hype-train': function (state) {
+      if (!state.isPlaying) return;
+      state.score.multiplier = 8;
+      state.score.score += 1000;
+      updateScoreAccuracy(state);
     }
   },
 

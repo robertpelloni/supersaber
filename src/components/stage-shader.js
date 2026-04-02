@@ -2,7 +2,7 @@ AFRAME.registerShader('stageShader', {
   schema: {
     color: {type: 'vec3', is: 'uniform', default: {x: 0, y: 0, z: 0}},
     fogColor: {type: 'vec3', is: 'uniform', default: {x: 0, y: 0.48, z: 0.72}},
-    src: {type: 'map', is: 'uniform'},
+    src: {type: 'map', is: 'uniform'}
 
   },
 

@@ -134,7 +134,19 @@
 
       <!-- Player. -->
       <a-entity id="cameraRig">
-        <a-entity id="camera" position="0 1.6 0.5" camera look-controls wasd-controls>
+        <!--
+          Desktop 2D Mode Camera Config:
+          For the "corner of my desk" view, we disable look-controls and wasd-controls
+          if not in VR so the camera stays fixed. We bind the camera's position and
+          fov to state variables so we can zoom/pan it for a windowed view.
+        -->
+        <a-entity
+          id="camera"
+          position="0 1.6 0.5"
+          camera
+          bind__look-controls="enabled: inVR"
+          bind__wasd-controls="enabled: inVR">
+
           <a-entity
             id="cameraCollider"
             bind__aabb-collider="enabled: isPlaying"
@@ -145,6 +157,15 @@
             visible="false"></a-entity>
         </a-entity>
       </a-entity>
+
+      <!-- Optical hand tracking module attached to the scene -->
+      <a-entity
+        id="opticalTracking"
+        bind__optical-hand-tracking="enabled: is2DDesktopMode">
+      </a-entity>
+
+      <!-- Twitch Integration module -->
+      <a-entity id="twitchClient" twitch-integration="channel: robertpelloni"></a-entity>
 
       <a-entity
         id="controllerRig"
@@ -170,6 +191,7 @@
             raycaster__game="objects: [raycastable-game]:not(.blade{{ hand }}); far: 1; interval: 50"
             saber-particles="hand: {{ hand }}"
             saber-controls="hand: {{ hand }}"
+            optical-saber-controls="hand: {{ hand }}"
             thumb-controls
             thumb-controls-debug="enabled: false; hand: {{ hand }}; controllerType: vive-controls"
             trail="color: {{ bladeColor }}; hand: {{ hand }}">
@@ -261,10 +283,29 @@
 
     <img id="tutorial2d" data-src="assets/img/tutorial2d.png">
     <h1 id="loadingText2d" style="position: fixed; bottom: 10px; left: 0; right: 0; margin; 0 auto; text-transform: uppercase; color: #FAFAFA; text-align: center; font-family: monospace">Loading...</h1>
+
+    <!-- 2D Desktop Mode UI -->
+    <div id="desktopUI" style="position: fixed; top: 10px; left: 10px; z-index: 9999; background: rgba(0,0,0,0.5); padding: 10px; color: white; font-family: monospace;">
+      <h3>Ultimate Desktop Mode</h3>
+      <button id="toggleDesktopMode" style="padding: 10px; cursor: pointer; background: #256c43; color: white; border: none; border-radius: 5px;">Enable Optical Tracking</button>
+      <p id="trackingStatus">Status: Inactive</p>
+    </div>
+
     <script>
       // Defer image so loading image loads first.
       const tutorial2d = document.getElementById('tutorial2d');
       tutorial2d.src = tutorial2d.dataset.src;
+
+      // 2D Mode Toggle Logic
+      document.getElementById('toggleDesktopMode').addEventListener('click', () => {
+        const sceneEl = document.querySelector('a-scene');
+        if (sceneEl && sceneEl.systems.state) {
+          sceneEl.emit('toggle-2d-mode');
+          const isEnabled = sceneEl.systems.state.state.is2DDesktopMode;
+          document.getElementById('trackingStatus').innerText = isEnabled ? 'Status: Tracking Active (Webcam On)' : 'Status: Inactive';
+          document.getElementById('toggleDesktopMode').innerText = isEnabled ? 'Disable Optical Tracking' : 'Enable Optical Tracking';
+        }
+      });
     </script>
     <a id="vrButton" href="#" title="Enter VR / Fullscreen"></a>
 
