@@ -12,6 +12,6 @@
 
 ## Next Steps for Implementor Models
 - Review `TODO.md` and `ROADMAP.md`.
-- Ensure the build environment is stable (node modules were installing in the background).
-- Begin implementing the 2D "corner of desk" camera rig and standardizing the MediaPipe optical tracking integration.
 - Read `AGENTS.md` to understand instructions for file editing and testing.
+- The state machinery and UI for modifiers (Ghost Notes, No Fail, etc.) is complete, but the visual logic inside the beat spawning code needs to be wired up. Check `src/components/beat.js` or `src/components/beat-loader.js` to implement the visual behavior of these modifiers based on the new `state.modifiers` object.
+- Continue migrating remaining legacy dependencies to ensure build stability without using `--legacy-peer-deps`.

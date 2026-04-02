@@ -43,6 +43,12 @@ AFRAME.registerComponent('twitch-integration', {
           console.log('Twitch Chat: HYPE!');
           this.el.emit('twitch-hype-train');
           break;
+        case '!ghostnotes':
+          this.el.emit('twitch-toggle-ghost');
+          break;
+        case '!nofail':
+          this.el.emit('twitch-toggle-nofail');
+          break;
       }
     });
   },

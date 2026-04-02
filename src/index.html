@@ -165,7 +165,7 @@
       </a-entity>
 
       <!-- Twitch Integration module -->
-      <a-entity id="twitchClient" twitch-integration="channel: robertpelloni"></a-entity>
+      <a-entity id="twitchClient" bind__twitch-integration="channel: twitchChannel"></a-entity>
 
       <a-entity
         id="controllerRig"
@@ -285,10 +285,27 @@
     <h1 id="loadingText2d" style="position: fixed; bottom: 10px; left: 0; right: 0; margin; 0 auto; text-transform: uppercase; color: #FAFAFA; text-align: center; font-family: monospace">Loading...</h1>
 
     <!-- 2D Desktop Mode UI -->
-    <div id="desktopUI" style="position: fixed; top: 10px; left: 10px; z-index: 9999; background: rgba(0,0,0,0.5); padding: 10px; color: white; font-family: monospace;">
-      <h3>Ultimate Desktop Mode</h3>
-      <button id="toggleDesktopMode" style="padding: 10px; cursor: pointer; background: #256c43; color: white; border: none; border-radius: 5px;">Enable Optical Tracking</button>
-      <p id="trackingStatus">Status: Inactive</p>
+    <div id="desktopUI" style="position: fixed; top: 10px; left: 10px; z-index: 9999; background: rgba(0,0,0,0.7); padding: 15px; color: white; font-family: monospace; border-radius: 8px;">
+      <h3 style="margin-top: 0;">Ultimate Desktop Mode</h3>
+
+      <div style="margin-bottom: 15px;">
+        <button id="toggleDesktopMode" style="padding: 10px; cursor: pointer; background: #256c43; color: white; border: none; border-radius: 5px; width: 100%;">Enable Optical Tracking</button>
+        <p id="trackingStatus" style="font-size: 12px; margin-top: 5px;">Status: Inactive</p>
+      </div>
+
+      <div style="margin-bottom: 15px; border-top: 1px solid #555; padding-top: 10px;">
+        <h4>Modifiers</h4>
+        <label><input type="checkbox" id="modGhostNotes"> Ghost Notes</label><br>
+        <label><input type="checkbox" id="modDisappearing"> Disappearing Arrows</label><br>
+        <label><input type="checkbox" id="modFastSong"> Fast Song</label><br>
+        <label><input type="checkbox" id="modNoFail"> No Fail</label>
+      </div>
+
+      <div style="border-top: 1px solid #555; padding-top: 10px;">
+        <h4>Twitch Integration</h4>
+        <input type="text" id="twitchChannelInput" value="robertpelloni" style="padding: 5px; width: calc(100% - 14px); background: #222; color: white; border: 1px solid #555;">
+        <button id="setTwitchChannel" style="margin-top: 5px; padding: 5px; cursor: pointer; background: #850e3e; color: white; border: none; border-radius: 5px; width: 100%;">Connect</button>
+      </div>
     </div>
 
     <script>
@@ -304,6 +321,32 @@
           const isEnabled = sceneEl.systems.state.state.is2DDesktopMode;
           document.getElementById('trackingStatus').innerText = isEnabled ? 'Status: Tracking Active (Webcam On)' : 'Status: Inactive';
           document.getElementById('toggleDesktopMode').innerText = isEnabled ? 'Disable Optical Tracking' : 'Enable Optical Tracking';
+        }
+      });
+
+      // Modifiers Logic
+      const modifiers = ['GhostNotes', 'Disappearing', 'FastSong', 'NoFail'];
+      modifiers.forEach(mod => {
+        document.getElementById(`mod${mod}`).addEventListener('change', (e) => {
+          const sceneEl = document.querySelector('a-scene');
+          if (sceneEl) {
+            // camelCase event payload for state
+            const payload = mod.charAt(0).toLowerCase() + mod.slice(1);
+            sceneEl.emit('toggle-modifier', payload);
+          }
+        });
+      });
+
+      // Twitch Channel Logic
+      document.getElementById('setTwitchChannel').addEventListener('click', () => {
+        const channel = document.getElementById('twitchChannelInput').value;
+        const sceneEl = document.querySelector('a-scene');
+        if (sceneEl) {
+          sceneEl.emit('set-twitch-channel', channel);
+          // For a robust implementation, this would trigger a reconnect in the twitch component
+          // Currently, the component takes the initial channel state.
+          document.getElementById('setTwitchChannel').innerText = 'Connected';
+          setTimeout(() => { document.getElementById('setTwitchChannel').innerText = 'Connect'; }, 2000);
         }
       });
     </script>

@@ -5,23 +5,24 @@
 - [x] Establishment of project documentation (VISION, ROADMAP, TODO, CHANGELOG, MEMORY, DEPLOY, HANDOFF, IDEAS, AGENTS).
 - [ ] Upgrade dependencies and ensure build system stability.
 
-## Phase 2: Desktop "Corner of Desk" Mode
-- [ ] Implement a fixed-camera 2D desktop mode alongside the existing VR rig.
-- [ ] Allow toggling between VR and 2D modes.
-- [ ] Adjust UI rendering for 2D fixed perspective.
+## Phase 2: Desktop "Corner of Desk" Mode (Complete)
+- [x] Implement a fixed-camera 2D desktop mode alongside the existing VR rig.
+- [x] Allow toggling between VR and 2D modes.
+- [x] Adjust UI rendering for 2D fixed perspective.
 
-## Phase 3: Optical Hand Tracking Integration
-- [ ] Evaluate and integrate MediaPipe Hands (or similar browser-based computer vision library).
-- [ ] Map 2D hand coordinates/depth to the 3D saber positions in the desktop mode.
-- [ ] Add configuration settings for webcam selection and tracking sensitivity.
+## Phase 3: Optical Hand Tracking Integration (Complete)
+- [x] Evaluate and integrate MediaPipe Hands (or similar browser-based computer vision library).
+- [x] Map 2D hand coordinates/depth to the 3D saber positions in the desktop mode.
+- [x] Add configuration settings for webcam selection and tracking sensitivity.
 
-## Phase 4: Twitch Integration
-- [ ] Connect a Twitch chat client (e.g., `tmi.js`) to the browser application.
-- [ ] Implement event listeners for chat commands (e.g., `!spawn`, `!speed`).
-- [ ] Link chat events to the A-Frame state component to dynamically modify gameplay.
+## Phase 4: Twitch Integration (Complete)
+- [x] Connect a Twitch chat client (e.g., `tmi.js`) to the browser application.
+- [x] Implement event listeners for chat commands (e.g., `!spawn`, `!speedup`, `!hype`, `!ghostnotes`, `!nofail`).
+- [x] Link chat events to the A-Frame state component to dynamically modify gameplay.
 
 ## Phase 5: Feature Parity & Enhancements
-- [ ] Comprehensive review of missing modifiers (Ghost Notes, Disappearing Arrows, 360 levels).
+- [x] Initial modifiers state implemented and wired to UI.
+- [ ] Comprehensive review of missing modifiers (Ghost Notes, Disappearing Arrows, 360 levels) -> *Need backend visual binding*.
 - [ ] Multiplayer implementation.
 - [ ] Enhanced mod support and custom asset loading.
 

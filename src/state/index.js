@@ -68,6 +68,13 @@ AFRAME.registerState({
     leaderboardScores: '',
     menuActive: true,  // Main menu active.
     menuDifficulties: [],  // List of strings of available difficulties for selected.
+    modifiers: {
+      ghostNotes: false,
+      disappearingArrows: false,
+      fastSong: false,
+      noFail: false
+    },
+    twitchChannel: 'robertpelloni',
     menuSelectedChallenge: {  // Currently selected challenge in the main menu.
       author: '',
       difficulty: '',
@@ -472,6 +479,16 @@ AFRAME.registerState({
       state.is2DDesktopMode = !state.is2DDesktopMode;
     },
 
+    'toggle-modifier': (state, payload) => {
+      if (state.modifiers[payload] !== undefined) {
+        state.modifiers[payload] = !state.modifiers[payload];
+      }
+    },
+
+    'set-twitch-channel': (state, payload) => {
+      state.twitchChannel = payload;
+    },
+
     victory: function (state) {
       state.isVictory = true;
 
@@ -544,6 +561,16 @@ AFRAME.registerState({
       state.score.multiplier = 8;
       state.score.score += 1000;
       updateScoreAccuracy(state);
+    },
+
+    'twitch-toggle-ghost': function (state) {
+      state.modifiers.ghostNotes = !state.modifiers.ghostNotes;
+      console.log('Twitch Chat toggled Ghost Notes!');
+    },
+
+    'twitch-toggle-nofail': function (state) {
+      state.modifiers.noFail = !state.modifiers.noFail;
+      console.log('Twitch Chat toggled No Fail!');
     }
   },
 
@@ -626,6 +653,7 @@ function takeDamage (state) {
 }
 
 function checkGameOver (state) {
+  if (state.modifiers.noFail) return;
   if (state.damage >= DAMAGE_MAX) {
     state.damage = 0;
     state.isGameOver = true;
