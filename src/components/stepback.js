@@ -3,7 +3,7 @@ AFRAME.registerComponent('stepback', {
     this.message = document.getElementById('stepback');
     this.camera = document.getElementById('camera');
     this.lastTime = 0;
-    this.limit =  - (this.el.getAttribute('geometry').height / 2 - 0.6);
+    this.limit = -(this.el.getAttribute('geometry').height / 2 - 0.6);
     this.throttling = 300;
   },
 
@@ -19,8 +19,7 @@ AFRAME.registerComponent('stepback', {
       this.message.getObject3D('mesh').material.opacity = 1 - Math.abs(camPos.z - msgPos.z);
       msgPos.x = camPos.x;
       msgPos.y = camPos.y;
-    }
-    else {
+    } else {
       this.message.object3D.visible = false;
       this.throttling = 300;
     }

@@ -1,5 +1,5 @@
 module.exports = {
-  vertexShader : `
+  vertexShader: `
     varying vec2 uvs;
     varying vec3 worldPos;
     void main() {

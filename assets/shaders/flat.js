@@ -1,5 +1,5 @@
 module.exports = {
-  vertexShader : `
+  vertexShader: `
     varying vec2 uvs;
     void main() {
       uvs.xy = uv.xy;

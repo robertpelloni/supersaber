@@ -5,7 +5,7 @@ const ONCE = {once: true};
 const BASE_VOLUME = 0.75;
 
 let skipDebug = AFRAME.utils.getUrlParameter('skip');
-if (!!skipDebug) {
+if (skipDebug) {
   skipDebug = parseInt(skipDebug) / 1000;
 } else {
   skipDebug = 0;

@@ -94,5 +94,5 @@ function createGeometry (color) {
   });
 
   const geometry = THREE.BufferGeometryUtils.mergeBufferGeometries(geometries);
-  return geometry
+  return geometry;
 }

@@ -1,5 +1,4 @@
-const firebase = require('firebase/app');
-require('firebase/firestore');
+const firebase = require('firebase');
 
 const NUM_SCORES_DISPLAYED = 10;
 

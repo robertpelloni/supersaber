@@ -55,7 +55,7 @@ AFRAME.registerComponent('beat-loader', {
     bottomLeft: {layer: 0, index: 0},
     bottomCenterLeft: {layer: 0, index: 1},
     bottomCenterRight: {layer: 0, index: 2},
-    bottomRight: {layer: 0, index: 3},
+    bottomRight: {layer: 0, index: 3}
   },
 
   verticalPositionsHumanized: {
@@ -279,7 +279,7 @@ AFRAME.registerComponent('beat-loader', {
   })(),
 
   generateEvent: function (event) {
-    switch(event._type) {
+    switch (event._type) {
       case 0:
         this.stageColors.setColor('bg', event._value);
         break;
@@ -338,7 +338,7 @@ AFRAME.registerComponent('beat-loader', {
         child.components.wall.returnToPool(true);
       }
     }
-  },
+  }
 });
 
 function lessThan (a, b) { return a._time - b._time; }

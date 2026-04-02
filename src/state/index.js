@@ -53,6 +53,7 @@ AFRAME.registerState({
     genres: require('../constants/genres'),
     genreMenuOpen: false,
     inVR: false,
+    is2DDesktopMode: false, // Windowed "corner of desk" mode
     isGameOver: false,  // Game over screen.
     isPaused: false,  // Playing, but paused. Not active during menu.
     isPlaying: false,  // Actively playing (slicing beats).
@@ -67,6 +68,13 @@ AFRAME.registerState({
     leaderboardScores: '',
     menuActive: true,  // Main menu active.
     menuDifficulties: [],  // List of strings of available difficulties for selected.
+    modifiers: {
+      ghostNotes: false,
+      disappearingArrows: false,
+      fastSong: false,
+      noFail: false
+    },
+    twitchChannel: 'robertpelloni',
     menuSelectedChallenge: {  // Currently selected challenge in the main menu.
       author: '',
       difficulty: '',
@@ -460,10 +468,25 @@ AFRAME.registerState({
 
     'enter-vr': (state) => {
       state.inVR = true;
+      state.is2DDesktopMode = false;
     },
 
     'exit-vr': (state) => {
       state.inVR = false;
+    },
+
+    'toggle-2d-mode': (state) => {
+      state.is2DDesktopMode = !state.is2DDesktopMode;
+    },
+
+    'toggle-modifier': (state, payload) => {
+      if (state.modifiers[payload] !== undefined) {
+        state.modifiers[payload] = !state.modifiers[payload];
+      }
+    },
+
+    'set-twitch-channel': (state, payload) => {
+      state.twitchChannel = payload;
     },
 
     victory: function (state) {
@@ -508,6 +531,46 @@ AFRAME.registerState({
 
     wallhitstart: function (state) {
       takeDamage(state);
+    },
+
+    /**
+     * Twitch Integration Events
+     */
+    'twitch-spawn-obstacle': function (state) {
+      if (!state.isPlaying) return;
+      // Emit event for beat-loader or obstacle manager to handle
+      this.el.emit('spawn-random-obstacle');
+    },
+
+    'twitch-speed-up': function (state) {
+      if (!state.isPlaying) return;
+      state.score.multiplier = Math.min(state.score.multiplier * 2, 8);
+      // Actual audio/beat speedup would require modifying howler.js audio rate
+      // For this phase, we add a visual indicator or multiplier bump
+      console.log('Twitch Speed Up Applied!');
+    },
+
+    'twitch-slow-down': function (state) {
+      if (!state.isPlaying) return;
+      state.score.multiplier = Math.max(state.score.multiplier / 2, 1);
+      console.log('Twitch Slow Down Applied!');
+    },
+
+    'twitch-hype-train': function (state) {
+      if (!state.isPlaying) return;
+      state.score.multiplier = 8;
+      state.score.score += 1000;
+      updateScoreAccuracy(state);
+    },
+
+    'twitch-toggle-ghost': function (state) {
+      state.modifiers.ghostNotes = !state.modifiers.ghostNotes;
+      console.log('Twitch Chat toggled Ghost Notes!');
+    },
+
+    'twitch-toggle-nofail': function (state) {
+      state.modifiers.noFail = !state.modifiers.noFail;
+      console.log('Twitch Chat toggled No Fail!');
     }
   },
 
@@ -590,6 +653,7 @@ function takeDamage (state) {
 }
 
 function checkGameOver (state) {
+  if (state.modifiers.noFail) return;
   if (state.damage >= DAMAGE_MAX) {
     state.damage = 0;
     state.isGameOver = true;

@@ -1,4 +1,4 @@
-function $ (id) { return document.getElementById(id); };
+function $ (id) { return document.getElementById(id); }
 
 AFRAME.registerComponent('stage-colors', {
   dependencies: ['background'],

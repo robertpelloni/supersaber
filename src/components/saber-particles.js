@@ -23,7 +23,6 @@ AFRAME.registerComponent('saber-particles', {
 
     this.saberEnter = this.saberEnter.bind(this);
     this.saberLeave = this.saberLeave.bind(this);
-
   },
 
   pause: function () {

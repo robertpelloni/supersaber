@@ -10,10 +10,10 @@ const DESTROYED_SPEED = 1.0;
 const ONCE = {once: true};
 
 const SCORE_POOL = {
-  OK : 'pool__beatscoreok',
-  GOOD : 'pool__beatscoregood',
-  GREAT : 'pool__beatscoregreat',
-  SUPER : 'pool__beatscoresuper'
+  OK: 'pool__beatscoreok',
+  GOOD: 'pool__beatscoregood',
+  GREAT: 'pool__beatscoregreat',
+  SUPER: 'pool__beatscoresuper'
 };
 
 /**
@@ -31,7 +31,7 @@ AFRAME.registerComponent('beat', {
     speed: {default: 8.0},
     type: {default: 'arrow', oneOf: ['arrow', 'dot', 'mine']},
     verticalPosition: {default: 'middle', oneOf: ['bottom', 'middle', 'top']},
-    warmupPosition: {default: 0},
+    warmupPosition: {default: 0}
   },
 
   materialColor: {
@@ -132,7 +132,7 @@ AFRAME.registerComponent('beat', {
       this.initMineFragments();
     } else {
       this.initFragments();
-    };
+    }
   },
 
   updatePosition: function () {
@@ -662,7 +662,7 @@ AFRAME.registerComponent('beat', {
             if (cutDirection === 'up' || cutDirection === 'down') {
               maxAngle = saberControls.maxAnglePlaneX;
             } else if (cutDirection === 'left' || cutDirection === 'right') {
-            maxAngle = saberControls.maxAnglePlaneY;
+              maxAngle = saberControls.maxAnglePlaneY;
             } else {
               maxAngle = saberControls.maxAnglePlaneXY;
             }
@@ -672,7 +672,6 @@ AFRAME.registerComponent('beat', {
           }
           wrongHandHit = undefined;
           this.angleBeforeHit = maxAngle;
-
         } else {
           wrongHandHit = hand;
         }
@@ -712,10 +711,7 @@ AFRAME.registerComponent('beat', {
     this.el.sceneEl.emit('textglowbold', null, false);
 
     let beatScorePool;
-    if (score < 60) { beatScorePool = SCORE_POOL.OK; }
-    else if (score < 80) { beatScorePool = SCORE_POOL.GOOD; }
-    else if (score < 100) { beatScorePool = SCORE_POOL.GREAT; }
-    else {
+    if (score < 60) { beatScorePool = SCORE_POOL.OK; } else if (score < 80) { beatScorePool = SCORE_POOL.GOOD; } else if (score < 100) { beatScorePool = SCORE_POOL.GREAT; } else {
       beatScorePool = SCORE_POOL.SUPER;
 
       this.superCuts[this.superCutIdx].components.supercutfx.createSuperCut(this.el.object3D.position);
@@ -751,8 +747,8 @@ AFRAME.registerComponent('beat', {
           fragment = this.mineFragments[i];
           if (!fragment.visible) { continue; }
           fragment.position.addScaledVector(fragment.speed, timeDelta / 1000);
-          fragment.scale.multiplyScalar(0.97)
-          if (fragment.scale.y < 0.1){
+          fragment.scale.multiplyScalar(0.97);
+          if (fragment.scale.y < 0.1) {
             fragment.visible = false;
           }
         }
