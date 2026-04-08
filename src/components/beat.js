@@ -184,12 +184,52 @@ AFRAME.registerComponent('beat', {
       this.tockDestroyed(timeDelta);
       // Check to remove score entity from pool.
     } else {
+      // Modifiers Logic
+      const modifiers = el.sceneEl.systems.state.state.modifiers;
+      if (modifiers.ghostNotes || modifiers.disappearingArrows) {
+        // Z goes from largely negative (far away) to 0 (player)
+        // Disappearing arrows: fade out early
+        // Ghost notes: fade out even earlier, stay invisible
+        const distance = Math.abs(position.z);
+        const startFadeDist = modifiers.ghostNotes ? 20 : 10;
+        const endFadeDist = modifiers.ghostNotes ? 15 : 5;
+
+        let opacity = 1.0;
+        if (distance < startFadeDist) {
+          opacity = (distance - endFadeDist) / (startFadeDist - endFadeDist);
+          opacity = Math.max(0, Math.min(1, opacity));
+        }
+
+        // Apply opacity to block elements
+        if (this.blockEl) {
+           // Ghost Notes fade the entire block
+           if (modifiers.ghostNotes) {
+             const mesh = this.blockEl.getObject3D('mesh');
+             if (mesh) {
+               mesh.material.transparent = opacity < 1.0;
+               mesh.material.opacity = opacity;
+             }
+          }
+           // Disappearing Arrows (and Ghost Notes) fade the sign
+          if (this.signEl) {
+            const signMesh = this.signEl.getObject3D('mesh');
+            if (signMesh) {
+              signMesh.material.transparent = opacity < 1.0;
+              signMesh.material.opacity = opacity;
+            }
+          }
+        }
+      }
+
       // Only check collisions when close.
       if (position.z > collisionZThreshold) { this.checkCollisions(); }
 
       // Move.
+      const isFastSong = el.sceneEl.systems.state.state.modifiers.fastSong;
+      const speedMultiplier = isFastSong ? 1.5 : 1.0;
+
       if (position.z < data.anticipationPosition) {
-        let newPositionZ = position.z + BEAT_WARMUP_SPEED * (timeDelta / 1000);
+        let newPositionZ = position.z + (BEAT_WARMUP_SPEED * speedMultiplier) * (timeDelta / 1000);
         // Warm up / warp in.
         if (newPositionZ < data.anticipationPosition) {
           position.z = newPositionZ;
@@ -199,7 +239,7 @@ AFRAME.registerComponent('beat', {
         }
       } else {
         // Standard moving.
-        position.z += this.data.speed * (timeDelta / 1000);
+        position.z += (this.data.speed * speedMultiplier) * (timeDelta / 1000);
         rotation.z = this.startRotationZ;
       }
 

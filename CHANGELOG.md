@@ -5,7 +5,10 @@ All notable changes to this project will be documented in this file.
 ## [1.1.0] - In Progress
 ### Added
 - Extensive project documentation (`VISION.md`, `ROADMAP.md`, `TODO.md`, `CHANGELOG.md`, `MEMORY.md`, `DEPLOY.md`, `HANDOFF.md`, `IDEAS.md`, `AGENTS.md`).
-- Initial scaffolding for the ultimate Super Saber pivot.
+- 2D Desktop mode windowed toggle with fixed camera viewport.
+- Optical hand tracking via `@mediapipe/hands` linked to saber movement.
+- Deep Twitch integration via `tmi.js` to receive commands (`!hype`, `!speedup`).
+- Gameplay Modifiers (Ghost Notes, Disappearing Arrows, Fast Song, No Fail) complete with UI toggle panel and fully integrated backend visual logic.
 
 ### Changed
 - Shifted project focus from pure WebVR clone to multi-modal (Desktop/Optical Tracking/Twitch) Ultimate edition.

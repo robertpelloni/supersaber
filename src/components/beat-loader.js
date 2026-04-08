@@ -83,6 +83,18 @@ AFRAME.registerComponent('beat-loader', {
     this.rightStageLasers = document.getElementById('rightStageLasers');
 
     this.el.addEventListener('cleargame', this.clearBeats.bind(this));
+
+    // Listen for Twitch events
+    this.el.sceneEl.addEventListener('spawn-random-obstacle', () => {
+      if (!this.data.isPlaying) return;
+      // Generate a random mine directly in front of the player
+      this.generateBeat({
+        _type: 3, // Mine
+        _cutDirection: 8, // Any
+        _lineIndex: Math.floor(Math.random() * 4),
+        _lineLayer: Math.floor(Math.random() * 3)
+      });
+    });
   },
 
   update: function (oldData) {
@@ -158,6 +170,12 @@ AFRAME.registerComponent('beat-loader', {
    */
   tick: function (time, delta) {
     if (!this.data.isPlaying || !this.data.challengeId || !this.beatData) { return; }
+
+    const isFastSong = this.el.sceneEl.systems.state.state.modifiers.fastSong;
+    if (isFastSong) {
+      // Scale delta time for fast song so preloading beats progresses faster
+      delta *= 1.5;
+    }
 
     const prevBeatsTime = this.beatsTime + skipDebug;
     if (this.beatsPreloadTime === undefined) {

@@ -20,9 +20,10 @@
 - [x] Implement event listeners for chat commands (e.g., `!spawn`, `!speedup`, `!hype`, `!ghostnotes`, `!nofail`).
 - [x] Link chat events to the A-Frame state component to dynamically modify gameplay.
 
-## Phase 5: Feature Parity & Enhancements
+## Phase 5: Feature Parity & Enhancements (In Progress)
 - [x] Initial modifiers state implemented and wired to UI.
-- [ ] Comprehensive review of missing modifiers (Ghost Notes, Disappearing Arrows, 360 levels) -> *Need backend visual binding*.
+- [x] Implemented core backend visual logic for Ghost Notes, Disappearing Arrows, No Fail, and Fast Song modifiers.
+- [ ] Implement remaining modifiers (e.g., 360 levels, one-saber).
 - [ ] Multiplayer implementation.
 - [ ] Enhanced mod support and custom asset loading.
 

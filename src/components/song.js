@@ -217,11 +217,25 @@ AFRAME.registerComponent('song', {
     gain.setValueAtTime(BASE_VOLUME, this.context.currentTime);
     this.songStartTime = this.context.currentTime;
     this.source.onended = this.victory;
+
+    // Apply Fast Song Modifier
+    if (this.el.sceneEl.systems.state.state.modifiers.fastSong) {
+      this.source.playbackRate.value = 1.5;
+    } else {
+      this.source.playbackRate.value = 1.0;
+    }
+
     this.source.start(0, skipDebug || 0);
     this.isPlaying = true;
   },
 
   getCurrentTime: function () {
-    return this.context.currentTime - this.songStartTime;
+    // When playback rate changes, the elapsed time relative to the audio buffer changes.
+    // For a simple multiplier (like Fast Song at 1.5x), we can multiply the delta.
+    let multiplier = 1.0;
+    if (this.el.sceneEl.systems.state.state.modifiers.fastSong) {
+      multiplier = 1.5;
+    }
+    return (this.context.currentTime - this.songStartTime) * multiplier;
   }
 });

@@ -13,5 +13,6 @@
 ## Next Steps for Implementor Models
 - Review `TODO.md` and `ROADMAP.md`.
 - Read `AGENTS.md` to understand instructions for file editing and testing.
-- The state machinery and UI for modifiers (Ghost Notes, No Fail, etc.) is complete, but the visual logic inside the beat spawning code needs to be wired up. Check `src/components/beat.js` or `src/components/beat-loader.js` to implement the visual behavior of these modifiers based on the new `state.modifiers` object.
+- Modifiers (Ghost Notes, Disappearing Arrows, Fast Song, No Fail) are now fully implemented and bound both in the state UI and the backend A-Frame rendering/tick cycle.
+- Next steps involve identifying other missing Beat Saber features to implement (e.g., 360 mode, multiplayer, custom saber models).
 - Continue migrating remaining legacy dependencies to ensure build stability without using `--legacy-peer-deps`.
