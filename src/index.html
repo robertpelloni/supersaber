@@ -90,10 +90,16 @@
 
       {% include './templates/stage.html' %}
 
-      <a-entity
-        id="beatContainer"
-        bind__pause="isPaused: !isPlaying"
-        beat-hit-sound></a-entity>
+      <!-- Group beats and stage walls/lasers into a single container for 360 mode rotation -->
+      <a-entity id="stageRig"
+                animation__rotate="property: rotation; dur: 2000; easing: easeInOutSine; startEvents: rotate-stage">
+
+        <a-entity
+          id="beatContainer"
+          bind__pause="isPaused: !isPlaying"
+          beat-hit-sound></a-entity>
+
+      </a-entity>
 
       {% include './templates/loading.html' %}
       {% include './templates/score.html' %}
@@ -298,7 +304,9 @@
         <label><input type="checkbox" id="modGhostNotes"> Ghost Notes</label><br>
         <label><input type="checkbox" id="modDisappearing"> Disappearing Arrows</label><br>
         <label><input type="checkbox" id="modFastSong"> Fast Song</label><br>
-        <label><input type="checkbox" id="modNoFail"> No Fail</label>
+        <label><input type="checkbox" id="modNoFail"> No Fail</label><br>
+        <label><input type="checkbox" id="modOneSaber"> One Saber</label><br>
+        <label><input type="checkbox" id="modMode360"> 360 Levels</label>
       </div>
 
       <div style="border-top: 1px solid #555; padding-top: 10px;">
@@ -309,6 +317,16 @@
     </div>
 
     <script>
+      // 360 Mode Rotation Logic
+      document.querySelector('a-scene').addEventListener('rotate-stage-360', (evt) => {
+        const stageRig = document.getElementById('stageRig');
+        if (stageRig) {
+          // Set the target rotation via animation property update
+          stageRig.setAttribute('animation__rotate', 'to', `0 ${evt.detail} 0`);
+          stageRig.emit('rotate-stage');
+        }
+      });
+
       // Defer image so loading image loads first.
       const tutorial2d = document.getElementById('tutorial2d');
       tutorial2d.src = tutorial2d.dataset.src;
@@ -325,7 +343,7 @@
       });
 
       // Modifiers Logic
-      const modifiers = ['GhostNotes', 'Disappearing', 'FastSong', 'NoFail'];
+      const modifiers = ['GhostNotes', 'Disappearing', 'FastSong', 'NoFail', 'OneSaber', 'Mode360'];
       modifiers.forEach(mod => {
         document.getElementById(`mod${mod}`).addEventListener('change', (e) => {
           const sceneEl = document.querySelector('a-scene');

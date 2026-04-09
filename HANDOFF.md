@@ -13,6 +13,6 @@
 ## Next Steps for Implementor Models
 - Review `TODO.md` and `ROADMAP.md`.
 - Read `AGENTS.md` to understand instructions for file editing and testing.
-- Modifiers (Ghost Notes, Disappearing Arrows, Fast Song, No Fail) are now fully implemented and bound both in the state UI and the backend A-Frame rendering/tick cycle.
-- Next steps involve identifying other missing Beat Saber features to implement (e.g., 360 mode, multiplayer, custom saber models).
-- Continue migrating remaining legacy dependencies to ensure build stability without using `--legacy-peer-deps`.
+- Almost all single-player modifiers (Ghost Notes, Disappearing Arrows, Fast Song, No Fail, One Saber, 360 Levels) are now fully implemented and bound to the UI.
+- Next major missing features from the ultimate vision are: **Multiplayer**, **Custom Saber Models/Assets**, and **Twitch Voting Integration** (allowing chat to vote on the next song).
+- We also need to begin migrating away from older, deprecated A-Frame dependencies to ensure future build stability.

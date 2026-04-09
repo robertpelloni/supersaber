@@ -7,9 +7,11 @@
 - [x] Setup a basic HTML/JS wrapper for importing `tmi.js` (Twitch integration).
 - [x] Determine best method to inject MediaPipe script tags into `src/index.html` without breaking A-Frame.
 - [x] Implement Modifiers State (Ghost Notes, No Fail, Fast Song, Disappearing Arrows) and bind them to UI.
+- [x] Implement "One Saber" mode and "360 Level" mode visual logic.
 
 ## Short-Term Fixes/Refactors
 - [x] Upgrade deprecated packages in `package.json` if they cause build failures (managed via `--legacy-peer-deps`).
 - [x] Consolidate the controller configuration in `src/index.html` to allow injecting external coordinate data (for MediaPipe).
 - [x] Wire up actual visual logic for Ghost Notes and Disappearing arrows inside the beat spawning mechanism.
 - [x] Implement Fast Song audio and beat-loader scaling logic.
+- [ ] Migrate completely away from deprecated older `npm` packages where possible.

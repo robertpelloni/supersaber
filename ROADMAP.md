@@ -23,7 +23,7 @@
 ## Phase 5: Feature Parity & Enhancements (In Progress)
 - [x] Initial modifiers state implemented and wired to UI.
 - [x] Implemented core backend visual logic for Ghost Notes, Disappearing Arrows, No Fail, and Fast Song modifiers.
-- [ ] Implement remaining modifiers (e.g., 360 levels, one-saber).
+- [x] Implement remaining modifiers (e.g., 360 levels, one-saber).
 - [ ] Multiplayer implementation.
 - [ ] Enhanced mod support and custom asset loading.
 

@@ -72,7 +72,9 @@ AFRAME.registerState({
       ghostNotes: false,
       disappearingArrows: false,
       fastSong: false,
-      noFail: false
+      noFail: false,
+      oneSaber: false,
+      mode360: false
     },
     twitchChannel: 'robertpelloni',
     menuSelectedChallenge: {  // Currently selected challenge in the main menu.
