@@ -53,6 +53,16 @@ AFRAME.registerComponent('twitch-integration', {
     });
   },
 
+  update: function (oldData) {
+    if (this.data.channel !== oldData.channel && this.client) {
+      this.client.disconnect().then(() => {
+         if (this.data.enabled && this.data.channel) {
+           this.init();
+         }
+      });
+    }
+  },
+
   remove: function () {
     if (this.client) {
       this.client.disconnect();
