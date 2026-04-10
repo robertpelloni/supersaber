@@ -29,3 +29,8 @@ Super Saber aims to be the ultimate, all-encompassing rhythm game experience, br
 - **Testing**: No feature is complete until verified thoroughly.
 
 *Last updated during initial deep analysis and pivot phase.*
+
+## Expansion & Long-term Features
+- **Multiplayer / Cooperative Modes**: Allow users to join the same instance and compete or cooperate.
+- **Enhanced Twitch Voting**: Let chat organically vote on the next song.
+- **Custom Assets**: The ability to drop in custom 3D models for sabers, blocks, or stages to fully personalize the experience.

@@ -14,4 +14,5 @@
 - [x] Consolidate the controller configuration in `src/index.html` to allow injecting external coordinate data (for MediaPipe).
 - [x] Wire up actual visual logic for Ghost Notes and Disappearing arrows inside the beat spawning mechanism.
 - [x] Implement Fast Song audio and beat-loader scaling logic.
+- [x] Twitch chat voting integration for song selection.
 - [ ] Migrate completely away from deprecated older `npm` packages where possible.

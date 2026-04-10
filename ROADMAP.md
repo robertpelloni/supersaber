@@ -19,6 +19,7 @@
 - [x] Connect a Twitch chat client (e.g., `tmi.js`) to the browser application.
 - [x] Implement event listeners for chat commands (e.g., `!spawn`, `!speedup`, `!hype`, `!ghostnotes`, `!nofail`).
 - [x] Link chat events to the A-Frame state component to dynamically modify gameplay.
+- [x] Twitch chat voting integration for song selection.
 
 ## Phase 5: Feature Parity & Enhancements (In Progress)
 - [x] Initial modifiers state implemented and wired to UI.
@@ -31,3 +32,18 @@
 - [ ] Ensure every single feature added is represented in the in-game menus.
 - [ ] Detailed tooltips and documentation within the UI.
 - [ ] Comprehensive bug fixing.
+
+## Submodules & External Libraries Tracking
+- **A-Frame Core (`vendor/aframe-master.js`)**: Modified 0.8.2 framework (WebVR API legacy compatibility).
+- **MediaPipe Hands (`@mediapipe/hands`)**: ^0.4.x via NPM. Used for Optical Hand Tracking.
+- **TMI.js (`tmi.js`)**: ^1.8.3 via NPM. Core library for Twitch Chat integration.
+- **Firebase (`firebase`)**: ^5.5.8 via NPM. Required for leaderboard cloud store operations.
+
+## Directory Structure
+- `/src/`: Core application source files.
+  - `/components/`: A-Frame specific entity-component logic.
+  - `/state/`: Application state management via `aframe-state-component`.
+  - `/templates/`: Nunjucks HTML templates.
+- `/vendor/`: Pre-compiled legacy dependencies not available via modern NPM.
+- `/assets/`: Sounds, textures, fonts, and 3D models.
+- `/build/`: Webpack output directory (contains `build.js`).

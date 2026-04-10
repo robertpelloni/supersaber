@@ -203,12 +203,12 @@ AFRAME.registerComponent('beat', {
         // Apply opacity to block elements
         if (this.blockEl) {
            // Ghost Notes fade the entire block
-           if (modifiers.ghostNotes) {
-             const mesh = this.blockEl.getObject3D('mesh');
-             if (mesh) {
-               mesh.material.transparent = opacity < 1.0;
-               mesh.material.opacity = opacity;
-             }
+          if (modifiers.ghostNotes) {
+            const mesh = this.blockEl.getObject3D('mesh');
+            if (mesh) {
+              mesh.material.transparent = opacity < 1.0;
+              mesh.material.opacity = opacity;
+            }
           }
            // Disappearing Arrows (and Ghost Notes) fade the sign
           if (this.signEl) {

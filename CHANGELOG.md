@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.1] - In Progress
+### Added
+- Twitch Chat Voting Integration allowing users to type `!vote [1-6]` to vote for song variants.
+
 ## [1.1.0] - In Progress
 ### Added
 - Extensive project documentation (`VISION.md`, `ROADMAP.md`, `TODO.md`, `CHANGELOG.md`, `MEMORY.md`, `DEPLOY.md`, `HANDOFF.md`, `IDEAS.md`, `AGENTS.md`).
