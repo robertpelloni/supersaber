@@ -19,7 +19,7 @@ AFRAME.registerSystem('materials', {
         backglowColor: {value: new THREE.Color(COLORS.BG_BLUE)},
         src: {
           value: new THREE.TextureLoader().load(document.getElementById('atlasImg').src)
-        },
+        }
       },
       vertexShader: stageNormalShaders.vertexShader,
       fragmentShader: stageNormalShaders.fragmentShader,
@@ -36,7 +36,7 @@ AFRAME.registerSystem('materials', {
         textGlow: {value: new THREE.Color(COLORS.TEXT_OFF)},
         src: {
           value: new THREE.TextureLoader().load(document.getElementById('atlasImg').src)
-        },
+        }
       },
       vertexShader: stageAdditiveShaders.vertexShader,
       fragmentShader: stageAdditiveShaders.fragmentShader,
@@ -49,7 +49,7 @@ AFRAME.registerSystem('materials', {
       uniforms: {
         src: {
           value: new THREE.TextureLoader().load(document.getElementById('logotexImg').src)
-        },
+        }
       },
       vertexShader: flatShaders.vertexShader,
       fragmentShader: flatShaders.fragmentShader,
@@ -62,7 +62,7 @@ AFRAME.registerSystem('materials', {
       uniforms: {
         src: {
           value: new THREE.TextureLoader().load(document.getElementById('logotexImg').src)
-        },
+        }
       },
       vertexShader: flatShaders.vertexShader,
       fragmentShader: flatShaders.fragmentShader,
@@ -87,7 +87,6 @@ AFRAME.registerSystem('materials', {
       emissive: new THREE.Color(COLORS.MINE_BLUE_EMISSION),
       envMap: new THREE.TextureLoader().load('assets/img/mineenviro-blue.jpg')
     });
-
   }
 });
 

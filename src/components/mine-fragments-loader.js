@@ -6,6 +6,6 @@ AFRAME.registerSystem('mine-fragments-loader', {
     const objData = document.getElementById('mineBrokenObj');
     objData.addEventListener('loaded', evt => {
       this.fragments = objLoader.parse(evt.target.data);
-    })
+    });
   }
 });

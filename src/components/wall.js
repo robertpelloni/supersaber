@@ -16,7 +16,7 @@ AFRAME.registerComponent('wall', {
     durationSeconds: {default: 0},
     height: {default: 1.3},
     horizontalPosition: {default: 'middleleft',
-                         oneOf: ['left', 'middleleft', 'middleright', 'right']},
+      oneOf: ['left', 'middleleft', 'middleright', 'right']},
     isCeiling: {default: false},
     speed: {default: 1.0},
     warmupPosition: {default: 0},
@@ -58,7 +58,7 @@ AFRAME.registerComponent('wall', {
     // Box geometry is constructed from the local 0,0,0 growing in the positive and negative
     // x and z axis. We have to shift by half width and depth to be positioned correctly.
     el.object3D.position.set(
-      this.horizontalPositions[data.horizontalPosition] + width / 2  - 0.25,
+      this.horizontalPositions[data.horizontalPosition] + width / 2 - 0.25,
       data.height + RAISE_Y_OFFSET,
       data.anticipationPosition + data.warmupPosition - halfDepth
     );
@@ -102,7 +102,6 @@ AFRAME.registerComponent('wall', {
 
     if (this.el.object3D.position.z > (this.maxZ + halfDepth)) {
       this.returnToPool();
-      return;
     }
   },
 

@@ -55,7 +55,7 @@ AFRAME.registerComponent('beat-loader', {
     bottomLeft: {layer: 0, index: 0},
     bottomCenterLeft: {layer: 0, index: 1},
     bottomCenterRight: {layer: 0, index: 2},
-    bottomRight: {layer: 0, index: 3},
+    bottomRight: {layer: 0, index: 3}
   },
 
   verticalPositionsHumanized: {
@@ -83,6 +83,18 @@ AFRAME.registerComponent('beat-loader', {
     this.rightStageLasers = document.getElementById('rightStageLasers');
 
     this.el.addEventListener('cleargame', this.clearBeats.bind(this));
+
+    // Listen for Twitch events
+    this.el.sceneEl.addEventListener('spawn-random-obstacle', () => {
+      if (!this.data.isPlaying) return;
+      // Generate a random mine directly in front of the player
+      this.generateBeat({
+        _type: 3, // Mine
+        _cutDirection: 8, // Any
+        _lineIndex: Math.floor(Math.random() * 4),
+        _lineLayer: Math.floor(Math.random() * 3)
+      });
+    });
   },
 
   update: function (oldData) {
@@ -159,6 +171,12 @@ AFRAME.registerComponent('beat-loader', {
   tick: function (time, delta) {
     if (!this.data.isPlaying || !this.data.challengeId || !this.beatData) { return; }
 
+    const isFastSong = this.el.sceneEl.systems.state.state.modifiers.fastSong;
+    if (isFastSong) {
+      // Scale delta time for fast song so preloading beats progresses faster
+      delta *= 1.5;
+    }
+
     const prevBeatsTime = this.beatsTime + skipDebug;
     if (this.beatsPreloadTime === undefined) {
       // Get current song time.
@@ -218,12 +236,37 @@ AFRAME.registerComponent('beat-loader', {
   generateBeat: (function () {
     const beatObj = {};
 
+    // For 360 mode, we want a simple random angle offset applied periodically.
+    // Instead of rotating the whole stage, we'll just angle the spawning trajectory of the blocks.
+    let current360Angle = 0;
+    let next360AngleTime = 0;
+
     return function (noteInfo) {
       const data = this.data;
+      const modifiers = this.el.sceneEl.systems.state.state.modifiers;
+
+      // Update 360 mode angle
+      if (modifiers.mode360 && noteInfo.time > next360AngleTime) {
+         // Change angle every 5-15 seconds
+         next360AngleTime = noteInfo.time + (5000 + Math.random() * 10000);
+
+         // Pick an angle: left (-45 or -90) or right (45 or 90)
+         const angles = [-90, -45, 0, 45, 90];
+         current360Angle = angles[Math.floor(Math.random() * angles.length)];
+      } else if (!modifiers.mode360) {
+         current360Angle = 0;
+      }
 
       // if (Math.random() < 0.8) { noteInfo._type = 3; } // To debug mines.
       let color;
       let type = noteInfo._cutDirection === 8 ? 'dot' : 'arrow';
+
+      // Handle One Saber modifier
+      if (modifiers.oneSaber && (noteInfo._type === 0 || noteInfo._type === 1)) {
+         // Force all blocks to be blue (right hand) in One Saber mode.
+         noteInfo._type = 1;
+      }
+
       if (noteInfo._type === 0) {
         color = 'red';
       } else if (noteInfo._type === 1) {
@@ -247,6 +290,18 @@ AFRAME.registerComponent('beat-loader', {
       beatObj.warmupPosition = -data.beatWarmupTime * data.beatWarmupSpeed;
       beatEl.setAttribute('beat', beatObj);
       beatEl.components.beat.updatePosition();
+
+      // If 360 mode is active, angle the entire beat wrapper by setting a rotation
+      // on a parent entity or directly adjusting its coordinates.
+      // Since `beat` component handles its own positioning, we rotate the beat container
+      // but only around the y-axis, allowing blocks to come from the sides.
+      if (modifiers.mode360 && current360Angle !== 0) {
+         // Note: For a true 360 mode, rotating the container rotates ALL beats.
+         // For a lane-based 360 effect per block, we apply an offset to the specific beat.
+         // A simple implementation here: rotate the beat's parent container gradually.
+         // We dispatch an event so the stage can rotate with it.
+         this.el.sceneEl.emit('rotate-stage-360', current360Angle);
+      }
 
       beatEl.play();
       beatEl.components.beat.onGenerate();
@@ -279,7 +334,7 @@ AFRAME.registerComponent('beat-loader', {
   })(),
 
   generateEvent: function (event) {
-    switch(event._type) {
+    switch (event._type) {
       case 0:
         this.stageColors.setColor('bg', event._value);
         break;
@@ -338,7 +393,7 @@ AFRAME.registerComponent('beat-loader', {
         child.components.wall.returnToPool(true);
       }
     }
-  },
+  }
 });
 
 function lessThan (a, b) { return a._time - b._time; }

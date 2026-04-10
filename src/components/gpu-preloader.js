@@ -13,15 +13,15 @@ AFRAME.registerComponent('gpu-preloader', {
     setTimeout(() => {
       this.preloadAtlas();
       this.preloadLogo();
-      //this.prelodBeamMap();
+      // this.prelodBeamMap();
       this.preloadBeatEnvMap();
       this.preloadCutParticles();
       this.preloadKeyboard();
-      //this.preloadMissMap();
+      // this.preloadMissMap();
       this.preloadPlayButton();
       this.preloadSearchPrevPage();
-      //this.preloadWallMap();
-      //this.preloadWrongMap();
+      // this.preloadWallMap();
+      // this.preloadWrongMap();
       this.preloadGenres();
     }, 1000);
   },
@@ -85,7 +85,7 @@ AFRAME.registerComponent('gpu-preloader', {
     this.preloadTexture(playButton.getObject3D('mesh').material.map);
   },
 
-  preloadSearchPrevPage : function () {
+  preloadSearchPrevPage: function () {
     const prevPage = document.querySelector('#searchPrevPage');
     this.preloadTexture(prevPage.children[0].getObject3D('mesh').material.map);
   },

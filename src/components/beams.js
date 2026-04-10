@@ -24,7 +24,7 @@ AFRAME.registerComponent('beams', {
 
   play: function () {
     // Beam pools.
-    //const geometry = new THREE.PlaneBufferGeometry(0.4, 50).translate(0, 25, 0);
+    // const geometry = new THREE.PlaneBufferGeometry(0.4, 50).translate(0, 25, 0);
 
     var objData;
     var loader;
