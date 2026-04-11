@@ -26,7 +26,8 @@
 - [x] Implemented core backend visual logic for Ghost Notes, Disappearing Arrows, No Fail, and Fast Song modifiers.
 - [x] Implement remaining modifiers (e.g., 360 levels, one-saber).
 - [ ] Multiplayer implementation.
-- [ ] Enhanced mod support and custom asset loading.
+- [x] Preliminary custom asset loading logic configured in state and UI.
+- [ ] Full custom mod drag-and-drop system.
 
 ## Phase 6: Polish and Robust UI
 - [ ] Ensure every single feature added is represented in the in-game menus.

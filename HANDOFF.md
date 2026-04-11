@@ -29,3 +29,9 @@
 - Added the state variables to `src/state/index.js` including `twitchVotingActive`, `twitchVotes`, and tracking users via `twitchVoters` to ensure one vote per user per round.
 - Rendered the votes dynamically in `src/templates/menu.html` per search item in the song list panel, and added a master banner to indicate the active state.
 - Successfully built, tested via local playwright, and updated CHANGELOG, TODO, and ROADMAP reflecting the current completed tasks.
+
+## Implementation Status
+- Added Custom Saber configurations to `src/state/index.js` setting a base placeholder for `customSaberModel: null`.
+- Modified `src/index.html` structure of the controllers. Implemented a nested `<a-entity class="customSaber">` that triggers if `customSaberModel` is provided in the state and loads the obj-model.
+- Original collision meshes (`bladeContainer`) are properly suppressed visually when custom assets are loaded so as to not overlap geometry but preserve `raycastable-game` functionality.
+- Updated `VERSION.md`, `ROADMAP.md`, `TODO.md` and `CHANGELOG.md` properly.

@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.2] - In Progress
+### Added
+- Built preliminary Custom Saber Model loading structure in UI bound to state configs.
+
 ## [1.1.1] - In Progress
 ### Added
 - Twitch Chat Voting Integration allowing users to type `!vote [1-6]` to vote for song variants.
