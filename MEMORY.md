@@ -20,3 +20,7 @@
 ## Custom Sabers
 - To fully integrate custom sabers, replacing the geometries directly works but ensuring `raycastable-game` stays intact for collisions is necessary. Setting `visible="false"` via dynamic state bindings allows physics to process without the primitive meshes rendering over the custom geometries.
 - Currently, `.customSaber` expects an OBJ or GLTF. Testing these loading states within playwright fails unless actual models exist in `assets` which are passed correctly via state, as standard timeout waiting for the rendering will block if it fails to bind correctly due to missing URL data in state configurations.
+
+## Multiplayer Implementation Basics
+- Toggle implementation needs state modifications to be mirrored carefully in HTML logic components (Nunjucks templating or via state bindings directly on custom `a-entity` definitions).
+- UI buttons are effectively placed by binding `proxy-event="event: click; to: a-scene; as: YOUR_STATE_EVENT"`. This leverages the A-Frame state component architecture dynamically without manually building listener loops.

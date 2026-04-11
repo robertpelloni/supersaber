@@ -164,6 +164,18 @@
             animation__hide="property: components.text.material.uniforms.opacity.value; from: 1; to: 0; startEvents: hide; dur: 100"
             text="value: If you liked Super Saber,\nyou'll love Soundboxing!\nPlay it now instantly.; letterSpacing: 2; opacity: 0; baseline: bottom; width: 0.7; wrapCount: 28; align: center; color:  #fa83d9;"></a-entity>
         </a-entity>
+        <a-entity id="multiplayerPanel"
+          position="0 0.5 0.01">
+          <a-entity mixin="font" text="align: center; color: #FFF; wrapCount: 25; value: MULTIPLAYER" position="0 0.1 0"></a-entity>
+
+          <a-entity id="multiplayerToggle"
+            mixin="font"
+            bind__text="value: multiplayerEnabled ? 'ON' : 'OFF'"
+            text="align: center; color: #0f0; wrapCount: 30"
+            proxy-event="event: click; to: a-scene; as: multiplayertoggle"
+            bind-toggle__raycastable="menuActive && !menuSelectedChallenge.id && !isSearching && !genre"
+            position="0 0.0 0.01"></a-entity>
+        </a-entity>
       </a-entity>
     </a-entity>
 

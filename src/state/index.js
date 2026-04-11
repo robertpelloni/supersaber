@@ -40,6 +40,9 @@ AFRAME.registerState({
     twitchVotes: {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0},
     twitchVoters: [],
 
+    multiplayerEnabled: false,
+    multiplayerRoom: 'ROOM1',
+
     customSaberModel: null,
     challenge: {  // Actively playing challenge.
       author: '',
@@ -596,6 +599,14 @@ AFRAME.registerState({
         state.twitchVoters.push(user);
         console.log('Twitch Chat: ' + user + ' voted for option ' + option);
       }
+    },
+    'multiplayer-toggle': function (state) {
+      state.multiplayerEnabled = !state.multiplayerEnabled;
+      console.log('Multiplayer Toggled: ' + state.multiplayerEnabled);
+    },
+    'multiplayer-set-room': function (state, payload) {
+      state.multiplayerRoom = payload;
+      console.log('Multiplayer Room set to: ' + payload);
     },
     'twitch-toggle-nofail': function (state) {
       state.modifiers.noFail = !state.modifiers.noFail;

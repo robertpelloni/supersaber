@@ -35,3 +35,8 @@
 - Modified `src/index.html` structure of the controllers. Implemented a nested `<a-entity class="customSaber">` that triggers if `customSaberModel` is provided in the state and loads the obj-model.
 - Original collision meshes (`bladeContainer`) are properly suppressed visually when custom assets are loaded so as to not overlap geometry but preserve `raycastable-game` functionality.
 - Updated `VERSION.md`, `ROADMAP.md`, `TODO.md` and `CHANGELOG.md` properly.
+
+## Implementation Status
+- Basic UI toggle implementation generated inside `menu.html` layout under `id="multiplayerPanel"`.
+- Associated logic bounds within `state/index.js` created.
+- Testing successfully passed visual representation bounds checking.

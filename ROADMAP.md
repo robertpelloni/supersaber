@@ -25,7 +25,8 @@
 - [x] Initial modifiers state implemented and wired to UI.
 - [x] Implemented core backend visual logic for Ghost Notes, Disappearing Arrows, No Fail, and Fast Song modifiers.
 - [x] Implement remaining modifiers (e.g., 360 levels, one-saber).
-- [ ] Multiplayer implementation.
+- [x] Multiplayer implementation state bindings and UI components.
+- [ ] Fully networked replication via WebSockets.
 - [x] Preliminary custom asset loading logic configured in state and UI.
 - [ ] Full custom mod drag-and-drop system.
 
