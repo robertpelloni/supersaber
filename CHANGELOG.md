@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.4] - In Progress
+### Added
+- `multiplayer-sync.js` component for WebSocket remote player connectivity.
+
 ## [1.1.3] - In Progress
 ### Added
 - Added Multiplayer Configuration options (Enabled/Room) in `src/state/index.js` and visual UI toggle bindings inside `src/templates/menu.html`.

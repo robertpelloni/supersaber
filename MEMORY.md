@@ -24,3 +24,7 @@
 ## Multiplayer Implementation Basics
 - Toggle implementation needs state modifications to be mirrored carefully in HTML logic components (Nunjucks templating or via state bindings directly on custom `a-entity` definitions).
 - UI buttons are effectively placed by binding `proxy-event="event: click; to: a-scene; as: YOUR_STATE_EVENT"`. This leverages the A-Frame state component architecture dynamically without manually building listener loops.
+
+## Multiplayer WebSocket Integration
+- Ensure that the WebSocket logic is enclosed with robust `try...catch` handlers because cross-origin generic relays might not be running locally on port 3001 immediately.
+- When generating DOM nodes dynamically within A-Frame components via JS (e.g. `document.createElement('a-entity')`), apply basic attributes (like primitive geometry) early, but remember that appending the child explicitly commits the node. It is highly efficient for spawning remote multiplayer avatars correctly tracked by IDs.
