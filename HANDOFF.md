@@ -49,3 +49,11 @@
 ## Implementation Status
 - Upgraded `css-loader` and related dependencies gracefully resolving older dependencies where possible without breaking the `aframe-master` Webpack 2 compiler limits.
 - Consolidated project analysis mapping the entire state of operations, lessons, file hierarchies, and logic bindings into `MEMORY.md`.
+
+## Final Project Summary (PROJECT_MEMORY)
+- **Framework & Libraries**: This project heavily utilizes A-Frame version 0.8.2. Upgrading this to a newer version will likely break the global `THREE` object injection and components tied to the `aframe-master` WebVR implementations.
+- **State Management**: Data flow is centralized entirely inside `src/state/index.js` using `aframe-state-component`. The state triggers events (`this.el.emit('some-event')`) rather than components listening to each other directly. Adding new functionalities requires adding the state variables to the `state` object, setting up its modifier function under `handlers`, and dispatching events via `a-scene`.
+- **UI Templating**: Modifying the DOM requires editing files within `src/templates` which are dynamically injected via `nunjucks`.
+- **Custom Modifiers Integration**: Components like Twitch Integration or Multiplayer sync logic exist within `src/components/`. If they need to change the game, they do not touch the DOM directly. Instead, they emit events which the state handlers catch.
+- **Network Sync**: WebSockets handle multiplayer positions. Real-time coordinate loops broadcast to peers every 50ms.
+- **Node Environment**: Stuck on `node` v8 legacy dependency trees (`aframe` packages, older `webpack`, `babel-loader 7.x`). Installation requires `--legacy-peer-deps`.
