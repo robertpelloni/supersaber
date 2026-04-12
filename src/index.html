@@ -36,6 +36,7 @@
       bind__leaderboard="isVictory: isVictory; menuSelectedChallengeId: menuSelectedChallenge.id; challengeId: challenge.id"
       bind__song="challengeId: challenge.id; isPlaying: isPlaying; isBeatsPreloaded: challenge.isBeatsPreloaded; isGameOver: isGameOver; isVictory: isVictory"
       bind__song-preview-system="challengeId: challenge.id; isSearching: isSearching; isSongLoading: isSongLoading; selectedChallengeId: menuSelectedChallenge.id"
+      bind__multiplayer-sync="enabled: multiplayerEnabled; room: multiplayerRoom"
       animation__gameover="property: object3D.background; type: color; to: #750000; startEvents: gameover"
       console-shortcuts
       debug-beat-loader
@@ -218,7 +219,13 @@
                   class="blade blade{{ hand }}"
                   {% if hand === 'right' %}data-saber-particles{% endif %}
                   geometry="primitive: box; height: 0.9; depth: 0.02; width: 0.02"
-                  material="shader: flat; color: #fff"
+                  material="shader: flat; color: #fff; visible: true"
+                  bind__material="visible: !customSaberModel"
+                <a-entity
+                  class="customSaber"
+                  bind__obj-model="obj: customSaberModel"
+                  bind__visible="!!customSaberModel"
+                  position="0 -0.55 0"></a-entity>
                   raycastable-game
                   position="0 -0.55 0"></a-entity>
                 <a-entity
