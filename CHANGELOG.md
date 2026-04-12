@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.5] - In Progress
+### Added
+- Migrated older webpack loaders where possible safely.
+
 ## [1.1.4] - In Progress
 ### Added
 - `multiplayer-sync.js` component for WebSocket remote player connectivity.

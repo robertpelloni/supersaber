@@ -28,3 +28,10 @@
 ## Multiplayer WebSocket Integration
 - Ensure that the WebSocket logic is enclosed with robust `try...catch` handlers because cross-origin generic relays might not be running locally on port 3001 immediately.
 - When generating DOM nodes dynamically within A-Frame components via JS (e.g. `document.createElement('a-entity')`), apply basic attributes (like primitive geometry) early, but remember that appending the child explicitly commits the node. It is highly efficient for spawning remote multiplayer avatars correctly tracked by IDs.
+
+## Final Project Memory
+- **A-Frame Versions**: Webpack 2+ limits how aggressively packages can be bumped. Many WebVR libraries predate standard WebXR architectures. `aframe-master` loaded in `vendor` locks down much of the global API space, making major breaking bumps unsafe without a full pivot to a modern bundler like Vite.
+- **Twitch Integration**: `tmi.js` functions successfully for listening to chat events asynchronously from rendering state loops. We emit events from the Twitch chat handler to `this.el.emit()` letting `aframe-state-component` capture and resolve it efficiently natively using standard ECS principles.
+- **WebSocket Sync**: For multiplayer features, using a standard native WebSocket mapping positional/rotational data every 50ms (`src/components/multiplayer-sync.js`) allows smooth replication across peers in a central room without heavy external libraries. This preserves performance in WebGL/VR contexts.
+- **Custom Sabers**: To not break collision layers, the original generic primitive `box` collider is made transparent (`visible="false"` bound to state) while custom obj geometries overlay them visually.
+- **File Hierarchy**: Nunjucks is pivotal for the `index.html` UI tree and dynamically rendering lists. Logic goes into `/components/` and global reactive bindings execute out of `state/index.js`.

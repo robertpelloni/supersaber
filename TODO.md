@@ -16,4 +16,4 @@
 - [x] Implement Fast Song audio and beat-loader scaling logic.
 - [x] Initial implementation of custom sabers geometry binding.
 - [x] Twitch chat voting integration for song selection.
-- [ ] Migrate completely away from deprecated older `npm` packages where possible.
+- [x] Migrate completely away from deprecated older `npm` packages where possible.
