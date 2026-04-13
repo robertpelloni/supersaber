@@ -248,13 +248,13 @@ AFRAME.registerComponent('beat-loader', {
       // Update 360 mode angle
       if (modifiers.mode360 && noteInfo.time > next360AngleTime) {
          // Change angle every 5-15 seconds
-         next360AngleTime = noteInfo.time + (5000 + Math.random() * 10000);
+        next360AngleTime = noteInfo.time + (5000 + Math.random() * 10000);
 
          // Pick an angle: left (-45 or -90) or right (45 or 90)
-         const angles = [-90, -45, 0, 45, 90];
-         current360Angle = angles[Math.floor(Math.random() * angles.length)];
+        const angles = [-90, -45, 0, 45, 90];
+        current360Angle = angles[Math.floor(Math.random() * angles.length)];
       } else if (!modifiers.mode360) {
-         current360Angle = 0;
+        current360Angle = 0;
       }
 
       // if (Math.random() < 0.8) { noteInfo._type = 3; } // To debug mines.
@@ -264,7 +264,7 @@ AFRAME.registerComponent('beat-loader', {
       // Handle One Saber modifier
       if (modifiers.oneSaber && (noteInfo._type === 0 || noteInfo._type === 1)) {
          // Force all blocks to be blue (right hand) in One Saber mode.
-         noteInfo._type = 1;
+        noteInfo._type = 1;
       }
 
       if (noteInfo._type === 0) {
@@ -300,7 +300,7 @@ AFRAME.registerComponent('beat-loader', {
          // For a lane-based 360 effect per block, we apply an offset to the specific beat.
          // A simple implementation here: rotate the beat's parent container gradually.
          // We dispatch an event so the stage can rotate with it.
-         this.el.sceneEl.emit('rotate-stage-360', current360Angle);
+        this.el.sceneEl.emit('rotate-stage-360', current360Angle);
       }
 
       beatEl.play();

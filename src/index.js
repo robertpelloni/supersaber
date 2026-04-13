@@ -25,5 +25,6 @@ require('./components/optical-saber-controls');
 
 // Require Twitch integration
 require('./components/twitch-integration');
+require('./components/multiplayer-sync');
 
 require('./index.css');

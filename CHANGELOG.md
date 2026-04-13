@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.5] - In Progress
+### Added
+- Migrated older webpack loaders where possible safely.
+
+## [1.1.4] - In Progress
+### Added
+- `multiplayer-sync.js` component for WebSocket remote player connectivity.
+
+## [1.1.3] - In Progress
+### Added
+- Added Multiplayer Configuration options (Enabled/Room) in `src/state/index.js` and visual UI toggle bindings inside `src/templates/menu.html`.
+
+## [1.1.2] - In Progress
+### Added
+- Built preliminary Custom Saber Model loading structure in UI bound to state configs.
+
+## [1.1.1] - In Progress
+### Added
+- Twitch Chat Voting Integration allowing users to type `!vote [1-6]` to vote for song variants.
+
 ## [1.1.0] - In Progress
 ### Added
 - Extensive project documentation (`VISION.md`, `ROADMAP.md`, `TODO.md`, `CHANGELOG.md`, `MEMORY.md`, `DEPLOY.md`, `HANDOFF.md`, `IDEAS.md`, `AGENTS.md`).
