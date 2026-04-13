@@ -35,6 +35,15 @@ AFRAME.registerState({
 
   initialState: {
     activeHand: localStorage.getItem('hand') || 'right',
+
+    twitchVotingActive: false,
+    twitchVotes: {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0},
+    twitchVoters: [],
+
+    multiplayerEnabled: false,
+    multiplayerRoom: 'ROOM1',
+
+    customSaberModel: null,
     challenge: {  // Actively playing challenge.
       author: '',
       difficulty: '',
@@ -570,6 +579,35 @@ AFRAME.registerState({
       console.log('Twitch Chat toggled Ghost Notes!');
     },
 
+    'twitch-start-voting': function (state) {
+      console.log('Twitch Chat: Voting started!');
+      state.twitchVotingActive = true;
+      state.twitchVotes = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0};
+      state.twitchVoters = [];
+    },
+    'twitch-stop-voting': function (state) {
+      console.log('Twitch Chat: Voting stopped!');
+      state.twitchVotingActive = false;
+    },
+    'twitch-vote': function (state, payload) {
+      const user = payload.user;
+      const option = payload.option;
+      if (!state.twitchVotingActive) return;
+      if (state.twitchVoters.indexOf(user) !== -1) return;
+      if (state.twitchVotes[option] !== undefined) {
+        state.twitchVotes[option]++;
+        state.twitchVoters.push(user);
+        console.log('Twitch Chat: ' + user + ' voted for option ' + option);
+      }
+    },
+    'multiplayer-toggle': function (state) {
+      state.multiplayerEnabled = !state.multiplayerEnabled;
+      console.log('Multiplayer Toggled: ' + state.multiplayerEnabled);
+    },
+    'multiplayer-set-room': function (state, payload) {
+      state.multiplayerRoom = payload;
+      console.log('Multiplayer Room set to: ' + payload);
+    },
     'twitch-toggle-nofail': function (state) {
       state.modifiers.noFail = !state.modifiers.noFail;
       console.log('Twitch Chat toggled No Fail!');

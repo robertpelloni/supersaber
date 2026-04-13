@@ -17,6 +17,8 @@ nunjucks.addGlobal('DEBUG_INSPECTOR', !!process.env.DEBUG_INSPECTOR);
 nunjucks.addGlobal('HOST', ip.address());
 nunjucks.addGlobal('IS_PRODUCTION', process.env.NODE_ENV === 'production');
 nunjucks.addGlobal('COLORS', COLORS);
+var APP_VERSION = fs.readFileSync('VERSION.md', 'utf8').trim();
+nunjucks.addGlobal('VERSION', APP_VERSION);
 
 // Initial Nunjucks render.
 fs.writeFileSync('play.html', nunjucks.render('index.html'));
@@ -36,7 +38,7 @@ if (process.env.NODE_ENV !== 'production') {
   });
 }
 
-PLUGINS = [new webpack.EnvironmentPlugin(['NODE_ENV'])];
+var PLUGINS = [new webpack.EnvironmentPlugin(['NODE_ENV'])];
 if (process.env.NODE_ENV === 'production') {
   PLUGINS.push(
     new MinifyPlugin(

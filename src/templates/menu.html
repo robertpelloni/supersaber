@@ -94,6 +94,13 @@
         animation__mouseleave="property: components.material.material.opacity; from: 0.3; to: 0.0; startEvents: mouseleave; pauseEvents: mouseenter; dur: 150"
         animation__mouseleavevisible="property: visible; from: true; to: false; startEvents: mouseleave; pauseEvents: mouseenter; dur: 160"
         visible="false"></a-entity>
+      <a-entity
+        class="twitchVoteText"
+        mixin="font"
+        bind-item__text="value: '[' + (item.index + 1) + '] Votes: ' + (twitchVotes[item.index + 1] || 0)"
+        bind__visible="twitchVotingActive"
+        text="align: right; color: #00FF00; wrapCount: 40; width: 0.8"
+        position="0.45 -0.13 0.001"></a-entity>
       </a-entity>
     </a-entity>
   </template>
@@ -105,6 +112,16 @@
   bind__visible="menuActive"
   position="0 1.1 -2"
   visible="false">
+
+  <a-entity id="versionText" mixin="font" text="align: left; color: #555; value: v{{ VERSION }}; wrapCount: 60" position="-1.4 -0.73 0"></a-entity>
+
+  <a-entity
+    id="twitchVotingBanner"
+    bind__visible="twitchVotingActive"
+    mixin="font"
+    text="align: center; color: #00FF00; value: TWITCH VOTING ACTIVE! TYPE !vote [1-6] IN CHAT; wrapCount: 30; width: 1.5"
+    position="-0.79 0.8 0.01"></a-entity>
+
 
   <a-entity
     id="menuBackground"
@@ -146,6 +163,18 @@
             animation__show="property: components.text.material.uniforms.opacity.value; from: 0; to: 1; startEvents: show; dur: 100"
             animation__hide="property: components.text.material.uniforms.opacity.value; from: 1; to: 0; startEvents: hide; dur: 100"
             text="value: If you liked Super Saber,\nyou'll love Soundboxing!\nPlay it now instantly.; letterSpacing: 2; opacity: 0; baseline: bottom; width: 0.7; wrapCount: 28; align: center; color:  #fa83d9;"></a-entity>
+        </a-entity>
+        <a-entity id="multiplayerPanel"
+          position="0 0.5 0.01">
+          <a-entity mixin="font" text="align: center; color: #FFF; wrapCount: 25; value: MULTIPLAYER" position="0 0.1 0"></a-entity>
+
+          <a-entity id="multiplayerToggle"
+            mixin="font"
+            bind__text="value: multiplayerEnabled ? 'ON' : 'OFF'"
+            text="align: center; color: #0f0; wrapCount: 30"
+            proxy-event="event: click; to: a-scene; as: multiplayertoggle"
+            bind-toggle__raycastable="menuActive && !menuSelectedChallenge.id && !isSearching && !genre"
+            position="0 0.0 0.01"></a-entity>
         </a-entity>
       </a-entity>
     </a-entity>

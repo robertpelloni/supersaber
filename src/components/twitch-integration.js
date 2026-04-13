@@ -46,6 +46,20 @@ AFRAME.registerComponent('twitch-integration', {
         case '!ghostnotes':
           this.el.emit('twitch-toggle-ghost');
           break;
+        default:
+          if (command.startsWith('!vote ')) {
+            const option = parseInt(command.split(' ')[1], 10);
+            if (!isNaN(option) && option >= 1 && option <= 6) {
+              this.el.emit('twitch-vote', { user: tags.username, option: option });
+            }
+          }
+          break;
+        case '!startvote':
+          this.el.emit('twitch-start-voting');
+          break;
+        case '!stopvote':
+          this.el.emit('twitch-stop-voting');
+          break;
         case '!nofail':
           this.el.emit('twitch-toggle-nofail');
           break;
@@ -56,9 +70,9 @@ AFRAME.registerComponent('twitch-integration', {
   update: function (oldData) {
     if (this.data.channel !== oldData.channel && this.client) {
       this.client.disconnect().then(() => {
-         if (this.data.enabled && this.data.channel) {
-           this.init();
-         }
+        if (this.data.enabled && this.data.channel) {
+          this.init();
+        }
       });
     }
   },

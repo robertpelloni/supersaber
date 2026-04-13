@@ -138,7 +138,7 @@ AFRAME.registerComponent('saber-controls', {
     for (let i = 0; i < this.distanceSamples.length; i++) { this.distanceSamples[i] = 0; }
     for (let i = 0; i < this.deltaSamples.length; i++) { this.deltaSamples[i] = 0; }
 
-    var direction = 'DIRECTION '
+    var direction = 'DIRECTION ';
     if (this.strokeDirection.right) {
       direction += 'RIGHT';
     } else {
