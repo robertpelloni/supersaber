@@ -100,3 +100,7 @@ All notable changes to this project will be documented in this file.
 ## Current Release
 * v1.3.4 (2026-04-21)
   * Broadcasts live gameplay states (Score and Combo) over the active WebSocket array to dynamically render floating leaderboards synchronously above remote multiplayer avatars.
+## Current Release
+* v1.3.6 (2026-04-21)
+  * Implemented fully interactive 3D timeline slider for Phase 7 Web Editor scrubbing dynamically loaded `.mp3` payloads.
+  * Mapped active timeline position grids for placing interactive beat blocks onto the local visual matrix via raycaster inputs mapping to exact audio buffering arrays.

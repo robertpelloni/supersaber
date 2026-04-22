@@ -54,3 +54,9 @@
 - [x] Implement UI toggle and Base Editor Matrix within main menu state bounds.
 - [x] Extend custom-mod-loader.js to parse .mp3 drag-and-drop actions natively bypassing .zip restrictions.
 - [ ] Build interactive 3D timeline slider.
+
+## Phase 7: Web Editor & Map Generation
+- [x] Implement UI toggle and Base Editor Matrix within main menu state bounds.
+- [x] Extend custom-mod-loader.js to parse .mp3 drag-and-drop actions natively bypassing .zip restrictions.
+- [x] Build interactive 3D timeline slider.
+- [x] Hook up audio waveform extraction and beat placement.
