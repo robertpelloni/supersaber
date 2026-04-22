@@ -649,6 +649,8 @@ AFRAME.registerComponent('beat', {
   },
 
   checkCollisions: function () {
+    // Dynamically query sabers so remote multiplayer sabers are checked too!
+    this.saberEls = this.el.sceneEl.querySelectorAll('[saber-controls]');
     const cutDirection = this.data.cutDirection;
     const saberColors = this.saberColors;
     const saberEls = this.saberEls;

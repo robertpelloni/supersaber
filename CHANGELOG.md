@@ -104,3 +104,6 @@ All notable changes to this project will be documented in this file.
 * v1.3.6 (2026-04-21)
   * Implemented fully interactive 3D timeline slider for Phase 7 Web Editor scrubbing dynamically loaded `.mp3` payloads.
   * Mapped active timeline position grids for placing interactive beat blocks onto the local visual matrix via raycaster inputs mapping to exact audio buffering arrays.
+## Current Release
+* v1.3.7 (2026-04-22)
+  * Implemented true gameplay collision array dynamics inside `src/components/beat.js` handling runtime queried `saber-controls` allowing fully rigged remote multiplayer models to actively trigger and interact with native stage block logic seamlessly.
