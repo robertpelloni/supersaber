@@ -1,0 +1,38 @@
+<a-entity id="beatmapEditor"
+  bind__visible="isEditing">
+
+  <a-entity id="editorPanel" position="0 1.5 -1.5"
+    geometry="primitive: plane; width: 4; height: 3"
+    material="color: #111; opacity: 0.9; shader: flat">
+
+    <a-entity mixin="font" bind__text="value: editorAudioName ? 'EDITING: ' + editorAudioName : 'SUPER SABER - TIMELINE EDITOR'" color="#FFF" width="4" position="0 1.2 0.01" align="center"></a-entity>
+
+    <a-entity mixin="font" bind__visible="!editorAudioUrl" text="align: center; value: Drop an .mp3 file anywhere onto the window to begin mapping.; color: #AAA; width: 3; wrapCount: 40" position="0 0.8 0.01"></a-entity>
+
+    <!-- Interactive Grid Elements once audio is loaded -->
+    <a-entity id="editorPlayback" bind__visible="!!editorAudioUrl" position="0 0.8 0.01">
+       <a-entity mixin="font" text="align: center; value: [ PLAY ] ; color: #00FF00; width: 2" position="-1 0 0" class="raycastable" proxy-event="event: click; to: a-scene; as: editor-play"></a-entity>
+       <a-entity mixin="font" text="align: center; value: [ PAUSE ] ; color: #FFFF00; width: 2" position="1 0 0" class="raycastable" proxy-event="event: click; to: a-scene; as: editor-pause"></a-entity>
+    </a-entity>
+
+    <a-entity id="editorTimelineGrid"
+      bind__visible="!!editorAudioUrl"
+      position="0 0 0.01">
+      <!-- 4x3 Grid representation for beat placement (placeholder visual) -->
+      <a-entity geometry="primitive: plane; width: 2; height: 1.5" material="color: #222; shader: flat"></a-entity>
+      <a-entity geometry="primitive: plane; width: 2; height: 0.02" position="0 0 0.01" material="color: #444; shader: flat"></a-entity>
+      <a-entity geometry="primitive: plane; width: 0.02; height: 1.5" position="0 0 0.01" material="color: #444; shader: flat"></a-entity>
+    </a-entity>
+
+
+    <a-entity id="editorExitBtn"
+      position="0 -1.2 0.02"
+      geometry="primitive: plane; width: 1.5; height: 0.3"
+      material="color: #ff0055; shader: flat"
+      class="raycastable"
+      bind-toggle__raycastable="isEditing"
+      proxy-event="event: click; to: a-scene; as: toggle-editor">
+      <a-entity mixin="font" text="align: center; value: EXIT EDITOR; color: #FFF; width: 3" position="0 0 0.01"></a-entity>
+    </a-entity>
+</a-entity>
+</a-entity>

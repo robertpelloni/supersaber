@@ -39,6 +39,8 @@
       bind__multiplayer-sync="enabled: multiplayerEnabled; room: multiplayerRoom"
       animation__gameover="property: object3D.background; type: color; to: #750000; startEvents: gameover"
       console-shortcuts
+      custom-mod-loader
+      custom-asset-loader
       debug-beat-loader
       debug-controller
       debug-song-time
@@ -110,6 +112,7 @@
       {% include './templates/victory.html' %}
       {% include './templates/leaderboard.html' %}
       {% include './templates/news.html' %}
+      {% include './templates/editor.html' %}
 
       <!-- super cut fx rings -->
       {% for i in range(1, 5) %}

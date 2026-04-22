@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Super Saber - Libraries & Submodules Documentation</title>
+    <style>
+      body { font-family: sans-serif; margin: 2rem; background: #222; color: #ddd; }
+      h1, h2 { color: #fff; }
+      table { border-collapse: collapse; width: 100%; margin-bottom: 2rem; }
+      th, td { border: 1px solid #555; padding: 0.5rem; text-align: left; }
+      th { background: #333; }
+      a { color: #5af; }
+    </style>
+  </head>
+  <body>
+    <h1>Libraries & Submodules Documentation</h1>
+
+    <h2>Project Directory Structure</h2>
+    <ul>
+      <li><strong>/src/</strong>: Core application source files.
+        <ul>
+          <li><strong>/components/</strong>: A-Frame specific entity-component logic.</li>
+          <li><strong>/state/</strong>: Application state management via <code>aframe-state-component</code>.</li>
+          <li><strong>/templates/</strong>: Nunjucks HTML templates.</li>
+        </ul>
+      </li>
+      <li><strong>/vendor/</strong>: Pre-compiled legacy dependencies not available via modern NPM.</li>
+      <li><strong>/assets/</strong>: Sounds, textures, fonts, and 3D models.</li>
+      <li><strong>/build/</strong>: Webpack output directory (contains <code>build.js</code>).</li>
+    </ul>
+
+    <h2>Submodules & External Libraries Tracking</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Library / Submodule</th>
+          <th>Version</th>
+          <th>Location</th>
+          <th>Description & Usage</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>A-Frame Core</td>
+          <td>0.8.2 (Modified)</td>
+          <td><code>vendor/aframe-master.js</code></td>
+          <td>The core WebVR framework used to render the game scene and handle the Entity-Component-System (ECS). Modified to preserve legacy API compatibility.</td>
+        </tr>
+        <tr>
+          <td>MediaPipe Hands</td>
+          <td>^0.4.x</td>
+          <td>NPM (<code>@mediapipe/hands</code>)</td>
+          <td>Used for optical hand tracking in Desktop mode. Maps 2D hand coordinates/depth to the 3D saber positions.</td>
+        </tr>
+        <tr>
+          <td>TMI.js</td>
+          <td>^1.8.3</td>
+          <td>NPM (<code>tmi.js</code>)</td>
+          <td>Core library for Twitch Chat integration. Listens to chat commands (e.g., <code>!vote</code>, <code>!speedup</code>) and emits events to the game state.</td>
+        </tr>
+        <tr>
+          <td>Firebase</td>
+          <td>^5.5.8</td>
+          <td>NPM (<code>firebase</code>)</td>
+          <td>Required for leaderboard cloud store operations and high score persistence.</td>
+        </tr>
+        <tr>
+          <td>Nunjucks</td>
+          <td>^3.2.x</td>
+          <td>NPM (<code>nunjucks</code>)</td>
+          <td>HTML templating engine used via Webpack to dynamically build the UI (e.g., <code>src/templates/menu.html</code>).</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p><a href="/">Return to Game</a></p>
+  </body>
+</html>

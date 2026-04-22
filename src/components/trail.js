@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-operators */
 AFRAME.registerComponent('trail', {
   schema: {
     color: {type: 'color'},

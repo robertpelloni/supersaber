@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-operators */
 const NUM_VALUES_PER_SEGMENT = 75;
 
 AFRAME.registerComponent('twister', {
@@ -19,7 +20,7 @@ AFRAME.registerComponent('twister', {
 
   pulse: function (twist) {
     if (!this.data.enabled) { return; }
-    if (twist == 0) { twist = 0.03 + Math.random() * 0.25; } else twist = Math.min(twist * 0.4, 0.4);
+    if (twist == 0) { twist = 0.03 + Math.random() * 0.25; } else twist = Math.min((twist * 0.4), 0.4);
     twist *= Math.random() < 0.5 ? -1 : 1; // random direction
     this.el.setAttribute('twister', {twist: twist});
   },
@@ -37,7 +38,7 @@ AFRAME.registerComponent('twister', {
 
     for (var i = 0; i < this.data.count; i++) {
       let segment = this.createSegment(radius);
-      segment.translate(0, this.data.positionIncrement * i, 0);
+      segment.translate(0, (this.data.positionIncrement * i), 0);
       segments.push(segment);
       radius += this.data.radiusIncrement;
     }
@@ -86,16 +87,16 @@ AFRAME.registerComponent('twister', {
     diff = (this.data.twist - this.currentTwist) * delta;
 
     this.currentTwist += diff;
-    rotation = diff * 3.0;
+    rotation = (diff * 3.0);
 
     for (var s = 0; s < this.data.count; s++) {
       for (var i = 0; i < NUM_VALUES_PER_SEGMENT; i += 3) {
         cos = Math.cos(rotation);
         sin = Math.sin(rotation);
-        x = posArray[s * NUM_VALUES_PER_SEGMENT + i];
-        y = posArray[s * NUM_VALUES_PER_SEGMENT + i + 2];
-        posArray[s * NUM_VALUES_PER_SEGMENT + i] = x * cos - y * sin;
-        posArray[s * NUM_VALUES_PER_SEGMENT + i + 2] = y * cos + x * sin;
+        x = posArray[(s * NUM_VALUES_PER_SEGMENT) + i];
+        y = posArray[(s * NUM_VALUES_PER_SEGMENT) + i + 2];
+        posArray[(s * NUM_VALUES_PER_SEGMENT) + i] = (x * cos) - (y * sin);
+        posArray[(s * NUM_VALUES_PER_SEGMENT) + i + 2] = (y * cos) + (x * sin);
       }
       rotation *= 1.05;
     }

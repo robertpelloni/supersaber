@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-mixed-operators */
 /* global localStorage */
 var utils = require('../utils');
 
@@ -44,6 +46,8 @@ AFRAME.registerState({
     multiplayerRoom: 'ROOM1',
 
     customSaberModel: null,
+    isDraggingAsset: false,
+    assetUploadStatus: '',
     challenge: {  // Actively playing challenge.
       author: '',
       difficulty: '',
@@ -68,7 +72,10 @@ AFRAME.registerState({
     isPlaying: false,  // Actively playing (slicing beats).
     isSearching: false,  // Whether search is open.
     isSongFetching: false,  // Fetching stage.
-    isSongLoading: false,  // Either fetching or decoding.
+    isSongLoading: false,
+    isEditing: false,
+    editorAudioUrl: '',
+    editorAudioName: '',  // Either fetching or decoding.
     isVictory: false,  // Victory screen.
     leaderboard: [],
     leaderboardFetched: false,
@@ -147,7 +154,7 @@ AFRAME.registerState({
       }
 
       payload.score = isNaN(payload.score) ? 100 : payload.score;
-      state.score.score += Math.floor(payload.score * state.score.multiplier);
+      state.score.score += Math.floor((((payload.score * state.score.multiplier))));
 
       // Might be a math formula for this, but the multiplier system is easy reduced.
       if (state.score.combo < 2) {
@@ -341,6 +348,70 @@ AFRAME.registerState({
       state.leaderboardQualified = false;
     },
 
+    'asset-drag-enter': (state) => {
+      state.isDraggingAsset = true;
+      state.assetUploadStatus = 'Drop 3D Model/Texture here...';
+    },
+
+    'asset-drag-leave': (state) => {
+      state.isDraggingAsset = false;
+      state.assetUploadStatus = '';
+    },
+
+    'asset-load-error': (state, msg) => {
+      state.isDraggingAsset = false;
+      state.assetUploadStatus = msg;
+    },
+
+    'asset-load-start': (state, msg) => {
+      state.isDraggingAsset = true;
+      state.assetUploadStatus = msg;
+    },
+
+    'custom-saber-loaded': (state, url) => {
+      state.customSaberModel = url;
+      state.isDraggingAsset = false;
+      state.assetUploadStatus = 'Custom Saber Loaded!';
+      console.log('Custom Saber Model Set:', url);
+    },
+
+    'custom-texture-loaded': (state, url) => {
+      // Stub for future texture application to blocks or stage
+      state.isDraggingAsset = false;
+      state.assetUploadStatus = 'Custom Texture Loaded!';
+      console.log('Custom Texture Set:', url);
+    },
+
+    'editor-audio-loaded': (state, payload) => {
+      state.editorAudioUrl = payload.url;
+      state.editorAudioName = payload.name;
+      state.isEditing = true;
+      state.menuActive = false; // Force menu hide
+      state.isDraggingAsset = false;
+      state.assetUploadStatus = 'Audio Loaded for Editing!';
+      console.log('Editor Audio Loaded:', payload.name);
+    },
+
+    custommodloaded: (state, payload) => {
+      // Create a spoofed search result list so the menu can display it immediately
+      console.log('Custom Mod Load Emitted:', payload);
+      const fakeResults = [payload];
+      state.search.hasError = false;
+      state.search.page = 0;
+      state.search.query = 'Local Mod';
+      state.search.results = fakeResults;
+
+      // Inject to the global store
+      challengeDataStore[payload.id] = payload;
+
+      // Select it automatically
+      state.genre = '';
+      state.menuSelectedChallenge.id = payload.id;
+      Object.assign(state.menuSelectedChallenge, payload);
+      computeMenuSelectedChallengeIndex(state);
+      updateMenuSongInfo(state, payload);
+    },
+
     /**
      * Song clicked from menu.
      */
@@ -486,6 +557,16 @@ AFRAME.registerState({
       state.inVR = false;
     },
 
+    'toggle-editor': function (state) {
+      state.isEditing = !state.isEditing;
+      console.log('Editor Mode: ' + state.isEditing);
+      if (state.isEditing) {
+        state.menuActive = false; // Hide menu when in editor
+      } else {
+        state.menuActive = true;
+      }
+    },
+
     'toggle-2d-mode': (state) => {
       state.is2DDesktopMode = !state.is2DDesktopMode;
     },
@@ -604,6 +685,24 @@ AFRAME.registerState({
       state.multiplayerEnabled = !state.multiplayerEnabled;
       console.log('Multiplayer Toggled: ' + state.multiplayerEnabled);
     },
+    'modifiertoggleghost': function (state) {
+      state.modifiers.ghostNotes = !state.modifiers.ghostNotes;
+    },
+    'modifiertoggledisappearing': function (state) {
+      state.modifiers.disappearingArrows = !state.modifiers.disappearingArrows;
+    },
+    'modifiertogglefastsong': function (state) {
+      state.modifiers.fastSong = !state.modifiers.fastSong;
+    },
+    'modifiertogglenofail': function (state) {
+      state.modifiers.noFail = !state.modifiers.noFail;
+    },
+    'modifiertoggleonesaber': function (state) {
+      state.modifiers.oneSaber = !state.modifiers.oneSaber;
+    },
+    'modifiertoggle360': function (state) {
+      state.modifiers.mode360 = !state.modifiers.mode360;
+    },
     'multiplayer-set-room': function (state, payload) {
       state.multiplayerRoom = payload;
       console.log('Multiplayer Room set to: ' + payload);
@@ -692,14 +791,6 @@ function takeDamage (state) {
   // checkGameOver(state);
 }
 
-function checkGameOver (state) {
-  if (state.modifiers.noFail) return;
-  if (state.damage >= DAMAGE_MAX) {
-    state.damage = 0;
-    state.isGameOver = true;
-  }
-}
-
 function resetScore (state) {
   state.damage = 0;
   state.score.beatsHit = 0;
@@ -723,7 +814,7 @@ function computeMenuSelectedChallengeIndex (state) {
 function formatSongLength (songLength) {
   songLength /= 60;
   const minutes = `${Math.floor(songLength)}`;
-  return `${minutes}:${Math.round((songLength - minutes) * 60)}`;
+  return `${minutes}:${Math.round(((songLength) - minutes) * 60)}`;
 }
 
 function computeBeatsText (state) {

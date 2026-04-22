@@ -164,17 +164,85 @@
             animation__hide="property: components.text.material.uniforms.opacity.value; from: 1; to: 0; startEvents: hide; dur: 100"
             text="value: If you liked Super Saber,\nyou'll love Soundboxing!\nPlay it now instantly.; letterSpacing: 2; opacity: 0; baseline: bottom; width: 0.7; wrapCount: 28; align: center; color:  #fa83d9;"></a-entity>
         </a-entity>
+                  <!-- Asset Drag and Drop Feedback -->
+          <a-entity id="assetDropZone"
+            position="0 0.45 0.05"
+            bind__visible="isDraggingAsset || assetUploadStatus !== ''"
+            geometry="primitive: plane; width: 3; height: 0.6"
+            bind__material="color: isDraggingAsset ? '#33FF33' : '#FF3333'; shader: flat; opacity: 0.8">
+            <a-entity mixin="font" bind__text="value: assetUploadStatus" text="align: center; color: #FFF; wrapCount: 40" position="0 0 0.01"></a-entity>
+          </a-entity>
+
         <a-entity id="multiplayerPanel"
           position="0 0.5 0.01">
+
           <a-entity mixin="font" text="align: center; color: #FFF; wrapCount: 25; value: MULTIPLAYER" position="0 0.1 0"></a-entity>
+          <a-entity mixin="font" text="align: center; color: #AAA; wrapCount: 45; value: Join peers via WebSocket port 3001" position="0 0.05 0.01"></a-entity>
 
           <a-entity id="multiplayerToggle"
+
             mixin="font"
             bind__text="value: multiplayerEnabled ? 'ON' : 'OFF'"
             text="align: center; color: #0f0; wrapCount: 30"
             proxy-event="event: click; to: a-scene; as: multiplayertoggle"
             bind-toggle__raycastable="menuActive && !menuSelectedChallenge.id && !isSearching && !genre"
             position="0 0.0 0.01"></a-entity>
+
+          <a-entity id="modifiersPanel"
+            bind__visible="!menuSelectedChallenge.id && !isSearching && !genre"
+            position="0 -0.2 0.01">
+
+          <a-entity mixin="font" text="align: center; color: #FFF; wrapCount: 25; value: MODIFIERS" position="0 0.1 0"></a-entity>
+          <a-entity mixin="font" text="align: center; color: #5af; wrapCount: 30; value: [ Libraries Documentation ]" position="0 0.15 0" class="raycastable" proxy-event="event: click; to: a-scene; as: open-docs" onclick="window.location.href='docs.html'"></a-entity>
+          <a-entity mixin="font" text="align: center; color: #f5a; wrapCount: 30; value: [ ENTER BEATMAP EDITOR ]" position="0 0.20 0" class="raycastable" proxy-event="event: click; to: a-scene; as: toggle-editor"></a-entity>
+
+            <a-entity id="modifierGhostNotes"
+              mixin="font"
+              bind__text="value: modifiers.ghostNotes ? 'GHOST NOTES: ON' : 'GHOST NOTES: OFF'"
+              text="align: center; color: #0ff; wrapCount: 30"
+              proxy-event="event: click; to: a-scene; as: modifiertoggleghost"
+              bind-toggle__raycastable="menuActive && !menuSelectedChallenge.id && !isSearching && !genre"
+              position="0 0.0 0">
+                <a-entity mixin="font" text="align: center; color: #AAA; wrapCount: 70; value: Arrows disappear right before you hit them" position="0 -0.025 0"></a-entity>
+            </a-entity>
+            <a-entity id="modifierDisappearing"
+              mixin="font"
+              bind__text="value: modifiers.disappearingArrows ? 'DISAPPEARING ARROWS: ON' : 'DISAPPEARING ARROWS: OFF'"
+              text="align: center; color: #0ff; wrapCount: 30"
+              proxy-event="event: click; to: a-scene; as: modifiertoggledisappearing"
+              bind-toggle__raycastable="menuActive && !menuSelectedChallenge.id && !isSearching && !genre"
+              position="0 -0.07 0">
+              <a-entity mixin="font" text="align: center; color: #AAA; wrapCount: 70; value: Notes fade out as they approach" position="0 -0.025 0"></a-entity>
+            </a-entity>
+            <a-entity id="modifierFastSong"
+              mixin="font"
+              bind__text="value: modifiers.fastSong ? 'FAST SONG: ON' : 'FAST SONG: OFF'"
+              text="align: center; color: #0ff; wrapCount: 30"
+              proxy-event="event: click; to: a-scene; as: modifiertogglefastsong"
+              bind-toggle__raycastable="menuActive && !menuSelectedChallenge.id && !isSearching && !genre"
+              position="0 -0.14 0">
+              <a-entity mixin="font" text="align: center; color: #AAA; wrapCount: 70; value: Increases song playback speed and note frequency" position="0 -0.025 0"></a-entity>
+            </a-entity>
+            <a-entity id="modifierNoFail"
+              mixin="font"
+              bind__text="value: modifiers.noFail ? 'NO FAIL: ON' : 'NO FAIL: OFF'"
+              text="align: center; color: #0ff; wrapCount: 30"
+              proxy-event="event: click; to: a-scene; as: modifiertogglenofail"
+              bind-toggle__raycastable="menuActive && !menuSelectedChallenge.id && !isSearching && !genre"
+              position="0 -0.21 0">
+              <a-entity mixin="font" text="align: center; color: #AAA; wrapCount: 70; value: Missing notes does not end the song" position="0 -0.025 0"></a-entity>
+            </a-entity>
+            <a-entity id="modifierOneSaber"
+              mixin="font"
+              bind__text="value: modifiers.oneSaber ? 'ONE SABER: ON' : 'ONE SABER: OFF'"
+              text="align: center; color: #0ff; wrapCount: 30"
+              proxy-event="event: click; to: a-scene; as: modifiertoggleonesaber"
+              bind-toggle__raycastable="menuActive && !menuSelectedChallenge.id && !isSearching && !genre"
+              position="0 -0.28 0">
+              <a-entity mixin="font" text="align: center; color: #AAA; wrapCount: 70; value: All notes become center aligned for a single blade" position="0 -0.025 0"></a-entity>
+            </a-entity>
+          </a-entity>
+
         </a-entity>
       </a-entity>
     </a-entity>

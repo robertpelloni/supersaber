@@ -21,20 +21,20 @@
 - [x] Link chat events to the A-Frame state component to dynamically modify gameplay.
 - [x] Twitch chat voting integration for song selection.
 
-## Phase 5: Feature Parity & Enhancements (In Progress)
+## Phase 5: Feature Parity ## Phase 5: Feature Parity & Enhancements (In Progress) Enhancements (Complete)
 - [x] Initial modifiers state implemented and wired to UI.
 - [x] Implemented core backend visual logic for Ghost Notes, Disappearing Arrows, No Fail, and Fast Song modifiers.
 - [x] Implement remaining modifiers (e.g., 360 levels, one-saber).
 - [x] Multiplayer implementation state bindings and UI components.
 - [x] Base networked replication via WebSockets.
-- [ ] Refined multiplayer avatars and physics integration.
+- [x] Refined multiplayer avatars and physics integration.
 - [x] Preliminary custom asset loading logic configured in state and UI.
-- [ ] Full custom mod drag-and-drop system.
+- [x] Full custom mod drag-and-drop system.
 
-## Phase 6: Polish and Robust UI
-- [ ] Ensure every single feature added is represented in the in-game menus.
-- [ ] Detailed tooltips and documentation within the UI.
-- [ ] Comprehensive bug fixing.
+## Phase 6: Polish and Robust UI (Complete)
+- [x] Ensure every single feature added is represented in the in-game menus.
+- [x] Detailed tooltips and documentation within the UI.
+- [x] Comprehensive bug fixing.
 
 ## Submodules & External Libraries Tracking
 - **A-Frame Core (`vendor/aframe-master.js`)**: Modified 0.8.2 framework (WebVR API legacy compatibility).
@@ -50,3 +50,7 @@
 - `/vendor/`: Pre-compiled legacy dependencies not available via modern NPM.
 - `/assets/`: Sounds, textures, fonts, and 3D models.
 - `/build/`: Webpack output directory (contains `build.js`).
+## Phase 7: Web Editor & Map Generation
+- [x] Implement UI toggle and Base Editor Matrix within main menu state bounds.
+- [x] Extend custom-mod-loader.js to parse .mp3 drag-and-drop actions natively bypassing .zip restrictions.
+- [ ] Build interactive 3D timeline slider.

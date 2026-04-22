@@ -67,10 +67,19 @@ AFRAME.registerComponent('leaderboard', {
   addScore: function () {
     const state = this.el.sceneEl.systems.state.state;
     if (!state.isVictory) { return; }
+    // Calculate total score after modifiers
+    let finalScore = state.score.score;
+    if (state.modifiers) {
+      if (state.modifiers.noFail) finalScore = Math.floor(finalScore * 0.5);
+      if (state.modifiers.fastSong) finalScore = Math.floor(finalScore * 1.1);
+      if (state.modifiers.ghostNotes) finalScore = Math.floor(finalScore * 1.15);
+      if (state.modifiers.disappearingArrows) finalScore = Math.floor(finalScore * 1.1);
+    }
+
     const scoreData = {
       accuracy: state.score.accuracy,
       challengeId: state.challenge.id,
-      score: state.score.score,
+      score: finalScore,
       username: this.username,
       difficulty: state.challenge.difficulty,
       time: new Date()
@@ -109,7 +118,17 @@ AFRAME.registerComponent('leaderboard', {
    */
   checkLeaderboardQualify: function () {
     const state = this.el.sceneEl.systems.state.state;
-    const score = state.score.score;
+
+    // Calculate total score after modifiers for qualify check
+    let finalScore = state.score.score;
+    if (state.modifiers) {
+      if (state.modifiers.noFail) finalScore = Math.floor(finalScore * 0.5);
+      if (state.modifiers.fastSong) finalScore = Math.floor(finalScore * 1.1);
+      if (state.modifiers.ghostNotes) finalScore = Math.floor(finalScore * 1.15);
+      if (state.modifiers.disappearingArrows) finalScore = Math.floor(finalScore * 1.1);
+    }
+
+    const score = finalScore;
 
     // If less than 10, then automatic high score.
     if (this.scores.length < NUM_SCORES_DISPLAYED) {

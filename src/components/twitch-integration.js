@@ -24,6 +24,8 @@ AFRAME.registerComponent('twitch-integration', {
 
       const command = message.trim().toLowerCase();
 
+      const isMod = tags.mod || (tags.badges && tags.badges.broadcaster === '1') || tags.username === channel.replace('#', '');
+
       // Basic Twitch chat commands mapping
       switch (command) {
         case '!spawn':
@@ -55,10 +57,20 @@ AFRAME.registerComponent('twitch-integration', {
           }
           break;
         case '!startvote':
-          this.el.emit('twitch-start-voting');
+          if (isMod) {
+            console.log('[Twitch] Moderator ' + tags.username + ' started voting');
+            this.el.emit('twitch-start-voting');
+          } else {
+            console.log('[Twitch] Unauthorized startvote attempt by ' + tags.username);
+          }
           break;
         case '!stopvote':
-          this.el.emit('twitch-stop-voting');
+          if (isMod) {
+            console.log('[Twitch] Moderator ' + tags.username + ' stopped voting');
+            this.el.emit('twitch-stop-voting');
+          } else {
+            console.log('[Twitch] Unauthorized stopvote attempt by ' + tags.username);
+          }
           break;
         case '!nofail':
           this.el.emit('twitch-toggle-nofail');
