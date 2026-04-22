@@ -107,3 +107,7 @@ All notable changes to this project will be documented in this file.
 ## Current Release
 * v1.3.7 (2026-04-22)
   * Implemented true gameplay collision array dynamics inside `src/components/beat.js` handling runtime queried `saber-controls` allowing fully rigged remote multiplayer models to actively trigger and interact with native stage block logic seamlessly.
+## Current Release
+* v1.3.8 (2026-04-22)
+  * Finalized Phase 7 Editor functionality. Exporting map objects translates the active 3D array visual markers dynamically into standardized JSON schema `custom_map.json` downloads mapped across local URI parameters via `encodeURIComponent`.
+  * Built fully interactive raycastable UI toolbar representing `Block Type` toggles (Red, Blue, Mine) mapping directly to active marker visual overlays dynamically natively.

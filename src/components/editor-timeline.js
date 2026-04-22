@@ -87,8 +87,34 @@ AFRAME.registerComponent('editor-timeline', {
     });
 
     this.el.sceneEl.addEventListener('editor-pause', () => this.pause());
+    this.exportJSON = this.exportJSON.bind(this);
+    this.el.sceneEl.addEventListener('editor-export', this.exportJSON);
   },
 
+  exportJSON: function () {
+    console.log('[Editor] Exporting map to JSON...');
+
+    const mapData = {
+      _version: '2.0.0',
+      _events: [],
+      _notes: this.blocks.map(b => ({
+        _time: b._time,
+        _lineIndex: b._lineIndex,
+        _lineLayer: b._lineLayer,
+        _type: b._type,
+        _cutDirection: b._cutDirection
+      })),
+      _obstacles: []
+    };
+
+    const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(mapData, null, 2));
+    const downloadAnchorNode = document.createElement('a');
+    downloadAnchorNode.setAttribute('href', dataStr);
+    downloadAnchorNode.setAttribute('download', 'custom_map.json');
+    document.body.appendChild(downloadAnchorNode); // required for firefox
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
+  },
   update: function (oldData) {
     if (this.data.audioUrl !== oldData.audioUrl && this.data.audioUrl !== '') {
       this.loadAudio(this.data.audioUrl);

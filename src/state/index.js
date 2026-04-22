@@ -135,6 +135,12 @@ AFRAME.registerState({
   },
 
   handlers: {
+    'editor-select-type': function (state, type) {
+      state.editorActiveType = parseInt(type, 10);
+    },
+    'editor-select-direction': function (state, dir) {
+      state.editorActiveCutDirection = parseInt(dir, 10);
+    },
     /**
      * Swap left-handed or right-handed mode.
      */

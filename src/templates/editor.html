@@ -15,6 +15,27 @@
        <a-entity mixin="font" text="align: center; value: [ PAUSE ] ; color: #FFFF00; width: 2" position="1 0 0" class="raycastable" proxy-event="event: click; to: a-scene; as: editor-pause"></a-entity>
     </a-entity>
 
+
+    <!-- Editor Toolbar -->
+    <a-entity id="editorToolbar" bind__visible="!!editorAudioUrl" position="-2 0 0.01">
+       <a-entity mixin="font" text="align: center; value: BLOCK TYPE; color: #FFF; width: 1.5" position="0 0.8 0"></a-entity>
+
+       <a-entity geometry="primitive: box; width: 0.3; height: 0.3; depth: 0.1" material="color: #ff0000" position="0 0.4 0"
+          class="raycastable" proxy-event="event: click; to: a-scene; as: editor-select-type" bind__material="opacity: editorActiveType === 0 ? 1 : 0.4" data-proxy-event-detail="0"></a-entity>
+
+       <a-entity geometry="primitive: box; width: 0.3; height: 0.3; depth: 0.1" material="color: #0000ff" position="0 0 0"
+          class="raycastable" proxy-event="event: click; to: a-scene; as: editor-select-type" bind__material="opacity: editorActiveType === 1 ? 1 : 0.4" data-proxy-event-detail="1"></a-entity>
+
+       <a-entity geometry="primitive: sphere; radius: 0.15" material="color: #444444" position="0 -0.4 0"
+          class="raycastable" proxy-event="event: click; to: a-scene; as: editor-select-type" bind__material="opacity: editorActiveType === 3 ? 1 : 0.4" data-proxy-event-detail="3"></a-entity>
+    </a-entity>
+
+    <a-entity id="editorExportBtn" bind__visible="!!editorAudioUrl" position="2 -0.8 0.01">
+       <a-entity geometry="primitive: plane; width: 1.5; height: 0.3" material="color: #00AAFF"
+          class="raycastable" proxy-event="event: click; to: a-scene; as: editor-export"></a-entity>
+       <a-entity mixin="font" text="align: center; value: [ EXPORT JSON ]; color: #FFF; width: 2" position="0 0 0.01"></a-entity>
+    </a-entity>
+
     <a-entity id="editorTimelineGrid"
       bind__visible="!!editorAudioUrl"
       position="0 0 0.01">
