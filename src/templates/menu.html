@@ -123,6 +123,16 @@
     position="-0.79 0.8 0.01"></a-entity>
 
 
+  <a-entity id="versionText" mixin="font" text="align: left; color: #555; value: v{{ VERSION }}; wrapCount: 60" position="-1.4 -0.73 0"></a-entity>
+
+  <a-entity
+    id="twitchVotingBanner"
+    bind__visible="twitchVotingActive"
+    mixin="font"
+    text="align: center; color: #00FF00; value: TWITCH VOTING ACTIVE! TYPE !vote [1-6] IN CHAT; wrapCount: 30; width: 1.5"
+    position="-0.79 0.8 0.01"></a-entity>
+
+
   <a-entity
     id="menuBackground"
     bind-toggle__raycastable="menuActive || genreMenuOpen || isSearching"
