@@ -34,3 +34,6 @@ Super Saber aims to be the ultimate, all-encompassing rhythm game experience, br
 - **Multiplayer / Cooperative Modes**: Allow users to join the same instance and compete or cooperate.
 - **Enhanced Twitch Voting**: Let chat organically vote on the next song.
 - **Custom Assets**: The ability to drop in custom 3D models for sabers, blocks, or stages to fully personalize the experience.
+
+## Current Direction (Phase 7+)
+- **Full Custom Web Editor**: Continuing expansion into full `.mp3` and `.ogg` native processing. The project is heavily prioritizing an in-engine native mapping software (timeline scrubbers, audio peak extractors, visual 3D array grids) directly compiled to `custom_map.json` downloads. The goal is removing the dependency on external applications entirely.

@@ -16,3 +16,6 @@
 - **Global Version Source**: The project version is strictly sourced from `VERSION.md`. This is the single source of truth for the version number.
 - **Changelog**: You must update `CHANGELOG.md` with every build, detailing what was added, changed, or fixed.
 - **Commits**: Ensure the version number bump (e.g., `[v1.1.1]`) is prominently referenced in the git commit message when committing a version update.
+
+## General Multi-modal Guidelines
+- Ensure all references to `CLAUDE.md`, `GEMINI.md`, `GPT.md`, and `copilot-instructions.md` cascade back up to this central document.

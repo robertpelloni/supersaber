@@ -1,14 +1,16 @@
 # Deployment Instructions
 
 ## Local Development
-1. Ensure Node.js is installed.
-2. Run `npm install` to install dependencies.
-3. Run `npm run start` to start the Webpack development server.
-4. Access the game at `http://localhost:3000`.
+1. Ensure Node.js `v16` (legacy peer deps required for Webpack 2.3.3) is active.
+2. Run `npm install --legacy-peer-deps`.
+3. Run `npm run start` to host the Webpack server locally.
+4. Access the application on `http://localhost:3000`.
 
 ## Production Build
-1. Run `npm run build` to compile the production bundle via Webpack.
-2. Output is placed in the `build/` and `site/` directories.
+1. Run `npm run build` to compile the production bundle (`build/build.js`).
+2. Run `npm run lint` and verify output.
+3. Assets will be compiled via Webpack.
 
-## GitHub Pages Deployment
-1. Run `npm run deploy` to automatically build and push to the `gh-pages` branch.
+## Environment Configs
+- Add API keys directly into `.env.example` if upgrading Firebase bounds.
+- *Current integration uses anonymous API keys bound natively without strict secrets.*

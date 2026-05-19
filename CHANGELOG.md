@@ -112,6 +112,11 @@ All notable changes to this project will be documented in this file.
   * Finalized Phase 7 Editor functionality. Exporting map objects translates the active 3D array visual markers dynamically into standardized JSON schema `custom_map.json` downloads mapped across local URI parameters via `encodeURIComponent`.
   * Built fully interactive raycastable UI toolbar representing `Block Type` toggles (Red, Blue, Mine) mapping directly to active marker visual overlays dynamically natively.
 ## Current Release
+* v1.4.0 (2026-05-19)
+  * Implemented audio waveform extraction and 3D visual generation inside the Web Editor timeline bounds. Dragging and dropping an `.mp3` automatically generates a stylized flat bar rendering audio peaks mapped across the entire `scrubBar` duration natively.
+  * Conducted full 10-point project audit, established explicit model-specific files (`CLAUDE.md`, `GEMINI.md`, `GPT.md`, `copilot-instructions.md`) and standardized `SUBMODULE_INVENTORY.md`.
+
+## Previous Releases
 * v1.3.9 (2026-04-22)
   * Finalized structural branches, merged Phase 7 Editor mappings into `master`.
   * Verified build pipelines and validated package dependency graph stability natively across `master`.

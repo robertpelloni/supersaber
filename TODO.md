@@ -50,7 +50,7 @@
 - [x] Extended `custom-asset-loader` to securely accept `.mp3` and `.ogg` files mapped to `URL.createObjectURL()`. This natively intercepts the drop and updates the Phase 7 Editor grid GUI to replace instructions with actual file-mapped layout bindings and transport controls automatically.
 
 ## Completed Tasks
+- [x] Implemented audio waveform visualization in `src/components/editor-timeline.js`. Drag-and-dropping audio natively processes amplitude peaks rendering 3D A-Frame representations accurately over the Web Editor scrub bar bounding maps natively.
+- [x] Completed full documentation audit including `SUBMODULE_INVENTORY.md` generation, model-specific `.md` files, and `DEPLOY.md` verifications.
 - [x] Integrated `saber-particles` and `raycaster__game` visual effects directly onto the dynamically instantiated remote player controllers in `multiplayer-sync.js` enabling live multiplayer spark collisions.
-
-## Completed Tasks
 - [x] Bound synchronous floating text leaderboards to multiplayer avatars fetching score array subsets natively.

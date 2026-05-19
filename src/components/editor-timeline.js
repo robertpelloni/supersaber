@@ -140,8 +140,49 @@ AFRAME.registerComponent('editor-timeline', {
         console.log(`[Editor] Audio loaded. Duration: ${this.duration}s`);
         this.pausedAt = 0;
         this.updatePlayheadVisual(0);
+        this.drawWaveform();
       })
       .catch(e => console.error('Error loading audio:', e));
+  },
+
+  drawWaveform: function () {
+    if (!this.audioBuffer) return;
+
+    const channelData = this.audioBuffer.getChannelData(0);
+    const numSegments = 100;
+    const segmentSize = Math.floor(channelData.length / numSegments);
+
+    // Clear any existing waveform visuals
+    if (this.waveformContainer) {
+      this.scrubBar.removeChild(this.waveformContainer);
+    }
+
+    this.waveformContainer = document.createElement('a-entity');
+    this.waveformContainer.setAttribute('position', '0 0.05 0.01');
+    this.scrubBar.appendChild(this.waveformContainer);
+
+    for (let i = 0; i < numSegments; i++) {
+      let startIdx = i * segmentSize;
+      let endIdx = startIdx + segmentSize;
+      let maxPeak = 0;
+
+      for (let j = startIdx; j < endIdx; j++) {
+        let absVal = Math.abs(channelData[j]);
+        if (absVal > maxPeak) maxPeak = absVal;
+      }
+
+      const peakHeight = Math.max(0.01, maxPeak * 0.5); // Max visual height roughly 0.5
+
+      const visual = document.createElement('a-entity');
+      /* eslint-disable-next-line */
+      visual.setAttribute('geometry', `primitive: plane; width: ${this.timelineWidth / numSegments - 0.005}; height: ${peakHeight}`);
+      visual.setAttribute('material', 'color: #00AAFF; shader: flat');
+
+      /* eslint-disable-next-line */
+      const xPos = -(this.timelineWidth / 2) + (i * (this.timelineWidth / numSegments)) + (this.timelineWidth / numSegments / 2);
+      visual.setAttribute('position', `${xPos} ${peakHeight / 2} 0`);
+      this.waveformContainer.appendChild(visual);
+    }
   },
 
   play: function () {
