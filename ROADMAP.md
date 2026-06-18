@@ -55,3 +55,21 @@
 - [x] Extend custom-mod-loader.js to parse .mp3 drag-and-drop actions natively bypassing .zip restrictions.
 - [x] Build interactive 3D timeline slider.
 - [x] Hook up audio waveform extraction and beat placement.
+
+## Phase 8: Comprehensive Beat Saber Parity Implementation
+- [ ] Implement Sliders (Arcs) logic and visual representation.
+- [ ] Implement Chains (Burst Sliders) logic and visual representation.
+- [ ] Implement Campaign Mode logic (objective tracking, progression).
+- [ ] Expand Modifier system:
+  - [ ] Insta Fail (One Life)
+  - [ ] Battery Energy (4 Lives)
+  - [ ] No Obstacles
+  - [ ] No Bombs
+  - [ ] Super Fast Song (150%)
+  - [ ] Slower Song (85%)
+  - [ ] Strict Angles
+  - [ ] Pro Mode (Tighter hitboxes)
+  - [ ] Small Notes
+- [ ] Overhaul Scoring System to perfectly match 115 max point system (70 swing-in, 30 swing-out, 15 accuracy).
+- [ ] Enhance Practice Mode with timeline scrubbing and granular speed adjustments.
+- [ ] Upgrade lighting engine to support V3-style granular group controls, translation, and rotation events.

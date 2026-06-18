@@ -120,3 +120,9 @@ All notable changes to this project will be documented in this file.
 * v1.3.9 (2026-04-22)
   * Finalized structural branches, merged Phase 7 Editor mappings into `master`.
   * Verified build pipelines and validated package dependency graph stability natively across `master`.
+
+## [1.4.1] - 2024-05-24
+### Added
+- Comprehensive Beat Saber feature and version history documentation to `VISION.md`.
+- Phase 8 planning to `ROADMAP.md` and `TODO.md` for full feature parity (Arcs, Chains, Advanced Modifiers, 115-point scoring).
+- New feature concepts to `IDEAS.md` (Advanced Haptics, Dynamic Campaign Generator).

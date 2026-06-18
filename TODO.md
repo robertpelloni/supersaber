@@ -54,3 +54,11 @@
 - [x] Completed full documentation audit including `SUBMODULE_INVENTORY.md` generation, model-specific `.md` files, and `DEPLOY.md` verifications.
 - [x] Integrated `saber-particles` and `raycaster__game` visual effects directly onto the dynamically instantiated remote player controllers in `multiplayer-sync.js` enabling live multiplayer spark collisions.
 - [x] Bound synchronous floating text leaderboards to multiplayer avatars fetching score array subsets natively.
+
+## Phase 8 Immediate Tasks
+- [ ] Implement Sliders (Arcs) logic and visual representation.
+- [ ] Implement Chains (Burst Sliders) logic and visual representation.
+- [ ] Update scoring system to match 115 max point system.
+- [ ] Add Insta Fail and Battery Energy modifiers.
+- [ ] Add Strict Angles, Pro Mode, and Small Notes modifiers.
+- [ ] Integrate new modifiers into the UI.
