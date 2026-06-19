@@ -133,3 +133,8 @@ All notable changes to this project will be documented in this file.
 - Drafted `BETA_PROGRAM.md` to coordinate closed beta testing, balancing feedback, and bug reporting.
 - Established automated GitHub Actions pipelines (`ci.yml` and `deploy.yml`) for autonomous testing and beta deployment.
 - Initial Phase 8 Jest unit testing scaffolding completed.
+
+## [2.0.0-beta.2] - 2024-05-25
+### Changed
+- Implemented Phase 8 115 Max Point System natively in `src/components/beat.js`.
+- Refactored `tests/score.test.js` to accurately mirror the newly implemented logic using `distanceToCenter`.

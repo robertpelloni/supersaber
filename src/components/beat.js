@@ -1,6 +1,16 @@
 import {BEAT_WARMUP_OFFSET, BEAT_WARMUP_SPEED, BEAT_WARMUP_TIME} from '../constants/beat';
 const COLORS = require('../constants/colors.js');
 
+export function calculatePhase8Score(angleBeforeHit, angleAfterHit, intersectionPoint, beatPosition) {
+  const distanceToCenter = beatPosition.distanceTo(intersectionPoint);
+  const accuracyPoints = Math.max(0, 15 - Math.min(15, distanceToCenter * 50));
+  let score = 0;
+  score += angleBeforeHit >= 100 ? 70 : (angleBeforeHit / 100) * 70;
+  score += angleAfterHit >= 60 ? 30 : (angleAfterHit / 60) * 30;
+  score += accuracyPoints;
+  return Math.floor(score);
+}
+
 const auxObj3D = new THREE.Object3D();
 const collisionZThreshold = -1.65;
 const BEAT_WARMUP_ROTATION_CHANGE = Math.PI / 5;
@@ -744,9 +754,10 @@ AFRAME.registerComponent('beat', {
     const angleBeforeHit = Math.max(0, (this.angleBeforeHit - saberRotation) * 180 / Math.PI);
     const angleAfterHit = Math.max(0, (maxAngle - saberRotation) * 180 / Math.PI);
 
-    let score = 0;
-    score += angleBeforeHit >= 85 ? 70 : (angleBeforeHit / 80) * 70;
-    score += angleAfterHit >= 60 ? 30 : (angleAfterHit / 60) * 30;
+    const score = calculatePhase8Score(
+      angleBeforeHit, angleAfterHit,
+      intersection.point, this.el.object3D.position
+    );
 
     hitEventDetail.score = score;
     this.el.emit('beathit', hitEventDetail, true);

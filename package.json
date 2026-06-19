@@ -59,6 +59,9 @@
     "webpack-sources": "1.0.1"
   },
   "devDependencies": {
+    "@babel/core": "^8.0.1",
+    "@babel/preset-env": "^8.0.2",
+    "babel-jest": "^30.4.1",
     "cross-env": "4.0.0",
     "ghpages": "0.0.10",
     "jest": "^30.4.2",
