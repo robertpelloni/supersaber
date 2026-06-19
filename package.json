@@ -7,7 +7,8 @@
     "lint": "semistandard -v | snazzy",
     "lint:fix": "semistandard --fix",
     "predeploy": "npm run build && shx mkdir -p .ghpages && cp -r index.html play.html assets build site vendor .ghpages",
-    "start": "webpack-dev-server --host 0.0.0.0 --progress --colors --hot --inline --port 3000"
+    "start": "webpack-dev-server --host 0.0.0.0 --progress --colors --hot --inline --port 3000",
+    "test": "jest"
   },
   "dependencies": {
     "@mediapipe/camera_utils": "^0.3.1675466862",
@@ -60,6 +61,9 @@
   "devDependencies": {
     "cross-env": "4.0.0",
     "ghpages": "0.0.10",
+    "jest": "^30.4.2",
+    "jest-environment-jsdom": "^30.4.1",
+    "jsdom": "^29.1.1",
     "semistandard": "10.0.0",
     "shx": "^0.2.2",
     "snazzy": "7.0.0",
