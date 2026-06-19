@@ -1,0 +1,37 @@
+name: CI Testing Pipeline
+
+on:
+  push:
+    branches: [ "main", "feature/*", "test/*", "beta/*" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm install --ignore-scripts --legacy-peer-deps
+
+    - name: Run ESLint
+      run: npm run lint
+      continue-on-error: true # For now, allowing lint to pass with warnings during beta
+
+    - name: Run Unit Tests (Jest)
+      run: npm run test
+
+    - name: Verify Build
+      run: npm run build

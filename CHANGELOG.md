@@ -126,3 +126,10 @@ All notable changes to this project will be documented in this file.
 - Comprehensive Beat Saber feature and version history documentation to `VISION.md`.
 - Phase 8 planning to `ROADMAP.md` and `TODO.md` for full feature parity (Arcs, Chains, Advanced Modifiers, 115-point scoring).
 - New feature concepts to `IDEAS.md` (Advanced Haptics, Dynamic Campaign Generator).
+
+## [2.0.0-beta.1] - 2024-05-25
+### Added
+- Created `RELEASE_NOTES.md` documenting the achievement of core feature parity, new modifiers, and UI integration.
+- Drafted `BETA_PROGRAM.md` to coordinate closed beta testing, balancing feedback, and bug reporting.
+- Established automated GitHub Actions pipelines (`ci.yml` and `deploy.yml`) for autonomous testing and beta deployment.
+- Initial Phase 8 Jest unit testing scaffolding completed.
