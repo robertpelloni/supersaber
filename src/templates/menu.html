@@ -251,6 +251,54 @@
               position="0 -0.28 0">
               <a-entity mixin="font" text="align: center; color: #AAA; wrapCount: 70; value: All notes become center aligned for a single blade" position="0 -0.025 0"></a-entity>
             </a-entity>
+
+            <!-- Phase 8 Modifiers -->
+            <a-entity id="modifierInstaFail"
+              mixin="font"
+              bind__text="value: modifiers.instaFail ? 'INSTA FAIL: ON' : 'INSTA FAIL: OFF'"
+              text="align: center; color: #0ff; wrapCount: 30"
+              proxy-event="event: click; to: a-scene; as: modifiertoggleinstafail"
+              bind-toggle__raycastable="menuActive && !menuSelectedChallenge.id && !isSearching && !genre"
+              position="0 -0.35 0">
+              <a-entity mixin="font" text="align: center; color: #AAA; wrapCount: 70; value: Missing a single note ends the song" position="0 -0.025 0"></a-entity>
+            </a-entity>
+            <a-entity id="modifierBatteryEnergy"
+              mixin="font"
+              bind__text="value: modifiers.batteryEnergy ? 'BATTERY ENERGY: ON' : 'BATTERY ENERGY: OFF'"
+              text="align: center; color: #0ff; wrapCount: 30"
+              proxy-event="event: click; to: a-scene; as: modifiertogglebatteryenergy"
+              bind-toggle__raycastable="menuActive && !menuSelectedChallenge.id && !isSearching && !genre"
+              position="0 -0.42 0">
+              <a-entity mixin="font" text="align: center; color: #AAA; wrapCount: 70; value: 4 Lives only, regain slowly on hits" position="0 -0.025 0"></a-entity>
+            </a-entity>
+            <a-entity id="modifierStrictAngles"
+              mixin="font"
+              bind__text="value: modifiers.strictAngles ? 'STRICT ANGLES: ON' : 'STRICT ANGLES: OFF'"
+              text="align: center; color: #0ff; wrapCount: 30"
+              proxy-event="event: click; to: a-scene; as: modifiertogglestrictangles"
+              bind-toggle__raycastable="menuActive && !menuSelectedChallenge.id && !isSearching && !genre"
+              position="0 -0.49 0">
+              <a-entity mixin="font" text="align: center; color: #AAA; wrapCount: 70; value: Cut directions are strictly enforced" position="0 -0.025 0"></a-entity>
+            </a-entity>
+            <a-entity id="modifierProMode"
+              mixin="font"
+              bind__text="value: modifiers.proMode ? 'PRO MODE: ON' : 'PRO MODE: OFF'"
+              text="align: center; color: #0ff; wrapCount: 30"
+              proxy-event="event: click; to: a-scene; as: modifiertogglepromode"
+              bind-toggle__raycastable="menuActive && !menuSelectedChallenge.id && !isSearching && !genre"
+              position="0 -0.56 0">
+              <a-entity mixin="font" text="align: center; color: #AAA; wrapCount: 70; value: Hitboxes match the note geometry perfectly" position="0 -0.025 0"></a-entity>
+            </a-entity>
+            <a-entity id="modifierSmallNotes"
+              mixin="font"
+              bind__text="value: modifiers.smallNotes ? 'SMALL NOTES: ON' : 'SMALL NOTES: OFF'"
+              text="align: center; color: #0ff; wrapCount: 30"
+              proxy-event="event: click; to: a-scene; as: modifiertogglesmallnotes"
+              bind-toggle__raycastable="menuActive && !menuSelectedChallenge.id && !isSearching && !genre"
+              position="0 -0.63 0">
+              <a-entity mixin="font" text="align: center; color: #AAA; wrapCount: 70; value: Notes are 50% smaller" position="0 -0.025 0"></a-entity>
+            </a-entity>
+
           </a-entity>
 
         </a-entity>

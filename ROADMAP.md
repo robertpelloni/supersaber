@@ -61,15 +61,15 @@
 - [x] Implement Chains (Burst Sliders) logic and visual representation.
 - [ ] Implement Campaign Mode logic (objective tracking, progression).
 - [ ] Expand Modifier system:
-  - [ ] Insta Fail (One Life)
-  - [ ] Battery Energy (4 Lives)
+  - [x] Insta Fail (One Life)
+  - [x] Battery Energy (4 Lives)
   - [ ] No Obstacles
   - [ ] No Bombs
   - [ ] Super Fast Song (150%)
   - [ ] Slower Song (85%)
-  - [ ] Strict Angles
-  - [ ] Pro Mode (Tighter hitboxes)
-  - [ ] Small Notes
+  - [x] Strict Angles
+  - [x] Pro Mode (Tighter hitboxes)
+  - [x] Small Notes
 - [ ] Overhaul Scoring System to perfectly match 115 max point system (70 swing-in, 30 swing-out, 15 accuracy).
 - [ ] Enhance Practice Mode with timeline scrubbing and granular speed adjustments.
 - [ ] Upgrade lighting engine to support V3-style granular group controls, translation, and rotation events.

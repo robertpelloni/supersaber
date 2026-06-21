@@ -90,7 +90,12 @@ AFRAME.registerState({
       fastSong: false,
       noFail: false,
       oneSaber: false,
-      mode360: false
+      mode360: false,
+      instaFail: false,
+      batteryEnergy: false,
+      strictAngles: false,
+      proMode: false,
+      smallNotes: false
     },
     twitchChannel: 'robertpelloni',
     menuSelectedChallenge: {  // Currently selected challenge in the main menu.
@@ -150,6 +155,9 @@ AFRAME.registerState({
     },
 
     beathit: (state, payload) => {
+      if (state.modifiers.batteryEnergy && state.damage > 0) {
+        state.damage = Math.max(0, state.damage - 2); // Regen slight energy on hit
+      }
       if (state.damage > DAMAGE_DECAY) {
         state.damage -= DAMAGE_DECAY;
       }
@@ -709,6 +717,21 @@ AFRAME.registerState({
     'modifiertoggle360': function (state) {
       state.modifiers.mode360 = !state.modifiers.mode360;
     },
+    'modifiertoggleinstafail': function (state) {
+      state.modifiers.instaFail = !state.modifiers.instaFail;
+    },
+    'modifiertogglebatteryenergy': function (state) {
+      state.modifiers.batteryEnergy = !state.modifiers.batteryEnergy;
+    },
+    'modifiertogglestrictangles': function (state) {
+      state.modifiers.strictAngles = !state.modifiers.strictAngles;
+    },
+    'modifiertogglepromode': function (state) {
+      state.modifiers.proMode = !state.modifiers.proMode;
+    },
+    'modifiertogglesmallnotes': function (state) {
+      state.modifiers.smallNotes = !state.modifiers.smallNotes;
+    },
     'multiplayer-set-room': function (state, payload) {
       state.multiplayerRoom = payload;
       console.log('Multiplayer Room set to: ' + payload);
@@ -792,9 +815,19 @@ function takeDamage (state) {
   state.score.multiplier = state.score.multiplier > 1
     ? Math.ceil(state.score.multiplier / 2)
     : 1;
-  if (AFRAME.utils.getUrlParameter('godmode')) { return; }
-  state.damage++;
-  // checkGameOver(state);
+  if (AFRAME.utils.getUrlParameter('godmode') || state.modifiers.noFail) { return; }
+
+  if (state.modifiers.instaFail) {
+    state.damage = 100;
+  } else if (state.modifiers.batteryEnergy) {
+    state.damage += 25; // 4 lives
+  } else {
+    state.damage++;
+  }
+
+  if (state.damage >= 100) {
+    state.isGameOver = true;
+  }
 }
 
 function resetScore (state) {

@@ -143,3 +143,7 @@ All notable changes to this project will be documented in this file.
 - Added `arc` component to represent Sliders (Arcs) geometry natively between beats.
 - Added `chain` component to represent Burst Sliders (Chains) logic.
 - Included corresponding visual mock tests in `tests/arc.test.js` and `tests/chain.test.js`.
+
+### Modifiers Update
+- Added full support for `Insta Fail`, `Battery Energy`, `Strict Angles`, `Pro Mode`, and `Small Notes` modifiers logic into `state/index.js` and `beat.js`.
+- Implemented state tracking and UI elements for the new Phase 8 modifiers in `menu.html`.

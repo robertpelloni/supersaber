@@ -163,6 +163,13 @@ AFRAME.registerComponent('beat', {
     this.updateBlock();
     this.updateFragments();
 
+    const modifiers = this.el.sceneEl.systems.state.state.modifiers;
+    if (modifiers && modifiers.smallNotes) {
+      this.el.object3D.scale.set(0.5, 0.5, 0.5);
+    } else {
+      this.el.object3D.scale.set(1, 1, 1);
+    }
+
     if (this.data.type === 'mine') {
       this.poolName = `pool__beat-mine`;
     } else {
@@ -668,6 +675,11 @@ AFRAME.registerComponent('beat', {
       this.hitColliderEl.getObject3D('mesh'));
     const beatBoundingBox = this.beatBoundingBox.setFromObject(
       this.blockEl.getObject3D('mesh'));
+    const modifiers = this.el.sceneEl.systems.state.state.modifiers;
+    if (modifiers && modifiers.proMode) {
+      // Shrink hitbox slightly for Pro Mode
+      beatBoundingBox.expandByScalar(-0.05);
+    }
     var wrongHandHit;
 
     for (let i = 0; i < saberEls.length; i++) {
@@ -706,7 +718,9 @@ AFRAME.registerComponent('beat', {
 
           if (this.data.type === 'arrow') {
             saberControls.updateStrokeDirection();
-            if (!saberControls.strokeDirection[this.data.cutDirection]) {
+            const isStrict = modifiers && modifiers.strictAngles;
+            const threshold = isStrict ? 0.8 : 0.5; // Stricter angle checks
+            if (!saberControls.strokeDirection[this.data.cutDirection] || (isStrict && saberControls.maxAnglePlaneXY < threshold)) {
               this.wrongHit(hand);
               break;
             }

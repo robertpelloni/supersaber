@@ -59,6 +59,6 @@
 - [x] Implement Sliders (Arcs) logic and visual representation.
 - [x] Implement Chains (Burst Sliders) logic and visual representation.
 - [ ] Update scoring system to match 115 max point system.
-- [ ] Add Insta Fail and Battery Energy modifiers.
-- [ ] Add Strict Angles, Pro Mode, and Small Notes modifiers.
-- [ ] Integrate new modifiers into the UI.
+- [x] Add Insta Fail and Battery Energy modifiers.
+- [x] Add Strict Angles, Pro Mode, and Small Notes modifiers.
+- [x] Integrate new modifiers into the UI.
