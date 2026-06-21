@@ -56,8 +56,8 @@
 - [x] Bound synchronous floating text leaderboards to multiplayer avatars fetching score array subsets natively.
 
 ## Phase 8 Immediate Tasks
-- [ ] Implement Sliders (Arcs) logic and visual representation.
-- [ ] Implement Chains (Burst Sliders) logic and visual representation.
+- [x] Implement Sliders (Arcs) logic and visual representation.
+- [x] Implement Chains (Burst Sliders) logic and visual representation.
 - [ ] Update scoring system to match 115 max point system.
 - [ ] Add Insta Fail and Battery Energy modifiers.
 - [ ] Add Strict Angles, Pro Mode, and Small Notes modifiers.

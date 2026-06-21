@@ -138,3 +138,8 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - Implemented Phase 8 115 Max Point System natively in `src/components/beat.js`.
 - Refactored `tests/score.test.js` to accurately mirror the newly implemented logic using `distanceToCenter`.
+
+### Phase 8 Added (Arcs and Chains)
+- Added `arc` component to represent Sliders (Arcs) geometry natively between beats.
+- Added `chain` component to represent Burst Sliders (Chains) logic.
+- Included corresponding visual mock tests in `tests/arc.test.js` and `tests/chain.test.js`.

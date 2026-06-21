@@ -29,5 +29,7 @@ require('./components/multiplayer-sync');
 require('./components/custom-mod-loader');
 require('./components/custom-asset-loader');
 require('./components/editor-timeline');
+require('./components/arc');
+require('./components/chain');
 
 require('./index.css');

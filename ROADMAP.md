@@ -57,8 +57,8 @@
 - [x] Hook up audio waveform extraction and beat placement.
 
 ## Phase 8: Comprehensive Beat Saber Parity Implementation
-- [ ] Implement Sliders (Arcs) logic and visual representation.
-- [ ] Implement Chains (Burst Sliders) logic and visual representation.
+- [x] Implement Sliders (Arcs) logic and visual representation.
+- [x] Implement Chains (Burst Sliders) logic and visual representation.
 - [ ] Implement Campaign Mode logic (objective tracking, progression).
 - [ ] Expand Modifier system:
   - [ ] Insta Fail (One Life)

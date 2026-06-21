@@ -3,12 +3,12 @@ global.THREE = {
   MeshBasicMaterial: class {},
   DoubleSide: 2,
   Vector3: class {
-    constructor(x, y, z) {
+    constructor (x, y, z) {
       this.x = x || 0;
       this.y = y || 0;
       this.z = z || 0;
     }
-    distanceTo(v) {
+    distanceTo (v) {
       return Math.sqrt(
         Math.pow(this.x - v.x, 2) +
         Math.pow(this.y - v.y, 2) +
