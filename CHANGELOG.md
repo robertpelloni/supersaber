@@ -157,3 +157,7 @@ All notable changes to this project will be documented in this file.
 - Added Practice Mode UI allowing users to granularly scrub the start time of the timeline.
 - Enabled granular audio playback speed adjustments (50%, 85%, 100%, 120%, 150%) that dynamically scales the Web Audio API buffer.
 - `beat-loader` now correctly skips processing beats that occur before the custom scrubbed `startTime`.
+
+### V3 Lighting Engine Added
+- Scaffolds a new `v3-lighting` component capable of translating new `_customData` lighting events inside beatmaps.
+- `beat-loader` now passes all events through the V3 parser before executing legacy V1/V2 environment logic.

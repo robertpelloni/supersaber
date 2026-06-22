@@ -31,5 +31,6 @@ require('./components/custom-asset-loader');
 require('./components/editor-timeline');
 require('./components/arc');
 require('./components/chain');
+require('./components/v3-lighting');
 
 require('./index.css');

@@ -343,6 +343,9 @@ AFRAME.registerComponent('beat-loader', {
   })(),
 
   generateEvent: function (event) {
+    if (this.el.sceneEl.components['v3-lighting']) {
+      this.el.sceneEl.components['v3-lighting'].handleV3Event(event);
+    }
     switch (event._type) {
       case 0:
         this.stageColors.setColor('bg', event._value);
