@@ -71,5 +71,5 @@
   - [x] Pro Mode (Tighter hitboxes)
   - [x] Small Notes
 - [ ] Overhaul Scoring System to perfectly match 115 max point system (70 swing-in, 30 swing-out, 15 accuracy).
-- [ ] Enhance Practice Mode with timeline scrubbing and granular speed adjustments.
+- [x] Enhance Practice Mode with timeline scrubbing and granular speed adjustments.
 - [ ] Upgrade lighting engine to support V3-style granular group controls, translation, and rotation events.

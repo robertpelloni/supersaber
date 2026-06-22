@@ -147,6 +147,12 @@ AFRAME.registerComponent('beat-loader', {
     // Reset variables used during playback.
     // Beats spawn ahead of the song and get to the user in sync with the music.
     this.beatsTime = 0;
+    const state = this.el.sceneEl.systems.state.state;
+    if (state.practice.active && state.practice.startTime > 0) {
+      // In practice mode, we skip ahead. We set beatsTime to the scrubbed start point.
+      // And we might need to skip preloading of beats before this point.
+      this.beatsTime = state.practice.startTime * 1000;
+    }
     this.beatsPreloadTime = 0;
     this.beatData._events.sort(lessThan);
     this.beatData._obstacles.sort(lessThan);
@@ -171,10 +177,13 @@ AFRAME.registerComponent('beat-loader', {
   tick: function (time, delta) {
     if (!this.data.isPlaying || !this.data.challengeId || !this.beatData) { return; }
 
-    const isFastSong = this.el.sceneEl.systems.state.state.modifiers.fastSong;
+    const state = this.el.sceneEl.systems.state.state;
+    const isFastSong = state.modifiers.fastSong;
     if (isFastSong) {
       // Scale delta time for fast song so preloading beats progresses faster
       delta *= 1.5;
+    } else if (state.practice.active && state.practice.playbackRate !== 1.0) {
+      delta *= state.practice.playbackRate;
     }
 
     const prevBeatsTime = this.beatsTime + skipDebug;

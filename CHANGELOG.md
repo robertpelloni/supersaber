@@ -152,3 +152,8 @@ All notable changes to this project will be documented in this file.
 - Introduced state tracking in `src/state/index.js` for Campaign Mode logic, including objective tracking (minimum score, maximum misses, minimum combo) and progressive level completion.
 - Expanded the victory/fail conditions to check against the active campaign objectives.
 - Added a new Campaign Mode UI panel into `src/templates/menu.html` to toggle into the new progression-based flow.
+
+### Practice Mode Enhanced
+- Added Practice Mode UI allowing users to granularly scrub the start time of the timeline.
+- Enabled granular audio playback speed adjustments (50%, 85%, 100%, 120%, 150%) that dynamically scales the Web Audio API buffer.
+- `beat-loader` now correctly skips processing beats that occur before the custom scrubbed `startTime`.

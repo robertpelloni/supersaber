@@ -95,6 +95,12 @@ AFRAME.registerState({
     leaderboardScores: '',
     menuActive: true,
     campaignMenuActive: false,
+    practiceMenuActive: false,
+    practice: {
+      active: false,
+      playbackRate: 1.0,
+      startTime: 0
+    },
     menuDifficulties: [],  // List of strings of available difficulties for selected.
     modifiers: {
       ghostNotes: false,
@@ -323,6 +329,24 @@ AFRAME.registerState({
       state.leaderboardQualified = false;
     },
 
+    'toggle-practice': function (state) {
+      state.practiceMenuActive = !state.practiceMenuActive;
+    },
+    'exit-practice': function (state) {
+      state.practiceMenuActive = false;
+      state.practice.active = false;
+    },
+    'practice-set-speed': function (state, payload) {
+      state.practice.playbackRate = parseFloat(payload);
+    },
+    'practice-set-time': function (state, payload) {
+      state.practice.startTime = parseFloat(payload);
+    },
+    'play-practice': function (state) {
+      state.practice.active = true;
+      state.menuActive = false;
+      state.practiceMenuActive = false;
+    },
     'toggle-campaign': function (state) {
       state.campaignMenuActive = !state.campaignMenuActive;
     },
