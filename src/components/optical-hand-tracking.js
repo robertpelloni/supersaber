@@ -1,5 +1,5 @@
-import { Hands } from '@mediapipe/hands';
-import { Camera } from '@mediapipe/camera_utils';
+const Hands = window.Hands || require('@mediapipe/hands').Hands;
+const Camera = window.Camera || require('@mediapipe/camera_utils').Camera;
 
 AFRAME.registerComponent('optical-hand-tracking', {
   schema: {
