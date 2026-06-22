@@ -147,3 +147,8 @@ All notable changes to this project will be documented in this file.
 ### Modifiers Update
 - Added full support for `Insta Fail`, `Battery Energy`, `Strict Angles`, `Pro Mode`, and `Small Notes` modifiers logic into `state/index.js` and `beat.js`.
 - Implemented state tracking and UI elements for the new Phase 8 modifiers in `menu.html`.
+
+### Campaign Mode Added
+- Introduced state tracking in `src/state/index.js` for Campaign Mode logic, including objective tracking (minimum score, maximum misses, minimum combo) and progressive level completion.
+- Expanded the victory/fail conditions to check against the active campaign objectives.
+- Added a new Campaign Mode UI panel into `src/templates/menu.html` to toggle into the new progression-based flow.

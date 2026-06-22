@@ -77,12 +77,24 @@ AFRAME.registerState({
     editorAudioUrl: '',
     editorAudioName: '',  // Either fetching or decoding.
     isVictory: false,  // Victory screen.
+    campaign: {
+      active: false,
+      currentLevel: 1,
+      objective: {
+        minScore: 0,
+        maxMisses: 0,
+        minCombo: 0,
+        requiredModifiers: []
+      },
+      progress: {} // stores completed levels
+    },
     leaderboard: [],
     leaderboardFetched: false,
     leaderboardQualified: false,
     leaderboardNames: '',
     leaderboardScores: '',
-    menuActive: true,  // Main menu active.
+    menuActive: true,
+    campaignMenuActive: false,
     menuDifficulties: [],  // List of strings of available difficulties for selected.
     modifiers: {
       ghostNotes: false,
@@ -291,6 +303,15 @@ AFRAME.registerState({
       state.leaderboardQualified = false;
     },
 
+    'campaign-start': function (state, payload) {
+      state.campaign.active = true;
+      state.campaign.currentLevel = payload.level || 1;
+      state.campaign.objective = payload.objective || { minScore: 0, maxMisses: 0, minCombo: 0, requiredModifiers: [] };
+      state.menuActive = false;
+    },
+    'campaign-exit': function (state) {
+      state.campaign.active = false;
+    },
     gamemenuexit: (state) => {
       resetScore(state);
       state.challenge.isBeatsPreloaded = false;
@@ -302,6 +323,27 @@ AFRAME.registerState({
       state.leaderboardQualified = false;
     },
 
+    'toggle-campaign': function (state) {
+      state.campaignMenuActive = !state.campaignMenuActive;
+    },
+    'exit-campaign': function (state) {
+      state.campaignMenuActive = false;
+    },
+    'play-campaign-level-1': function (state) {
+      state.campaign.active = true;
+      state.campaign.currentLevel = 1;
+      state.campaign.objective = { minScore: 5000, maxMisses: 5 };
+      state.menuActive = false;
+      state.campaignMenuActive = false;
+      // Normally we'd load a specific song here
+    },
+    'play-campaign-level-2': function (state) {
+      state.campaign.active = true;
+      state.campaign.currentLevel = 2;
+      state.campaign.objective = { minCombo: 50, maxMisses: 0 };
+      state.menuActive = false;
+      state.campaignMenuActive = false;
+    },
     genreclear: (state) => {
       state.genre = '';
     },
@@ -596,6 +638,22 @@ AFRAME.registerState({
     },
 
     victory: function (state) {
+      if (state.campaign.active) {
+        // Check objectives
+        const obj = state.campaign.objective;
+        let failed = false;
+        if (obj.minScore && state.score.score < obj.minScore) failed = true;
+        if (obj.maxMisses && state.score.beatsMissed > obj.maxMisses) failed = true;
+        if (obj.minCombo && state.score.maxCombo < obj.minCombo) failed = true;
+
+        if (failed) {
+          state.isGameOver = true;
+          return;
+        } else {
+          state.campaign.progress[state.campaign.currentLevel] = true;
+          state.campaign.currentLevel++;
+        }
+      }
       state.isVictory = true;
 
       // Percentage is score divided by total possible score.

@@ -59,7 +59,7 @@
 ## Phase 8: Comprehensive Beat Saber Parity Implementation
 - [x] Implement Sliders (Arcs) logic and visual representation.
 - [x] Implement Chains (Burst Sliders) logic and visual representation.
-- [ ] Implement Campaign Mode logic (objective tracking, progression).
+- [x] Implement Campaign Mode logic (objective tracking, progression).
 - [ ] Expand Modifier system:
   - [x] Insta Fail (One Life)
   - [x] Battery Energy (4 Lives)
