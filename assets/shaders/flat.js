@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   vertexShader: `
     varying vec2 uvs;
     void main() {

@@ -161,3 +161,7 @@ All notable changes to this project will be documented in this file.
 ### V3 Lighting Engine Added
 - Scaffolds a new `v3-lighting` component capable of translating new `_customData` lighting events inside beatmaps.
 - `beat-loader` now passes all events through the V3 parser before executing legacy V1/V2 environment logic.
+
+### Phase 9: Architecture Refactoring Started
+- Migrated the application build system from Webpack 2 to Vite 5 for significantly faster compilation and modern ES module support.
+- Initiated TypeScript migration by converting the central state management (`src/state/index.js` to `src/state/index.ts`) and defining strict interfaces for `ScoreState`, `ModifiersState`, `CampaignState`, and others.

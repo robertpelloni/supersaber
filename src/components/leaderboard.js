@@ -1,4 +1,4 @@
-const firebase = require('firebase');
+import firebase from 'firebase';
 
 const NUM_SCORES_DISPLAYED = 10;
 
