@@ -1,4 +1,4 @@
-import tmi from 'tmi.js';
+const tmi = require('tmi.js');
 
 AFRAME.registerComponent('twitch-integration', {
   schema: {

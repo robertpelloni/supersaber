@@ -1,8 +1,7 @@
-import genresList from '../constants/genres.js';
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-mixed-operators */
 /* global localStorage */
-import utils from '../utils.js';
+var utils = require('../utils');
 
 const challengeDataStore = {};
 const NUM_LEADERBOARD_DISPLAY = 10;
@@ -64,7 +63,7 @@ AFRAME.registerState({
     controllerType: '',
     damage: 0,
     genre: '',
-    genres: genresList,
+    genres: require('../constants/genres'),
     genreMenuOpen: false,
     inVR: false,
     is2DDesktopMode: false, // Windowed "corner of desk" mode

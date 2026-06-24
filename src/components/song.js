@@ -1,4 +1,4 @@
-import utils from '../utils.js';
+const utils = require('../utils');
 
 const GAME_OVER_LENGTH = 3.5;
 const ONCE = {once: true};

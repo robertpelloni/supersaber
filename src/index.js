@@ -1,22 +1,36 @@
-import '../vendor/BufferGeometryUtils.js';
-import 'aframe-aabb-collider-component';
-import 'aframe-atlas-uvs-component';
-import 'aframe-audioanalyser-component';
-import 'aframe-event-set-component';
-import 'aframe-geometry-merger-component';
-import 'aframe-haptics-component';
-import 'aframe-layout-component';
-import 'aframe-orbit-controls';
-import 'aframe-proxy-event-component';
-import 'aframe-ring-shader';
-import 'aframe-state-component';
-import 'aframe-slice9-component';
-import 'aframe-thumb-controls-component';
+function requireAll (req) { req.keys().forEach(req); }
 
-import './index.css';
+require('../vendor/BufferGeometryUtils');
 
-// To dynamically import all files like require.context in Webpack:
-const componentsJS = import.meta.glob('./components/**/*.js', { eager: true });
-const componentsTS = import.meta.glob('./components/**/*.ts', { eager: true });
-const stateFilesJS = import.meta.glob('./state/**/*.js', { eager: true });
-const stateFilesTS = import.meta.glob('./state/**/*.ts', { eager: true });
+require('aframe-aabb-collider-component');
+require('aframe-atlas-uvs-component');
+require('aframe-audioanalyser-component');
+require('aframe-event-set-component');
+require('aframe-geometry-merger-component');
+require('aframe-haptics-component');
+require('aframe-layout-component');
+require('aframe-orbit-controls');
+require('aframe-proxy-event-component');
+require('aframe-ring-shader');
+require('aframe-state-component');
+require('aframe-slice9-component');
+require('aframe-thumb-controls-component');
+
+requireAll(require.context('./components/', true, /\.js$/));
+requireAll(require.context('./state/', true, /\.js$/));
+
+// Require optical hand tracking components
+require('./components/optical-hand-tracking');
+require('./components/optical-saber-controls.ts');
+
+// Require Twitch integration
+require('./components/twitch-integration');
+require('./components/multiplayer-sync');
+require('./components/custom-mod-loader');
+require('./components/custom-asset-loader');
+require('./components/editor-timeline');
+require('./components/arc');
+require('./components/chain');
+require('./components/v3-lighting');
+
+require('./index.css');

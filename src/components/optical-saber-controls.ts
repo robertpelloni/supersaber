@@ -1,9 +1,11 @@
+import 'aframe';
+/* global THREE */
 AFRAME.registerComponent('optical-saber-controls', {
   schema: {
     hand: {default: 'right'}
   },
 
-  init: function () {
+  init: function (this: any) {
     this.onHandsUpdated = this.onHandsUpdated.bind(this);
     this.sceneEl = this.el.sceneEl;
     this.sceneEl.addEventListener('optical-hands-updated', this.onHandsUpdated);
@@ -16,11 +18,11 @@ AFRAME.registerComponent('optical-saber-controls', {
     );
   },
 
-  remove: function () {
+  remove: function (this: any) {
     this.sceneEl.removeEventListener('optical-hands-updated', this.onHandsUpdated);
   },
 
-  onHandsUpdated: function (evt) {
+  onHandsUpdated: function (this: any, evt: any) {
     if (!this.el.sceneEl.systems.state.state.is2DDesktopMode) return;
 
     const data = evt.detail;

@@ -166,6 +166,7 @@ All notable changes to this project will be documented in this file.
 - Executed comprehensive branch synchronization and submodule updates per executive protocol.
 - Merged active feature branches containing Phase 8 and Vite Migration logic forward into main.
 
-### TypeScript Expansion
-- Further progressed Phase 9 TypeScript migration.
-- Ported basic utility components (`active-color`, `copy-texture`, `cursor-laser`, `cursor-mesh`) to TypeScript by renaming `.js` files to `.ts`, appending explicit `this: any` scopes to A-Frame lifecycle bindings, and importing the top-level `aframe` package.
+### Optical Saber Controls Update
+- Implemented Z-depth estimating heuristics in `optical-saber-controls` allowing the MediaPipe landmarks to push the saber forwards and backwards in 3D space based on the detected size of the hand.
+- Injected `opticalOverride` parameter into the central `saber-controls` component to allow the newly refined optical controls to seamlessly hijack position and rotation values without standard WebVR conflict.
+- Migrated `optical-saber-controls` to TypeScript as part of the Phase 9 refactoring.
