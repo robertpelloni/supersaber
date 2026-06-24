@@ -1,5 +1,5 @@
 
-const COLORS = require('../constants/colors.js');
+import COLORS from '../constants/colors.js';
 const HIT_COLOR = new THREE.Color(COLORS.NEON_RED);
 const BORDER_COLOR = new THREE.Color(COLORS.NEON_BLUE);
 

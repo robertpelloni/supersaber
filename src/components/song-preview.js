@@ -1,4 +1,4 @@
-var utils = require('../utils');
+import utils from '../utils.js';
 
 const PREVIEW_VOLUME = 0.5;
 

@@ -1,3 +1,6 @@
+import 'aframe';
+import 'aframe';
+/* global AFRAME */
 /**
  * Laser beam.
  * Automatically set length on intersection.
@@ -9,7 +12,7 @@ AFRAME.registerComponent('cursor-laser', {
     enabled: {default: true}
   },
 
-  init: function () {
+  init: function (this: any) {
     const el = this.el;
     this.saberEl = this.el.closest('.saber');
 
@@ -20,11 +23,11 @@ AFRAME.registerComponent('cursor-laser', {
     this.currentLength = geometry.height;
   },
 
-  update: function () {
+  update: function (this: any) {
     this.el.object3D.visible = this.data.enabled;
   },
 
-  tick: function () {
+  tick: function (this: any) {
     const el = this.el;
 
     if (!this.data.enabled) { return; }

@@ -1,3 +1,6 @@
+import 'aframe';
+import 'aframe';
+/* global AFRAME */
 /**
  * Cursor mesh to show at intersection point with respective hand.
  */
@@ -7,15 +10,15 @@ AFRAME.registerComponent('cursor-mesh', {
     cursorEl: {type: 'selector'}
   },
 
-  init: function () {
+  init: function (this: any) {
     this.scenePivotEl = document.getElementById('scenePivot');
   },
 
-  update: function () {
+  update: function (this: any) {
     this.el.object3D.visible = this.data.active;
   },
 
-  tick: function () {
+  tick: function (this: any) {
     var cursor;
     var cursorEl = this.data.cursorEl;
     var el = this.el;

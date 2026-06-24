@@ -19,9 +19,9 @@
     {% if DEBUG_AFRAME %}
       <script src="http://{{ HOST }}:9000/dist/aframe-master.js"></script>
     {% elif IS_PRODUCTION %}
-      <script src="vendor/aframe-master.min.js"></script>
+      <script type="module" src="vendor/aframe-master.min.js"></script>
     {% else %}
-      <script src="vendor/aframe-master.js"></script>
+      <script type="module" src="vendor/aframe-master.js"></script>
     {% endif %}
     <script type="module" src="/src/index.js"></script>
   </head>

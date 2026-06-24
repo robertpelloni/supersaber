@@ -1,3 +1,6 @@
+import 'aframe';
+import 'aframe';
+/* global AFRAME */
 AFRAME.registerComponent('copy-texture', {
   dependencies: ['geometry', 'material'],
 
@@ -5,14 +8,14 @@ AFRAME.registerComponent('copy-texture', {
     from: {type: 'selector'}
   },
 
-  init: function () {
+  init: function (this: any) {
     const data = this.data;
 
     data.from.addEventListener('materialtextureloaded', () => { this.copyTexture(); });
     this.copyTexture();
   },
 
-  copyTexture: function () {
+  copyTexture: function (this: any) {
     const el = this.el;
     const target = this.data.from;
     const material = el.getObject3D('mesh').material;

@@ -1,3 +1,6 @@
+import 'aframe';
+import 'aframe';
+/* global AFRAME */
 /**
  * Active color.
  */
@@ -9,12 +12,12 @@ AFRAME.registerComponent('active-color', {
     color: {default: '#ffffff'}
   },
 
-  init: function () {
+  init: function (this: any) {
     this.defaultColor = this.el.getAttribute('material').color;
     this.materialObj = {color: this.data.color, opacity: 1};
   },
 
-  update: function () {
+  update: function (this: any) {
     var el = this.el;
 
     if (this.data.active) {
@@ -37,11 +40,11 @@ AFRAME.registerComponent('active-text-color', {
     color: {default: '#333'}
   },
 
-  init: function () {
+  init: function (this: any) {
     this.defaultColor = this.el.getAttribute('text').color;
   },
 
-  update: function () {
+  update: function (this: any) {
     var el = this.el;
     if (this.data.active) {
       el.setAttribute('text', 'color', this.data.color);
