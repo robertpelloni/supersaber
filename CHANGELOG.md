@@ -161,3 +161,7 @@ All notable changes to this project will be documented in this file.
 ### V3 Lighting Engine Added
 - Scaffolds a new `v3-lighting` component capable of translating new `_customData` lighting events inside beatmaps.
 - `beat-loader` now passes all events through the V3 parser before executing legacy V1/V2 environment logic.
+
+### Version 2.0.0-beta.4
+- Executed comprehensive branch synchronization and submodule updates per executive protocol.
+- Merged active feature branches containing Phase 8 and Vite Migration logic forward into main.
