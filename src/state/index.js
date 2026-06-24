@@ -1,8 +1,7 @@
-import genresList from '../constants/genres.js';
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-mixed-operators */
 /* global localStorage */
-import utils from '../utils';
+var utils = require('../utils');
 
 const challengeDataStore = {};
 const NUM_LEADERBOARD_DISPLAY = 10;
@@ -23,121 +22,17 @@ const DEBUG_CHALLENGE = {
   songSubName: 'Rebecca Black'
 };
 
-/* global AFRAME */
-
-export interface ScoreState {
-  accuracy: number;
-  beatsHit: number;
-  beatsMissed: number;
-  combo: number;
-  maxCombo: number;
-  multiplier: number;
-  rank: string;
-  score: number;
-}
-
-export interface ModifiersState {
-  ghostNotes: boolean;
-  disappearingArrows: boolean;
-  fastSong: boolean;
-  noFail: boolean;
-  oneSaber: boolean;
-  mode360: boolean;
-  instaFail: boolean;
-  batteryEnergy: boolean;
-  strictAngles: boolean;
-  proMode: boolean;
-  smallNotes: boolean;
-}
-
-export interface ChallengeState {
-  author: string;
-  difficulty: string;
-  downloads: string;
-  downloadsText: string;
-  genre: string;
-  id: string;
-  image: string;
-  isBeatsPreloaded: boolean;
-  isLoading: boolean;
-  numBeats: number;
-  songName: string;
-  songSubName: string;
-}
-
-export interface PracticeState {
-  active: boolean;
-  playbackRate: number;
-  startTime: number;
-}
-
-export interface CampaignObjective {
-  minScore: number;
-  maxMisses: number;
-  minCombo: number;
-  requiredModifiers?: string[];
-}
-
-export interface CampaignState {
-  active: boolean;
-  currentLevel: number;
-  objective: CampaignObjective;
-  progress: Record<string, boolean>;
-}
-
-export interface AppState {
-  activeHand: string;
-  challenge: ChallengeState;
-  colorScheme: string;
-  damage: number;
-  difficultyFilter: string;
-  genre: string;
-  genreMenuOpen: boolean;
-  hasReceivedUserGesture: boolean;
-  inVR: boolean;
-  isEditor: boolean;
-  isEditing: boolean;
-  isGameOver: boolean;
-  isPaused: boolean;
-  isPlaying: boolean;
-  isSearching: boolean;
-  isSongFetching: boolean;
-  isSongLoading: boolean;
-  isVictory: boolean;
-  leaderboard: any[];
-  leaderboardFetched: boolean;
-  leaderboardQualified: boolean;
-  leaderboardNames: string;
-  leaderboardScores: string;
-  menuActive: boolean;
-  campaignMenuActive: boolean;
-  practiceMenuActive: boolean;
-  practice: PracticeState;
-  menuDifficulties: string[];
-  modifiers: ModifiersState;
-  twitchChannel: string;
-  menuSelectedChallenge: ChallengeState;
-  multiplayerEnabled: boolean;
-  multiplayerRoom: string;
-  multiplayerHost: boolean;
-  multiplayerPeers: any[];
-  multiplayerStatusText: string;
-  score: ScoreState;
-  searchQuery: string;
-  searchResults: any[];
-  searchResultsPage: number;
-  leftRaycasterActive: boolean;
-  rightRaycasterActive: boolean;
-  userInteractTime: number;
-  campaign: CampaignState;
-  twitchVotingActive: boolean;
-  twitchVotes: Record<number, number>;
-  twitchVoters: string[];
-  loadingText: string;
-}
-
+/**
+ * State handler.
+ *
+ * 1. `handlers` is an object of events that when emitted to the scene will run the handler.
+ *
+ * 2. The handler function modifies the state.
+ *
+ * 3. Entities and components that are `bind`ed automatically update:
+ *    `bind__<componentName>="<propertyName>: some.item.in.state"`
+ */
 AFRAME.registerState({
-
   nonBindedStateKeys: ['genres'],
 
   initialState: {
@@ -168,7 +63,7 @@ AFRAME.registerState({
     controllerType: '',
     damage: 0,
     genre: '',
-    genres: genresList,
+    genres: require('../constants/genres'),
     genreMenuOpen: false,
     inVR: false,
     is2DDesktopMode: false, // Windowed "corner of desk" mode

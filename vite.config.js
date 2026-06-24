@@ -23,8 +23,7 @@ export default defineConfig({
     },
     rollupOptions: {
       input: {
-        index: 'index.html',
-        play: 'play.html',
+        main: 'play.html',
         docs: 'docs.html'
       }
     }

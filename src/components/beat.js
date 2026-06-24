@@ -1,5 +1,5 @@
 import {BEAT_WARMUP_OFFSET, BEAT_WARMUP_SPEED, BEAT_WARMUP_TIME} from '../constants/beat';
-import COLORS from '../constants/colors.js';
+const COLORS = require('../constants/colors.js');
 
 export function calculatePhase8Score (angleBeforeHit, angleAfterHit, intersectionPoint, beatPosition) {
   const distanceToCenter = beatPosition.distanceTo(intersectionPoint);

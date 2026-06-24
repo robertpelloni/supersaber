@@ -1,5 +1,5 @@
 import {getGridUvs} from 'aframe-atlas-uvs-component';
-import '../../vendor/BufferGeometryUtils.js';
+require('../../vendor/BufferGeometryUtils');
 
 const colorHelper = new THREE.Color();
 

@@ -73,8 +73,3 @@
 - [ ] Overhaul Scoring System to perfectly match 115 max point system (70 swing-in, 30 swing-out, 15 accuracy).
 - [x] Enhance Practice Mode with timeline scrubbing and granular speed adjustments.
 - [x] Upgrade lighting engine to support V3-style granular group controls, translation, and rotation events.
-
-## Phase 9: TypeScript Migration Planning and Execution
-- [x] Migrate `src/state/index.js` to TypeScript.
-- [ ] Migrate `src/components/` files incrementally.
-- [ ] Implement robust CI typing checks.

@@ -19,9 +19,9 @@
     {% if DEBUG_AFRAME %}
       <script src="http://{{ HOST }}:9000/dist/aframe-master.js"></script>
     {% elif IS_PRODUCTION %}
-      <script type="module" src="vendor/aframe-master.min.js"></script>
+      <script src="vendor/aframe-master.min.js"></script>
     {% else %}
-      <script type="module" src="vendor/aframe-master.js"></script>
+      <script src="vendor/aframe-master.js"></script>
     {% endif %}
     <script type="module" src="/src/index.js"></script>
   </head>
@@ -224,9 +224,8 @@
                   geometry="primitive: box; height: 0.9; depth: 0.02; width: 0.02"
                   material="shader: flat; color: #fff; visible: true"
                   bind__material="visible: !customSaberModel"
-                ></a-entity>
-                  <a-entity
-                    class="customSaber"
+                <a-entity
+                  class="customSaber"
                   bind__obj-model="obj: customSaberModel"
                   bind__visible="!!customSaberModel"
                   position="0 -0.55 0"></a-entity>
