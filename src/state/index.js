@@ -637,6 +637,9 @@ AFRAME.registerState({
       state.inVR = false;
     },
 
+    'editor-set-color': function (state, payload) {
+      state.editorActiveType = parseInt(payload) || 0;
+    },
     'toggle-editor': function (state) {
       state.isEditing = !state.isEditing;
       console.log('Editor Mode: ' + state.isEditing);

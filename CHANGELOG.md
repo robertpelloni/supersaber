@@ -170,3 +170,7 @@ All notable changes to this project will be documented in this file.
 - Implemented Z-depth estimating heuristics in `optical-saber-controls` allowing the MediaPipe landmarks to push the saber forwards and backwards in 3D space based on the detected size of the hand.
 - Injected `opticalOverride` parameter into the central `saber-controls` component to allow the newly refined optical controls to seamlessly hijack position and rotation values without standard WebVR conflict.
 - Migrated `optical-saber-controls` to TypeScript as part of the Phase 9 refactoring.
+
+### Full In-Game Editor Expansion
+- Completed Phase 7 Beatmap Editor interactions. Users can now click the UI matrix grid overlaid on the timeline to place notes (`type` and `cutDirection`) directly into memory.
+- Wired export capability for generated notes to be downloaded instantly as a correctly structured `custom_map.json` payload, circumventing the need to use desktop-bound editor software to create generic maps.

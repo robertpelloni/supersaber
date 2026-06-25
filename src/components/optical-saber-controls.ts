@@ -45,19 +45,37 @@ AFRAME.registerComponent('optical-saber-controls', {
         // Map normalized coordinates (0-1) to local A-Frame space
         // X ranges from 0 (left) to 1 (right)
         // Y ranges from 0 (top) to 1 (bottom)
+        // Use hand bounding box size (approximate) to estimate Z-depth.
+        // A larger hand means it's closer to the camera.
+        const wrist = handLandmarks[0];
+        const wristToMiddleFingerDist = Math.sqrt(
+          Math.pow(knuckle.x - wrist.x, 2) + Math.pow(knuckle.y - wrist.y, 2)
+        );
+        // Base Z is -0.5. As hand gets smaller, it goes further back.
+        // E.g., if dist is 0.2 (close), z = -0.5. If dist is 0.05 (far), z = -1.5.
+        // This is a rough heuristic.
+        const estimatedZ = -1.5 + (wristToMiddleFingerDist * 5.0);
+        const clampedZ = Math.min(-0.2, Math.max(-2.5, estimatedZ));
+
         const xPos = (knuckle.x - 0.5) * 2.0; // -1 to 1 spread
         const yPos = -(knuckle.y - 0.5) * 2.0 + 1.2; // Invert Y, add base height
 
-        this.el.object3D.position.set(xPos, yPos, this.basePosition.z);
+        // Update position
+        this.el.object3D.position.set(xPos, yPos, clampedZ);
 
-        // Calculate basic rotation based on wrist to knuckle vector
-        const wrist = handLandmarks[0];
+        // Simple 2D rotation for the saber based on wrist-to-knuckle angle
         const dx = knuckle.x - wrist.x;
         const dy = knuckle.y - wrist.y;
-
-        // Simple 2D rotation for the saber
         const angle = Math.atan2(-dy, dx) - Math.PI / 2;
+
+        // Disable default saber-controls position overriding if we're actively optical tracking
+        const saberControls = this.el.components['saber-controls'];
+        if (saberControls) {
+           (saberControls as any).opticalOverride = true; // Inject a flag that saber-controls can respect
+        }
+
         this.el.object3D.rotation.z = angle;
+        // Optionally add pitch/yaw based on other hand landmarks in the future.
       }
     }
   }
