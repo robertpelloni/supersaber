@@ -276,11 +276,6 @@ AFRAME.registerComponent('beat-loader', {
         noteInfo._type = 1;
       }
 
-      const modifiers = this.el.sceneEl.systems.state.state.modifiers;
-      if (modifiers.noBombs && noteInfo._type === 3) {
-        return; // Skip bombs if No Bombs modifier is active
-      }
-
       if (noteInfo._type === 0) {
         color = 'red';
       } else if (noteInfo._type === 1) {
@@ -326,11 +321,6 @@ AFRAME.registerComponent('beat-loader', {
     const wallObj = {};
 
     return function (wallInfo) {
-      const modifiers = this.el.sceneEl.systems.state.state.modifiers;
-      if (modifiers && modifiers.noObstacles) {
-        return; // Skip walls if No Obstacles modifier is active
-      }
-
       const el = this.el.sceneEl.components.pool__wall.requestEntity();
 
       if (!el) { return; }

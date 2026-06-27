@@ -42,18 +42,6 @@ AFRAME.registerComponent('editor-timeline', {
     this.beatGrid = document.querySelector('#editorTimelineGrid');
 
     this.onGridClick = this.onGridClick.bind(this);
-    this.currentColor = 0; // 0 = Red, 1 = Blue, 3 = Bomb
-    this.currentDirection = 1; // 1 = down
-
-    this.el.sceneEl.addEventListener('editor-set-color', (e) => {
-       this.currentColor = e.detail || 0;
-       console.log('[Editor] Selected Block Type:', this.currentColor);
-    });
-
-    this.el.sceneEl.addEventListener('editor-set-direction', (e) => {
-       this.currentDirection = e.detail || 1;
-       console.log('[Editor] Selected Block Direction:', this.currentDirection);
-    });
     if (this.beatGrid) {
       this.beatGrid.addEventListener('mousedown', this.onGridClick);
       this.beatGrid.classList.add('raycastable');
@@ -83,7 +71,7 @@ AFRAME.registerComponent('editor-timeline', {
 
     const blockVisual = document.createElement('a-entity');
     blockVisual.setAttribute('geometry', 'primitive: box; width: 0.2; height: 0.2; depth: 0.2');
-    blockVisual.setAttribute('material', `color: ${this.currentColor === 0 ? '#ff0000' : this.currentColor === 1 ? '#0000ff' : '#000000'}; shader: flat`);
+    blockVisual.setAttribute('material', 'color: #ff0000; shader: flat');
 
     // Position it visually on the grid offset for feedback
     blockVisual.setAttribute('position', `${(clampedX - 1.5) * 0.4} ${(clampedY - 1) * 0.4} 0.1`);
@@ -93,8 +81,8 @@ AFRAME.registerComponent('editor-timeline', {
       time: currentTime,
       lineIndex: clampedX,
       lineLayer: clampedY,
-      type: this.currentColor,
-      cutDirection: this.currentDirection,
+      type: 0,
+      cutDirection: 1,
       element: blockVisual
     });
 
@@ -106,19 +94,15 @@ AFRAME.registerComponent('editor-timeline', {
   exportJSON: function () {
     console.log('[Editor] Exporting map to JSON...');
 
-    // Convert time in seconds to beat ticks based on a 120 BPM average
-    const beatsPerMinute = 120;
-    const beatsPerSecond = beatsPerMinute / 60;
-
     const mapData = {
       _version: '2.0.0',
       _events: [],
       _notes: this.blocks.map(b => ({
-        _time: b.time * beatsPerSecond,
-        _lineIndex: b.lineIndex,
-        _lineLayer: b.lineLayer,
-        _type: b.type,
-        _cutDirection: b.cutDirection
+        _time: b._time,
+        _lineIndex: b._lineIndex,
+        _lineLayer: b._lineLayer,
+        _type: b._type,
+        _cutDirection: b._cutDirection
       })),
       _obstacles: []
     };
