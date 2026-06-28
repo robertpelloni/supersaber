@@ -620,7 +620,7 @@ function transformPlane (
 
   geometry.attributes.position.needsUpdate = true;
 }
-export { transformPlane };
+module.exports.transformPlane = transformPlane;
 
 function copyArray (dest, src) {
   dest.length = 0;

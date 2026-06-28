@@ -1,10 +1,6 @@
 const fs = require('fs');
 const Nunjucks = require('nunjucks');
-const COLORS = {
-  COLOR_0: '#ff4444',
-  COLOR_1: '#4444ff',
-  COLOR_2: '#44ff44'
-};
+const COLORS = require('./src/constants/colors.js');
 
 const nunjucks = Nunjucks.configure('src', { noCache: true });
 

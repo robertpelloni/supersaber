@@ -1,5 +1,5 @@
 import {BEAT_WARMUP_OFFSET, BEAT_WARMUP_SPEED, BEAT_WARMUP_TIME} from '../constants/beat';
-import * as utils from '../utils';
+import utils from '../utils';
 
 let skipDebug = AFRAME.utils.getUrlParameter('skip') || 0;
 skipDebug = parseInt(skipDebug, 10);

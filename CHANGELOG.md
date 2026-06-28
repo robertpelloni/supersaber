@@ -175,8 +175,7 @@ All notable changes to this project will be documented in this file.
 - Completed Phase 7 Beatmap Editor interactions. Users can now click the UI matrix grid overlaid on the timeline to place notes (`type` and `cutDirection`) directly into memory.
 - Wired export capability for generated notes to be downloaded instantly as a correctly structured `custom_map.json` payload, circumventing the need to use desktop-bound editor software to create generic maps.
 
-## v1.1.1
-- Integrated Optical Saber Controls for MediaPipe hands.
-- Finalized Twitch integration mapping to central state for spawning and modifiers.
-- Migrated build system to Vite 5.2, resolving legacy Webpack ERESOLVE conflicts.
-- Enforced ES6 exports across core logic components.
+## v1.1.2
+- Finished Custom Saber UI integration binding to menu options.
+- Added BeatSaver Map downloading support directly in custom-asset-loader.
+- Updated ROADMAP and MEMORY with final Phase 5 notes.

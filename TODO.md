@@ -58,7 +58,7 @@
 ## Phase 8 Immediate Tasks
 - [x] Implement Sliders (Arcs) logic and visual representation.
 - [x] Implement Chains (Burst Sliders) logic and visual representation.
-- [x] Update scoring system to match 115 max point system.
+- [ ] Update scoring system to match 115 max point system.
 - [x] Add Insta Fail and Battery Energy modifiers.
 - [x] Add Strict Angles, Pro Mode, and Small Notes modifiers.
 - [x] Integrate new modifiers into the UI.

@@ -1,4 +1,4 @@
-import * as utils from '../utils';
+import utils from '../utils';
 
 AFRAME.registerComponent('menu-selected-challenge-image', {
   schema: {

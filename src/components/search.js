@@ -1,5 +1,5 @@
-import algoliasearch from 'algoliasearch/lite';
-import { bindEvent } from 'aframe-event-decorators';
+var algoliasearch = require('algoliasearch/lite');
+var bindEvent = require('aframe-event-decorators').bindEvent;
 
 var client = algoliasearch('QULTOY3ZWU', 'be07164192471df7e97e6fa70c1d041d');
 var algolia = client.initIndex('supersaber');

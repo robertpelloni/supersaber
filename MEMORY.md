@@ -86,4 +86,3 @@
 - Integrated findings into `VISION.md` to guide the "Ultimate Parity" goal.
 - Updated `ROADMAP.md` and `TODO.md` with structured tasks to implement missing features like Arcs, Chains, advanced modifiers, and the exact 115-point scoring system.
 - Added expansive concepts to `IDEAS.md` focusing on haptics, campaign generation, and V3 lighting editors.
-Phase 1 dependencies properly upgraded to Vite. The migration is stable.
