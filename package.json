@@ -1,13 +1,13 @@
 {
   "private": true,
-  "version": "1.1.0",
+  "version": "1.1.1",
   "scripts": {
-    "build": "cross-env NODE_ENV=production webpack",
+    "build": "node build-nunjucks.js && vite build",
     "deploy": "ghpages git@github.com:supermedium/supersaber.git -p .ghpages && rm -rf .ghpages",
     "lint": "semistandard -v | snazzy",
     "lint:fix": "semistandard --fix",
-    "predeploy": "npm run build && shx mkdir -p .ghpages && cp -r index.html play.html assets build site vendor .ghpages",
-    "start": "webpack-dev-server --host 0.0.0.0 --progress --colors --hot --inline --port 3000",
+    "predeploy": "npm run build && shx mkdir -p .ghpages && cp -r dist/* .ghpages",
+    "start": "node build-nunjucks.js && vite",
     "test": "jest"
   },
   "dependencies": {
@@ -39,7 +39,6 @@
     "body-parser": "1.18.2",
     "classnames": "^2.2.5",
     "core-js": "^3.49.0",
-    "css-loader": "^1.0.1",
     "debug": "^4.1.0",
     "firebase": "^5.11.1",
     "html-entities": "^1.2.1",
@@ -49,14 +48,11 @@
     "nunjucks": "3.0.1",
     "postcss-loader": "^2.1.6",
     "promise-polyfill": "^8.3.0",
-    "style-loader": "^0.23.1",
     "tmi.js": "^1.8.3",
     "uglify-js": "git://github.com/mishoo/UglifyJS2#harmony",
     "uglifyjs-webpack-plugin": "0.4.6",
     "url-loader": "^1.1.2",
-    "webpack": "2.3.3",
-    "webpack-glsl-loader": "^1.0.1",
-    "webpack-sources": "1.0.1"
+    "webpack-glsl-loader": "^1.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.29.7",
@@ -71,7 +67,9 @@
     "shx": "^0.2.2",
     "snazzy": "7.0.0",
     "superagent": "^3.8.2",
-    "webpack-dev-server": "2.4.4"
+    "vite": "^5.2.11",
+    "vite-plugin-nunjucks": "^0.1.3",
+    "vite-plugin-static-copy": "^1.0.6"
   },
   "semistandard": {
     "globals": [

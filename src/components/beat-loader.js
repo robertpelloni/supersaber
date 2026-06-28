@@ -1,5 +1,5 @@
 import {BEAT_WARMUP_OFFSET, BEAT_WARMUP_SPEED, BEAT_WARMUP_TIME} from '../constants/beat';
-import utils from '../utils';
+import * as utils from '../utils';
 
 let skipDebug = AFRAME.utils.getUrlParameter('skip') || 0;
 skipDebug = parseInt(skipDebug, 10);
@@ -274,6 +274,13 @@ AFRAME.registerComponent('beat-loader', {
       if (modifiers.oneSaber && (noteInfo._type === 0 || noteInfo._type === 1)) {
          // Force all blocks to be blue (right hand) in One Saber mode.
         noteInfo._type = 1;
+        // Force blocks to be in the center lanes.
+        if (noteInfo._lineIndex === 0) noteInfo._lineIndex = 1;
+        if (noteInfo._lineIndex === 3) noteInfo._lineIndex = 2;
+      }
+
+      if (modifiers.noBombs && noteInfo._type === 3) {
+        return; // Skip bombs if No Bombs modifier is active
       }
 
       if (noteInfo._type === 0) {
@@ -321,6 +328,11 @@ AFRAME.registerComponent('beat-loader', {
     const wallObj = {};
 
     return function (wallInfo) {
+      const modifiers = this.el.sceneEl.systems.state.state.modifiers;
+      if (modifiers && modifiers.noObstacles) {
+        return; // Skip walls if No Obstacles modifier is active
+      }
+
       const el = this.el.sceneEl.components.pool__wall.requestEntity();
 
       if (!el) { return; }

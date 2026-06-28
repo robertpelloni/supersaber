@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   OFF: '#111',
   RED: '#f00',
   BLUE: '#00f',

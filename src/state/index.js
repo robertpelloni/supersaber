@@ -1,7 +1,8 @@
+import GENRES from '../constants/genres.js';
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-mixed-operators */
 /* global localStorage */
-var utils = require('../utils');
+import * as utils from '../utils';
 
 const challengeDataStore = {};
 const NUM_LEADERBOARD_DISPLAY = 10;
@@ -63,7 +64,7 @@ AFRAME.registerState({
     controllerType: '',
     damage: 0,
     genre: '',
-    genres: require('../constants/genres'),
+    genres: GENRES,
     genreMenuOpen: false,
     inVR: false,
     is2DDesktopMode: false, // Windowed "corner of desk" mode
@@ -113,7 +114,11 @@ AFRAME.registerState({
       batteryEnergy: false,
       strictAngles: false,
       proMode: false,
-      smallNotes: false
+      smallNotes: false,
+      noObstacles: false,
+      noBombs: false,
+      superFastSong: false,
+      slowerSong: false
     },
     twitchChannel: 'robertpelloni',
     menuSelectedChallenge: {  // Currently selected challenge in the main menu.
@@ -637,6 +642,9 @@ AFRAME.registerState({
       state.inVR = false;
     },
 
+    'editor-set-color': function (state, payload) {
+      state.editorActiveType = parseInt(payload) || 0;
+    },
     'toggle-editor': function (state) {
       state.isEditing = !state.isEditing;
       console.log('Editor Mode: ' + state.isEditing);
@@ -787,9 +795,7 @@ AFRAME.registerState({
     'modifiertoggledisappearing': function (state) {
       state.modifiers.disappearingArrows = !state.modifiers.disappearingArrows;
     },
-    'modifiertogglefastsong': function (state) {
-      state.modifiers.fastSong = !state.modifiers.fastSong;
-    },
+
     'modifiertogglenofail': function (state) {
       state.modifiers.noFail = !state.modifiers.noFail;
     },
@@ -810,6 +816,33 @@ AFRAME.registerState({
     },
     'modifiertogglepromode': function (state) {
       state.modifiers.proMode = !state.modifiers.proMode;
+    },
+    'modifiertogglenoobstacles': function (state) {
+      state.modifiers.noObstacles = !state.modifiers.noObstacles;
+    },
+    'modifiertogglenobombs': function (state) {
+      state.modifiers.noBombs = !state.modifiers.noBombs;
+    },
+    'modifiertogglesuperfastsong': function (state) {
+      state.modifiers.superFastSong = !state.modifiers.superFastSong;
+      if (state.modifiers.superFastSong) {
+        state.modifiers.slowerSong = false;
+        state.modifiers.fastSong = false;
+      }
+    },
+    'modifiertoggleslowersong': function (state) {
+      state.modifiers.slowerSong = !state.modifiers.slowerSong;
+      if (state.modifiers.slowerSong) {
+        state.modifiers.superFastSong = false;
+        state.modifiers.fastSong = false;
+      }
+    },
+    'modifiertogglefastsong': function (state) {
+      state.modifiers.fastSong = !state.modifiers.fastSong;
+      if (state.modifiers.fastSong) {
+        state.modifiers.superFastSong = false;
+        state.modifiers.slowerSong = false;
+      }
     },
     'modifiertogglesmallnotes': function (state) {
       state.modifiers.smallNotes = !state.modifiers.smallNotes;

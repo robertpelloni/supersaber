@@ -161,3 +161,22 @@ All notable changes to this project will be documented in this file.
 ### V3 Lighting Engine Added
 - Scaffolds a new `v3-lighting` component capable of translating new `_customData` lighting events inside beatmaps.
 - `beat-loader` now passes all events through the V3 parser before executing legacy V1/V2 environment logic.
+
+### Version 2.0.0-beta.4
+- Executed comprehensive branch synchronization and submodule updates per executive protocol.
+- Merged active feature branches containing Phase 8 and Vite Migration logic forward into main.
+
+### Optical Saber Controls Update
+- Implemented Z-depth estimating heuristics in `optical-saber-controls` allowing the MediaPipe landmarks to push the saber forwards and backwards in 3D space based on the detected size of the hand.
+- Injected `opticalOverride` parameter into the central `saber-controls` component to allow the newly refined optical controls to seamlessly hijack position and rotation values without standard WebVR conflict.
+- Migrated `optical-saber-controls` to TypeScript as part of the Phase 9 refactoring.
+
+### Full In-Game Editor Expansion
+- Completed Phase 7 Beatmap Editor interactions. Users can now click the UI matrix grid overlaid on the timeline to place notes (`type` and `cutDirection`) directly into memory.
+- Wired export capability for generated notes to be downloaded instantly as a correctly structured `custom_map.json` payload, circumventing the need to use desktop-bound editor software to create generic maps.
+
+## v1.1.1
+- Integrated Optical Saber Controls for MediaPipe hands.
+- Finalized Twitch integration mapping to central state for spawning and modifiers.
+- Migrated build system to Vite 5.2, resolving legacy Webpack ERESOLVE conflicts.
+- Enforced ES6 exports across core logic components.

@@ -1,4 +1,4 @@
-const utils = require('../utils');
+import * as utils from '../utils';
 
 const GAME_OVER_LENGTH = 3.5;
 const ONCE = {once: true};
@@ -224,8 +224,12 @@ AFRAME.registerComponent('song', {
     let speed = 1.0;
     if (state.practice.active) {
       speed = state.practice.playbackRate;
+    } else if (state.modifiers.superFastSong) {
+      speed = 1.50;
     } else if (state.modifiers.fastSong) {
-      speed = 1.5;
+      speed = 1.20;
+    } else if (state.modifiers.slowerSong) {
+      speed = 0.85;
     }
     this.source.playbackRate.value = speed;
 
@@ -246,8 +250,12 @@ AFRAME.registerComponent('song', {
     let multiplier = 1.0;
     if (state.practice.active) {
       multiplier = state.practice.playbackRate;
+    } else if (state.modifiers.superFastSong) {
+      multiplier = 1.50;
     } else if (state.modifiers.fastSong) {
-      multiplier = 1.5;
+      multiplier = 1.20;
+    } else if (state.modifiers.slowerSong) {
+      multiplier = 0.85;
     }
     return (this.context.currentTime - this.songStartTime) * multiplier;
   }
