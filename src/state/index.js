@@ -77,30 +77,12 @@ AFRAME.registerState({
     editorAudioUrl: '',
     editorAudioName: '',  // Either fetching or decoding.
     isVictory: false,  // Victory screen.
-    campaign: {
-      active: false,
-      currentLevel: 1,
-      objective: {
-        minScore: 0,
-        maxMisses: 0,
-        minCombo: 0,
-        requiredModifiers: []
-      },
-      progress: {} // stores completed levels
-    },
     leaderboard: [],
     leaderboardFetched: false,
     leaderboardQualified: false,
     leaderboardNames: '',
     leaderboardScores: '',
-    menuActive: true,
-    campaignMenuActive: false,
-    practiceMenuActive: false,
-    practice: {
-      active: false,
-      playbackRate: 1.0,
-      startTime: 0
-    },
+    menuActive: true,  // Main menu active.
     menuDifficulties: [],  // List of strings of available difficulties for selected.
     modifiers: {
       ghostNotes: false,
@@ -108,16 +90,7 @@ AFRAME.registerState({
       fastSong: false,
       noFail: false,
       oneSaber: false,
-      mode360: false,
-      instaFail: false,
-      batteryEnergy: false,
-      strictAngles: false,
-      proMode: false,
-      smallNotes: false,
-      noObstacles: false,
-      noBombs: false,
-      superFastSong: false,
-      slowerSong: false
+      mode360: false
     },
     twitchChannel: 'robertpelloni',
     menuSelectedChallenge: {  // Currently selected challenge in the main menu.
@@ -177,9 +150,6 @@ AFRAME.registerState({
     },
 
     beathit: (state, payload) => {
-      if (state.modifiers.batteryEnergy && state.damage > 0) {
-        state.damage = Math.max(0, state.damage - 2); // Regen slight energy on hit
-      }
       if (state.damage > DAMAGE_DECAY) {
         state.damage -= DAMAGE_DECAY;
       }
@@ -313,15 +283,6 @@ AFRAME.registerState({
       state.leaderboardQualified = false;
     },
 
-    'campaign-start': function (state, payload) {
-      state.campaign.active = true;
-      state.campaign.currentLevel = payload.level || 1;
-      state.campaign.objective = payload.objective || { minScore: 0, maxMisses: 0, minCombo: 0, requiredModifiers: [] };
-      state.menuActive = false;
-    },
-    'campaign-exit': function (state) {
-      state.campaign.active = false;
-    },
     gamemenuexit: (state) => {
       resetScore(state);
       state.challenge.isBeatsPreloaded = false;
@@ -333,45 +294,6 @@ AFRAME.registerState({
       state.leaderboardQualified = false;
     },
 
-    'toggle-practice': function (state) {
-      state.practiceMenuActive = !state.practiceMenuActive;
-    },
-    'exit-practice': function (state) {
-      state.practiceMenuActive = false;
-      state.practice.active = false;
-    },
-    'practice-set-speed': function (state, payload) {
-      state.practice.playbackRate = parseFloat(payload);
-    },
-    'practice-set-time': function (state, payload) {
-      state.practice.startTime = parseFloat(payload);
-    },
-    'play-practice': function (state) {
-      state.practice.active = true;
-      state.menuActive = false;
-      state.practiceMenuActive = false;
-    },
-    'toggle-campaign': function (state) {
-      state.campaignMenuActive = !state.campaignMenuActive;
-    },
-    'exit-campaign': function (state) {
-      state.campaignMenuActive = false;
-    },
-    'play-campaign-level-1': function (state) {
-      state.campaign.active = true;
-      state.campaign.currentLevel = 1;
-      state.campaign.objective = { minScore: 5000, maxMisses: 5 };
-      state.menuActive = false;
-      state.campaignMenuActive = false;
-      // Normally we'd load a specific song here
-    },
-    'play-campaign-level-2': function (state) {
-      state.campaign.active = true;
-      state.campaign.currentLevel = 2;
-      state.campaign.objective = { minCombo: 50, maxMisses: 0 };
-      state.menuActive = false;
-      state.campaignMenuActive = false;
-    },
     genreclear: (state) => {
       state.genre = '';
     },
@@ -641,9 +563,6 @@ AFRAME.registerState({
       state.inVR = false;
     },
 
-    'editor-set-color': function (state, payload) {
-      state.editorActiveType = parseInt(payload) || 0;
-    },
     'toggle-editor': function (state) {
       state.isEditing = !state.isEditing;
       console.log('Editor Mode: ' + state.isEditing);
@@ -669,22 +588,6 @@ AFRAME.registerState({
     },
 
     victory: function (state) {
-      if (state.campaign.active) {
-        // Check objectives
-        const obj = state.campaign.objective;
-        let failed = false;
-        if (obj.minScore && state.score.score < obj.minScore) failed = true;
-        if (obj.maxMisses && state.score.beatsMissed > obj.maxMisses) failed = true;
-        if (obj.minCombo && state.score.maxCombo < obj.minCombo) failed = true;
-
-        if (failed) {
-          state.isGameOver = true;
-          return;
-        } else {
-          state.campaign.progress[state.campaign.currentLevel] = true;
-          state.campaign.currentLevel++;
-        }
-      }
       state.isVictory = true;
 
       // Percentage is score divided by total possible score.
@@ -794,7 +697,9 @@ AFRAME.registerState({
     'modifiertoggledisappearing': function (state) {
       state.modifiers.disappearingArrows = !state.modifiers.disappearingArrows;
     },
-
+    'modifiertogglefastsong': function (state) {
+      state.modifiers.fastSong = !state.modifiers.fastSong;
+    },
     'modifiertogglenofail': function (state) {
       state.modifiers.noFail = !state.modifiers.noFail;
     },
@@ -803,48 +708,6 @@ AFRAME.registerState({
     },
     'modifiertoggle360': function (state) {
       state.modifiers.mode360 = !state.modifiers.mode360;
-    },
-    'modifiertoggleinstafail': function (state) {
-      state.modifiers.instaFail = !state.modifiers.instaFail;
-    },
-    'modifiertogglebatteryenergy': function (state) {
-      state.modifiers.batteryEnergy = !state.modifiers.batteryEnergy;
-    },
-    'modifiertogglestrictangles': function (state) {
-      state.modifiers.strictAngles = !state.modifiers.strictAngles;
-    },
-    'modifiertogglepromode': function (state) {
-      state.modifiers.proMode = !state.modifiers.proMode;
-    },
-    'modifiertogglenoobstacles': function (state) {
-      state.modifiers.noObstacles = !state.modifiers.noObstacles;
-    },
-    'modifiertogglenobombs': function (state) {
-      state.modifiers.noBombs = !state.modifiers.noBombs;
-    },
-    'modifiertogglesuperfastsong': function (state) {
-      state.modifiers.superFastSong = !state.modifiers.superFastSong;
-      if (state.modifiers.superFastSong) {
-        state.modifiers.slowerSong = false;
-        state.modifiers.fastSong = false;
-      }
-    },
-    'modifiertoggleslowersong': function (state) {
-      state.modifiers.slowerSong = !state.modifiers.slowerSong;
-      if (state.modifiers.slowerSong) {
-        state.modifiers.superFastSong = false;
-        state.modifiers.fastSong = false;
-      }
-    },
-    'modifiertogglefastsong': function (state) {
-      state.modifiers.fastSong = !state.modifiers.fastSong;
-      if (state.modifiers.fastSong) {
-        state.modifiers.superFastSong = false;
-        state.modifiers.slowerSong = false;
-      }
-    },
-    'modifiertogglesmallnotes': function (state) {
-      state.modifiers.smallNotes = !state.modifiers.smallNotes;
     },
     'multiplayer-set-room': function (state, payload) {
       state.multiplayerRoom = payload;
@@ -929,19 +792,9 @@ function takeDamage (state) {
   state.score.multiplier = state.score.multiplier > 1
     ? Math.ceil(state.score.multiplier / 2)
     : 1;
-  if (AFRAME.utils.getUrlParameter('godmode') || state.modifiers.noFail) { return; }
-
-  if (state.modifiers.instaFail) {
-    state.damage = 100;
-  } else if (state.modifiers.batteryEnergy) {
-    state.damage += 25; // 4 lives
-  } else {
-    state.damage++;
-  }
-
-  if (state.damage >= 100) {
-    state.isGameOver = true;
-  }
+  if (AFRAME.utils.getUrlParameter('godmode')) { return; }
+  state.damage++;
+  // checkGameOver(state);
 }
 
 function resetScore (state) {

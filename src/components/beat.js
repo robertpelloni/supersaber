@@ -1,16 +1,6 @@
 import {BEAT_WARMUP_OFFSET, BEAT_WARMUP_SPEED, BEAT_WARMUP_TIME} from '../constants/beat';
 const COLORS = require('../constants/colors.js');
 
-export function calculatePhase8Score (angleBeforeHit, angleAfterHit, intersectionPoint, beatPosition) {
-  const distanceToCenter = beatPosition.distanceTo(intersectionPoint);
-  const accuracyPoints = Math.max(0, 15 - Math.min(15, distanceToCenter * 50));
-  let score = 0;
-  score += angleBeforeHit >= 100 ? 70 : (angleBeforeHit / 100) * 70;
-  score += angleAfterHit >= 60 ? 30 : (angleAfterHit / 60) * 30;
-  score += accuracyPoints;
-  return Math.floor(score);
-}
-
 const auxObj3D = new THREE.Object3D();
 const collisionZThreshold = -1.65;
 const BEAT_WARMUP_ROTATION_CHANGE = Math.PI / 5;
@@ -162,13 +152,6 @@ AFRAME.registerComponent('beat', {
     this.updatePosition();
     this.updateBlock();
     this.updateFragments();
-
-    const modifiers = this.el.sceneEl.systems.state.state.modifiers;
-    if (modifiers && modifiers.smallNotes) {
-      this.el.object3D.scale.set(0.5, 0.5, 0.5);
-    } else {
-      this.el.object3D.scale.set(1, 1, 1);
-    }
 
     if (this.data.type === 'mine') {
       this.poolName = `pool__beat-mine`;
@@ -675,11 +658,6 @@ AFRAME.registerComponent('beat', {
       this.hitColliderEl.getObject3D('mesh'));
     const beatBoundingBox = this.beatBoundingBox.setFromObject(
       this.blockEl.getObject3D('mesh'));
-    const modifiers = this.el.sceneEl.systems.state.state.modifiers;
-    if (modifiers && modifiers.proMode) {
-      // Shrink hitbox slightly for Pro Mode
-      beatBoundingBox.expandByScalar(-0.05);
-    }
     var wrongHandHit;
 
     for (let i = 0; i < saberEls.length; i++) {
@@ -718,9 +696,7 @@ AFRAME.registerComponent('beat', {
 
           if (this.data.type === 'arrow') {
             saberControls.updateStrokeDirection();
-            const isStrict = modifiers && modifiers.strictAngles;
-            const threshold = isStrict ? 0.8 : 0.5; // Stricter angle checks
-            if (!saberControls.strokeDirection[this.data.cutDirection] || (isStrict && saberControls.maxAnglePlaneXY < threshold)) {
+            if (!saberControls.strokeDirection[this.data.cutDirection]) {
               this.wrongHit(hand);
               break;
             }
@@ -768,10 +744,9 @@ AFRAME.registerComponent('beat', {
     const angleBeforeHit = Math.max(0, (this.angleBeforeHit - saberRotation) * 180 / Math.PI);
     const angleAfterHit = Math.max(0, (maxAngle - saberRotation) * 180 / Math.PI);
 
-    const score = calculatePhase8Score(
-      angleBeforeHit, angleAfterHit,
-      intersection.point, this.el.object3D.position
-    );
+    let score = 0;
+    score += angleBeforeHit >= 85 ? 70 : (angleBeforeHit / 80) * 70;
+    score += angleAfterHit >= 60 ? 30 : (angleAfterHit / 60) * 30;
 
     hitEventDetail.score = score;
     this.el.emit('beathit', hitEventDetail, true);

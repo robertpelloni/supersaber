@@ -140,56 +140,7 @@
     slice9="left: 70; width: 2.9; height: 1.55; opacity: 0.9"
     position="0 0 -0.005"></a-entity>
 
-
-    <!-- Campaign Mode Menu -->
-    <a-entity id="campaignMenu" bind__visible="campaignMenuActive">
-      <a-entity position="0 1.5 -1">
-        <a-entity mixin="font" text="align: center; color: #FFF; wrapCount: 20; value: CAMPAIGN MODE" position="0 0.5 0" scale="2 2 2"></a-entity>
-
-        <a-entity position="0 0.1 0">
-          <a-entity mixin="font" text="align: center; color: #AAA; wrapCount: 40; value: Level 1: Min Score 5000, Max Misses 5" position="0 0 0"></a-entity>
-          <a-entity mixin="font" text="align: center; color: #0f0; wrapCount: 30; value: [ PLAY LEVEL 1 ]" position="0 -0.1 0" class="raycastable" proxy-event="event: click; to: a-scene; as: play-campaign-level-1"></a-entity>
-        </a-entity>
-
-        <a-entity position="0 -0.2 0">
-          <a-entity mixin="font" text="align: center; color: #AAA; wrapCount: 40; value: Level 2: Min Combo 50, No Misses" position="0 0 0"></a-entity>
-          <a-entity mixin="font" text="align: center; color: #0f0; wrapCount: 30; value: [ PLAY LEVEL 2 ]" position="0 -0.1 0" class="raycastable" proxy-event="event: click; to: a-scene; as: play-campaign-level-2" bind__visible="campaign.progress['1']"></a-entity>
-          <a-entity mixin="font" text="align: center; color: #f00; wrapCount: 30; value: [ LOCKED ]" position="0 -0.1 0" bind__visible="!campaign.progress['1']"></a-entity>
-        </a-entity>
-
-        <a-entity mixin="font" text="align: center; color: #f00; wrapCount: 30; value: [ BACK TO MAIN MENU ]" position="0 -0.5 0" class="raycastable" proxy-event="event: click; to: a-scene; as: exit-campaign"></a-entity>
-      </a-entity>
-    </a-entity>
-
-
-    <!-- Practice Mode Menu -->
-    <a-entity id="practiceMenu" bind__visible="practiceMenuActive">
-      <a-entity position="0 1.5 -1">
-        <a-entity mixin="font" text="align: center; color: #FFF; wrapCount: 20; value: PRACTICE MODE" position="0 0.5 0" scale="2 2 2"></a-entity>
-
-        <a-entity position="0 0.2 0">
-          <a-entity mixin="font" text="align: center; color: #AAA; wrapCount: 40; value: PLAYBACK SPEED" position="0 0.1 0"></a-entity>
-          <a-entity mixin="font" text="align: center; color: #0df; wrapCount: 30; value: [ 50% ]" position="-0.4 0 0" class="raycastable" proxy-event="event: click; to: a-scene; as: practice-set-speed" proxy-event-detail="0.5"></a-entity>
-          <a-entity mixin="font" text="align: center; color: #0df; wrapCount: 30; value: [ 85% ]" position="-0.2 0 0" class="raycastable" proxy-event="event: click; to: a-scene; as: practice-set-speed" proxy-event-detail="0.85"></a-entity>
-          <a-entity mixin="font" text="align: center; color: #0df; wrapCount: 30; value: [ 100% ]" position="0 0 0" class="raycastable" proxy-event="event: click; to: a-scene; as: practice-set-speed" proxy-event-detail="1.0"></a-entity>
-          <a-entity mixin="font" text="align: center; color: #0df; wrapCount: 30; value: [ 120% ]" position="0.2 0 0" class="raycastable" proxy-event="event: click; to: a-scene; as: practice-set-speed" proxy-event-detail="1.2"></a-entity>
-          <a-entity mixin="font" text="align: center; color: #0df; wrapCount: 30; value: [ 150% ]" position="0.4 0 0" class="raycastable" proxy-event="event: click; to: a-scene; as: practice-set-speed" proxy-event-detail="1.5"></a-entity>
-          <a-entity mixin="font" bind__text="value: 'Current Speed: ' + (practice.playbackRate * 100) + '%'" text="align: center; color: #fff; wrapCount: 40" position="0 -0.1 0"></a-entity>
-        </a-entity>
-
-        <a-entity position="0 -0.1 0">
-          <a-entity mixin="font" text="align: center; color: #AAA; wrapCount: 40; value: START TIME (SECONDS)" position="0 0.1 0"></a-entity>
-          <a-entity mixin="font" text="align: center; color: #0df; wrapCount: 30; value: [ +10s ]" position="0.2 0 0" class="raycastable" proxy-event="event: click; to: a-scene; as: practice-set-time" bind__proxy-event-detail="practice.startTime + 10"></a-entity>
-          <a-entity mixin="font" text="align: center; color: #0df; wrapCount: 30; value: [ -10s ]" position="-0.2 0 0" class="raycastable" proxy-event="event: click; to: a-scene; as: practice-set-time" bind__proxy-event-detail="Math.max(0, practice.startTime - 10)"></a-entity>
-          <a-entity mixin="font" bind__text="value: 'Current Time: ' + practice.startTime + 's'" text="align: center; color: #fff; wrapCount: 40" position="0 -0.1 0"></a-entity>
-        </a-entity>
-
-        <a-entity mixin="font" text="align: center; color: #0f0; wrapCount: 30; value: [ START PRACTICE ]" position="0 -0.4 0" class="raycastable" proxy-event="event: click; to: a-scene; as: play-practice"></a-entity>
-        <a-entity mixin="font" text="align: center; color: #f00; wrapCount: 30; value: [ BACK TO MAIN MENU ]" position="0 -0.5 0" class="raycastable" proxy-event="event: click; to: a-scene; as: exit-practice"></a-entity>
-      </a-entity>
-    </a-entity>
-
-  <a-entity id="mainMenu" bind__visible="!genreMenuOpen && !campaignMenuActive && !practiceMenuActive">
+  <a-entity id="mainMenu" bind__visible="!genreMenuOpen">
     <a-entity id="searchResultsContainer" position="0 0 0.001"
       class="menuAnimation"
       bind__menu-slide-animation="isSearching: isSearching; menuSelectedChallengeId: menuSelectedChallenge.id"
@@ -215,7 +166,7 @@
           animation__mouseleave="property: object3D.position.z; from: 0.03; to: 0.01; startEvents: mouseleave; pauseEvents: mouseenter; easing: easeOutCubic; dur: 150"
           proxy-event__mouseenter="event: mouseenter; to: CHILDREN; as: show"
           proxy-event__mouseleave="event: mouseleave; to: CHILDREN; as: hide"
-          bind-toggle__raycastable="menuActive && !menuSelectedChallenge.id && !isSearching && !genre && !campaignMenuActive && !practiceMenuActive">
+          bind-toggle__raycastable="menuActive && !menuSelectedChallenge.id && !isSearching && !genre">
           <a-entity id="soundboxing-popup"
             position="0 0.12 0.015"
             mixin="font"
@@ -244,7 +195,7 @@
             bind__text="value: multiplayerEnabled ? 'ON' : 'OFF'"
             text="align: center; color: #0f0; wrapCount: 30"
             proxy-event="event: click; to: a-scene; as: multiplayertoggle"
-            bind-toggle__raycastable="menuActive && !menuSelectedChallenge.id && !isSearching && !genre && !campaignMenuActive && !practiceMenuActive"
+            bind-toggle__raycastable="menuActive && !menuSelectedChallenge.id && !isSearching && !genre"
             position="0 0.0 0.01"></a-entity>
 
           <a-entity id="modifiersPanel"
@@ -253,18 +204,14 @@
 
           <a-entity mixin="font" text="align: center; color: #FFF; wrapCount: 25; value: MODIFIERS" position="0 0.1 0"></a-entity>
           <a-entity mixin="font" text="align: center; color: #5af; wrapCount: 30; value: [ Libraries Documentation ]" position="0 0.15 0" class="raycastable" proxy-event="event: click; to: a-scene; as: open-docs" onclick="window.location.href='docs.html'"></a-entity>
-          <a-entity mixin="font" text="align: center; color: #f5a; wrapCount: 30; value: [ ENTER BEATMAP EDITOR ]" position="0 0.20 0" class="raycastable" bind-toggle__raycastable="menuActive && !campaignMenuActive && !practiceMenuActive" proxy-event="event: click; to: a-scene; as: toggle-editor"></a-entity>
-          <a-entity mixin="font" text="align: center; color: #ff0; wrapCount: 30; value: [ CAMPAIGN MODE ]" position="0 0.25 0" class="raycastable" bind-toggle__raycastable="menuActive && !campaignMenuActive && !practiceMenuActive" proxy-event="event: click; to: a-scene; as: toggle-campaign"></a-entity>
-          <a-entity mixin="font" text="align: center; color: #0df; wrapCount: 30; value: [ PRACTICE MODE ]" position="0 0.30 0" class="raycastable" bind-toggle__raycastable="menuActive && !campaignMenuActive && !practiceMenuActive" proxy-event="event: click; to: a-scene; as: toggle-practice"></a-entity>
-          <!-- Dummy replace to keep formatting -->
-          <a-entity mixin="font" text="align: center; color: #f5a; wrapCount: 30; value: [ ENTER BEATMAP EDITOR ]" visible="false" position="0 0.20 0" class="raycastable" proxy-event="event: click; to: a-scene; as: toggle-editor"></a-entity>
+          <a-entity mixin="font" text="align: center; color: #f5a; wrapCount: 30; value: [ ENTER BEATMAP EDITOR ]" position="0 0.20 0" class="raycastable" proxy-event="event: click; to: a-scene; as: toggle-editor"></a-entity>
 
             <a-entity id="modifierGhostNotes"
               mixin="font"
               bind__text="value: modifiers.ghostNotes ? 'GHOST NOTES: ON' : 'GHOST NOTES: OFF'"
               text="align: center; color: #0ff; wrapCount: 30"
               proxy-event="event: click; to: a-scene; as: modifiertoggleghost"
-              bind-toggle__raycastable="menuActive && !menuSelectedChallenge.id && !isSearching && !genre && !campaignMenuActive && !practiceMenuActive"
+              bind-toggle__raycastable="menuActive && !menuSelectedChallenge.id && !isSearching && !genre"
               position="0 0.0 0">
                 <a-entity mixin="font" text="align: center; color: #AAA; wrapCount: 70; value: Arrows disappear right before you hit them" position="0 -0.025 0"></a-entity>
             </a-entity>
@@ -273,7 +220,7 @@
               bind__text="value: modifiers.disappearingArrows ? 'DISAPPEARING ARROWS: ON' : 'DISAPPEARING ARROWS: OFF'"
               text="align: center; color: #0ff; wrapCount: 30"
               proxy-event="event: click; to: a-scene; as: modifiertoggledisappearing"
-              bind-toggle__raycastable="menuActive && !menuSelectedChallenge.id && !isSearching && !genre && !campaignMenuActive && !practiceMenuActive"
+              bind-toggle__raycastable="menuActive && !menuSelectedChallenge.id && !isSearching && !genre"
               position="0 -0.07 0">
               <a-entity mixin="font" text="align: center; color: #AAA; wrapCount: 70; value: Notes fade out as they approach" position="0 -0.025 0"></a-entity>
             </a-entity>
@@ -282,7 +229,7 @@
               bind__text="value: modifiers.fastSong ? 'FAST SONG: ON' : 'FAST SONG: OFF'"
               text="align: center; color: #0ff; wrapCount: 30"
               proxy-event="event: click; to: a-scene; as: modifiertogglefastsong"
-              bind-toggle__raycastable="menuActive && !menuSelectedChallenge.id && !isSearching && !genre && !campaignMenuActive && !practiceMenuActive"
+              bind-toggle__raycastable="menuActive && !menuSelectedChallenge.id && !isSearching && !genre"
               position="0 -0.14 0">
               <a-entity mixin="font" text="align: center; color: #AAA; wrapCount: 70; value: Increases song playback speed and note frequency" position="0 -0.025 0"></a-entity>
             </a-entity>
@@ -291,7 +238,7 @@
               bind__text="value: modifiers.noFail ? 'NO FAIL: ON' : 'NO FAIL: OFF'"
               text="align: center; color: #0ff; wrapCount: 30"
               proxy-event="event: click; to: a-scene; as: modifiertogglenofail"
-              bind-toggle__raycastable="menuActive && !menuSelectedChallenge.id && !isSearching && !genre && !campaignMenuActive && !practiceMenuActive"
+              bind-toggle__raycastable="menuActive && !menuSelectedChallenge.id && !isSearching && !genre"
               position="0 -0.21 0">
               <a-entity mixin="font" text="align: center; color: #AAA; wrapCount: 70; value: Missing notes does not end the song" position="0 -0.025 0"></a-entity>
             </a-entity>
@@ -300,107 +247,10 @@
               bind__text="value: modifiers.oneSaber ? 'ONE SABER: ON' : 'ONE SABER: OFF'"
               text="align: center; color: #0ff; wrapCount: 30"
               proxy-event="event: click; to: a-scene; as: modifiertoggleonesaber"
-              bind-toggle__raycastable="menuActive && !menuSelectedChallenge.id && !isSearching && !genre && !campaignMenuActive && !practiceMenuActive"
+              bind-toggle__raycastable="menuActive && !menuSelectedChallenge.id && !isSearching && !genre"
               position="0 -0.28 0">
               <a-entity mixin="font" text="align: center; color: #AAA; wrapCount: 70; value: All notes become center aligned for a single blade" position="0 -0.025 0"></a-entity>
             </a-entity>
-            <a-entity id="modifier360"
-              mixin="font"
-              bind__text="value: modifiers.mode360 ? '360 MODE: ON' : '360 MODE: OFF'"
-              text="align: center; color: #0ff; wrapCount: 30"
-              proxy-event="event: click; to: a-scene; as: modifiertoggle360"
-              bind-toggle__raycastable="menuActive && !menuSelectedChallenge.id && !isSearching && !genre && !campaignMenuActive && !practiceMenuActive"
-              position="0 -0.35 0">
-              <a-entity mixin="font" text="align: center; color: #AAA; wrapCount: 70; value: The stage rotates 360 degrees around you" position="0 -0.025 0"></a-entity>
-            </a-entity>
-
-            <!-- Phase 8 Modifiers -->
-            <a-entity id="modifierInstaFail"
-              mixin="font"
-              bind__text="value: modifiers.instaFail ? 'INSTA FAIL: ON' : 'INSTA FAIL: OFF'"
-              text="align: center; color: #0ff; wrapCount: 30"
-              proxy-event="event: click; to: a-scene; as: modifiertoggleinstafail"
-              bind-toggle__raycastable="menuActive && !menuSelectedChallenge.id && !isSearching && !genre && !campaignMenuActive && !practiceMenuActive"
-              position="0 -0.42 0">
-              <a-entity mixin="font" text="align: center; color: #AAA; wrapCount: 70; value: Missing a single note ends the song" position="0 -0.025 0"></a-entity>
-            </a-entity>
-            <a-entity id="modifierBatteryEnergy"
-              mixin="font"
-              bind__text="value: modifiers.batteryEnergy ? 'BATTERY ENERGY: ON' : 'BATTERY ENERGY: OFF'"
-              text="align: center; color: #0ff; wrapCount: 30"
-              proxy-event="event: click; to: a-scene; as: modifiertogglebatteryenergy"
-              bind-toggle__raycastable="menuActive && !menuSelectedChallenge.id && !isSearching && !genre && !campaignMenuActive && !practiceMenuActive"
-              position="0 -0.49 0">
-              <a-entity mixin="font" text="align: center; color: #AAA; wrapCount: 70; value: 4 Lives only, regain slowly on hits" position="0 -0.025 0"></a-entity>
-            </a-entity>
-            <a-entity id="modifierStrictAngles"
-              mixin="font"
-              bind__text="value: modifiers.strictAngles ? 'STRICT ANGLES: ON' : 'STRICT ANGLES: OFF'"
-              text="align: center; color: #0ff; wrapCount: 30"
-              proxy-event="event: click; to: a-scene; as: modifiertogglestrictangles"
-              bind-toggle__raycastable="menuActive && !menuSelectedChallenge.id && !isSearching && !genre && !campaignMenuActive && !practiceMenuActive"
-              position="0 -0.56 0">
-              <a-entity mixin="font" text="align: center; color: #AAA; wrapCount: 70; value: Cut directions are strictly enforced" position="0 -0.025 0"></a-entity>
-            </a-entity>
-            <a-entity id="modifierProMode"
-              mixin="font"
-              bind__text="value: modifiers.proMode ? 'PRO MODE: ON' : 'PRO MODE: OFF'"
-              text="align: center; color: #0ff; wrapCount: 30"
-              proxy-event="event: click; to: a-scene; as: modifiertogglepromode"
-              bind-toggle__raycastable="menuActive && !menuSelectedChallenge.id && !isSearching && !genre && !campaignMenuActive && !practiceMenuActive"
-              position="0 -0.63 0">
-              <a-entity mixin="font" text="align: center; color: #AAA; wrapCount: 70; value: Hitboxes match the note geometry perfectly" position="0 -0.025 0"></a-entity>
-            </a-entity>
-            <a-entity id="modifierSmallNotes"
-              mixin="font"
-              bind__text="value: modifiers.smallNotes ? 'SMALL NOTES: ON' : 'SMALL NOTES: OFF'"
-              text="align: center; color: #0ff; wrapCount: 30"
-              proxy-event="event: click; to: a-scene; as: modifiertogglesmallnotes"
-              bind-toggle__raycastable="menuActive && !menuSelectedChallenge.id && !isSearching && !genre && !campaignMenuActive && !practiceMenuActive"
-              position="0 -0.70 0">
-              <a-entity mixin="font" text="align: center; color: #AAA; wrapCount: 70; value: Notes are 50% smaller" position="0 -0.025 0"></a-entity>
-            </a-entity>
-
-            <a-entity id="modifierNoObstacles"
-              mixin="font"
-              bind__text="value: modifiers.noObstacles ? 'NO OBSTACLES: ON' : 'NO OBSTACLES: OFF'"
-              text="align: center; color: #0ff; wrapCount: 30"
-              proxy-event="event: click; to: a-scene; as: modifiertogglenoobstacles"
-              bind-toggle__raycastable="menuActive && !menuSelectedChallenge.id && !isSearching && !genre && !campaignMenuActive && !practiceMenuActive"
-              position="0 -0.70 0">
-              <a-entity mixin="font" text="align: center; color: #AAA; wrapCount: 70; value: Removes all walls" position="0 -0.025 0"></a-entity>
-            </a-entity>
-
-            <a-entity id="modifierNoBombs"
-              mixin="font"
-              bind__text="value: modifiers.noBombs ? 'NO BOMBS: ON' : 'NO BOMBS: OFF'"
-              text="align: center; color: #0ff; wrapCount: 30"
-              proxy-event="event: click; to: a-scene; as: modifiertogglenobombs"
-              bind-toggle__raycastable="menuActive && !menuSelectedChallenge.id && !isSearching && !genre && !campaignMenuActive && !practiceMenuActive"
-              position="0 -0.77 0">
-              <a-entity mixin="font" text="align: center; color: #AAA; wrapCount: 70; value: Removes all bombs" position="0 -0.025 0"></a-entity>
-            </a-entity>
-
-            <a-entity id="modifierSlowerSong"
-              mixin="font"
-              bind__text="value: modifiers.slowerSong ? 'SLOWER SONG: ON' : 'SLOWER SONG: OFF'"
-              text="align: center; color: #0ff; wrapCount: 30"
-              proxy-event="event: click; to: a-scene; as: modifiertoggleslowersong"
-              bind-toggle__raycastable="menuActive && !menuSelectedChallenge.id && !isSearching && !genre && !campaignMenuActive && !practiceMenuActive"
-              position="0 -0.84 0">
-              <a-entity mixin="font" text="align: center; color: #AAA; wrapCount: 70; value: Decreases song speed to 85%" position="0 -0.025 0"></a-entity>
-            </a-entity>
-
-            <a-entity id="modifierSuperFastSong"
-              mixin="font"
-              bind__text="value: modifiers.superFastSong ? 'SUPER FAST SONG: ON' : 'SUPER FAST SONG: OFF'"
-              text="align: center; color: #0ff; wrapCount: 30"
-              proxy-event="event: click; to: a-scene; as: modifiertogglesuperfastsong"
-              bind-toggle__raycastable="menuActive && !menuSelectedChallenge.id && !isSearching && !genre && !campaignMenuActive && !practiceMenuActive"
-              position="0 -0.91 0">
-              <a-entity mixin="font" text="align: center; color: #AAA; wrapCount: 70; value: Increases song speed to 150%" position="0 -0.025 0"></a-entity>
-            </a-entity>
-
           </a-entity>
 
         </a-entity>

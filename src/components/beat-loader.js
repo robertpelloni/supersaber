@@ -147,12 +147,6 @@ AFRAME.registerComponent('beat-loader', {
     // Reset variables used during playback.
     // Beats spawn ahead of the song and get to the user in sync with the music.
     this.beatsTime = 0;
-    const state = this.el.sceneEl.systems.state.state;
-    if (state.practice.active && state.practice.startTime > 0) {
-      // In practice mode, we skip ahead. We set beatsTime to the scrubbed start point.
-      // And we might need to skip preloading of beats before this point.
-      this.beatsTime = state.practice.startTime * 1000;
-    }
     this.beatsPreloadTime = 0;
     this.beatData._events.sort(lessThan);
     this.beatData._obstacles.sort(lessThan);
@@ -177,13 +171,10 @@ AFRAME.registerComponent('beat-loader', {
   tick: function (time, delta) {
     if (!this.data.isPlaying || !this.data.challengeId || !this.beatData) { return; }
 
-    const state = this.el.sceneEl.systems.state.state;
-    const isFastSong = state.modifiers.fastSong;
+    const isFastSong = this.el.sceneEl.systems.state.state.modifiers.fastSong;
     if (isFastSong) {
       // Scale delta time for fast song so preloading beats progresses faster
       delta *= 1.5;
-    } else if (state.practice.active && state.practice.playbackRate !== 1.0) {
-      delta *= state.practice.playbackRate;
     }
 
     const prevBeatsTime = this.beatsTime + skipDebug;
@@ -274,13 +265,6 @@ AFRAME.registerComponent('beat-loader', {
       if (modifiers.oneSaber && (noteInfo._type === 0 || noteInfo._type === 1)) {
          // Force all blocks to be blue (right hand) in One Saber mode.
         noteInfo._type = 1;
-        // Force blocks to be in the center lanes.
-        if (noteInfo._lineIndex === 0) noteInfo._lineIndex = 1;
-        if (noteInfo._lineIndex === 3) noteInfo._lineIndex = 2;
-      }
-
-      if (modifiers.noBombs && noteInfo._type === 3) {
-        return; // Skip bombs if No Bombs modifier is active
       }
 
       if (noteInfo._type === 0) {
@@ -328,11 +312,6 @@ AFRAME.registerComponent('beat-loader', {
     const wallObj = {};
 
     return function (wallInfo) {
-      const modifiers = this.el.sceneEl.systems.state.state.modifiers;
-      if (modifiers && modifiers.noObstacles) {
-        return; // Skip walls if No Obstacles modifier is active
-      }
-
       const el = this.el.sceneEl.components.pool__wall.requestEntity();
 
       if (!el) { return; }
@@ -355,9 +334,6 @@ AFRAME.registerComponent('beat-loader', {
   })(),
 
   generateEvent: function (event) {
-    if (this.el.sceneEl.components['v3-lighting']) {
-      this.el.sceneEl.components['v3-lighting'].handleV3Event(event);
-    }
     switch (event._type) {
       case 0:
         this.stageColors.setColor('bg', event._value);

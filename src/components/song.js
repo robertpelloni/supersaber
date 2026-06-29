@@ -218,44 +218,23 @@ AFRAME.registerComponent('song', {
     this.songStartTime = this.context.currentTime;
     this.source.onended = this.victory;
 
-    const state = this.el.sceneEl.systems.state.state;
-
-    // Determine base playback rate
-    let speed = 1.0;
-    if (state.practice.active) {
-      speed = state.practice.playbackRate;
-    } else if (state.modifiers.superFastSong) {
-      speed = 1.50;
-    } else if (state.modifiers.fastSong) {
-      speed = 1.20;
-    } else if (state.modifiers.slowerSong) {
-      speed = 0.85;
-    }
-    this.source.playbackRate.value = speed;
-
-    // Determine start time
-    let startTime = skipDebug || 0;
-    if (state.practice.active && state.practice.startTime > 0) {
-      startTime = state.practice.startTime;
-      // Also adjust the songStartTime reference point
-      this.songStartTime = this.context.currentTime - (startTime / speed);
+    // Apply Fast Song Modifier
+    if (this.el.sceneEl.systems.state.state.modifiers.fastSong) {
+      this.source.playbackRate.value = 1.5;
+    } else {
+      this.source.playbackRate.value = 1.0;
     }
 
-    this.source.start(0, startTime);
+    this.source.start(0, skipDebug || 0);
     this.isPlaying = true;
   },
 
   getCurrentTime: function () {
-    const state = this.el.sceneEl.systems.state.state;
+    // When playback rate changes, the elapsed time relative to the audio buffer changes.
+    // For a simple multiplier (like Fast Song at 1.5x), we can multiply the delta.
     let multiplier = 1.0;
-    if (state.practice.active) {
-      multiplier = state.practice.playbackRate;
-    } else if (state.modifiers.superFastSong) {
-      multiplier = 1.50;
-    } else if (state.modifiers.fastSong) {
-      multiplier = 1.20;
-    } else if (state.modifiers.slowerSong) {
-      multiplier = 0.85;
+    if (this.el.sceneEl.systems.state.state.modifiers.fastSong) {
+      multiplier = 1.5;
     }
     return (this.context.currentTime - this.songStartTime) * multiplier;
   }

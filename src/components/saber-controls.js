@@ -57,10 +57,6 @@ AFRAME.registerComponent('saber-controls', {
   },
 
   tick: function (time, delta) {
-    if (this.opticalOverride) {
-      this.updateStrokeDirection();
-      return;
-    }
     if (!this.data.bladeEnabled) { return; }
     this.boundingBox.setFromObject(this.bladeEl.getObject3D('mesh'));
     this.detectStroke(delta);

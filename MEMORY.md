@@ -79,13 +79,3 @@
 - Extracted 'saber-particles' & 'raycaster__game' logic and explicitly attached it into 'multiplayer-sync.js' avatar instantiation block. Remote sabers now accurately compute intersection hits natively to show visual FX.
 ## 2026-04-18 Multiplayer UI Overhaul
 - Extracted local user state metrics from A-Frame and packaged them implicitly into the multiplayer WebSocket payload array natively.
-
-## Beat Saber Research Session
-- Conducted deep research into Beat Saber's version history and feature set.
-- Compiled comprehensive documentation on core gameplay mechanics, game modes, modifiers, lighting systems, and major version highlights.
-- Integrated findings into `VISION.md` to guide the "Ultimate Parity" goal.
-- Updated `ROADMAP.md` and `TODO.md` with structured tasks to implement missing features like Arcs, Chains, advanced modifiers, and the exact 115-point scoring system.
-- Added expansive concepts to `IDEAS.md` focusing on haptics, campaign generation, and V3 lighting editors.
-
-## Beat Saber Feature Expansion
-- **Custom Sabers**: To fully integrate custom sabers, replacing the geometries directly works but ensuring `raycastable-game` stays intact for collisions is necessary. Setting `visible="false"` via dynamic state bindings allows physics to process without the primitive meshes rendering over the custom geometries. Currently, `.customSaber` expects an OBJ or GLTF. Testing these loading states within playwright fails unless actual models exist in `assets` which are passed correctly via state, as standard timeout waiting for the rendering will block if it fails to bind correctly due to missing URL data in state configurations.
