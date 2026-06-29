@@ -86,3 +86,6 @@
 - Integrated findings into `VISION.md` to guide the "Ultimate Parity" goal.
 - Updated `ROADMAP.md` and `TODO.md` with structured tasks to implement missing features like Arcs, Chains, advanced modifiers, and the exact 115-point scoring system.
 - Added expansive concepts to `IDEAS.md` focusing on haptics, campaign generation, and V3 lighting editors.
+
+## Beat Saber Feature Expansion
+- **Custom Sabers**: To fully integrate custom sabers, replacing the geometries directly works but ensuring `raycastable-game` stays intact for collisions is necessary. Setting `visible="false"` via dynamic state bindings allows physics to process without the primitive meshes rendering over the custom geometries. Currently, `.customSaber` expects an OBJ or GLTF. Testing these loading states within playwright fails unless actual models exist in `assets` which are passed correctly via state, as standard timeout waiting for the rendering will block if it fails to bind correctly due to missing URL data in state configurations.
