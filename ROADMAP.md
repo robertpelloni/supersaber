@@ -55,3 +55,6 @@
 - [x] Extend custom-mod-loader.js to parse .mp3 drag-and-drop actions natively bypassing .zip restrictions.
 - [x] Build interactive 3D timeline slider.
 - [x] Hook up audio waveform extraction and beat placement.
+
+## Phase 1 discrepancies:
+- Webpack build chain with Webpack 2 requires deprecated `babel-minify-webpack-plugin`. Upgrading it to 0.3.1 resolves babel compilation errors like `stmts.entries is not a function`.
