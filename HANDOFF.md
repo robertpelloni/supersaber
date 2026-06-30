@@ -59,3 +59,13 @@
 ## 10. Next Highest-Impact Tasks
 - **Phase 8 WebRTC Integration:** Refactoring `multiplayer-sync.js` off explicit centralized WebSockets to P2P WebRTC data channels natively to negate server costs for high-throughput positional replication.
 - **Vite & WebXR Overhaul:** Rewriting legacy build infrastructure to utilize modern WebXR specs (over deprecating WebVR).
+
+## 11. Build System Dependency Audit (Phase 1)
+- Addressed `stmts.entries is not a function` error during `npm run build` by explicitly upgrading the legacy `babel-minify-webpack-plugin` to version `0.3.1`.
+- A-Frame packages and `aframe-master.js` (0.8.2) strictly remain untouched to prevent WebVR rendering regressions. These dependencies have been flagged, but will not be bumped until a concerted Vite / WebXR overhaul is fully scoped as it requires massive breaking changes across all custom A-Frame components and collision bounds.
+- Build system (`webpack` 2.3.3) remains stable and correctly compiles the `nunjucks` templates when executed with `--legacy-peer-deps`.
+
+## 12. Dependency Upgrades Blockers
+- **Webpack & Tooling:** Webpack is heavily tied to version `2.3.3`. Upgrading to modern `webpack` (4 or 5) breaks several legacy loaders (`webpack-glsl-loader`, outdated `babel-loader` and `url-loader` syntaxes). A full upgrade would necessitate rewriting `webpack.config.js` and abandoning unsupported packages entirely.
+- **A-Frame Ecosystem:** Bumping A-Frame components like `aframe-state-component` to latest (`7.1.1`) breaks due to strict `aframe` peer dependencies expecting `>=1.0.0` but the core is locked at `0.8.2` intentionally for WebVR bindings. Thus, A-Frame related packages cannot be incrementally bumped without causing cascading peer dependency failures.
+- **tmi.js & Firebase:** `firebase@5` is obsolete, but updating it breaks the synchronous legacy API calls used in `leaderboard.js`. The Twitch library `tmi.js` is fine at `1.8.3`.
