@@ -1,5 +1,5 @@
 import {BEAT_WARMUP_OFFSET, BEAT_WARMUP_SPEED, BEAT_WARMUP_TIME} from '../constants/beat';
-const COLORS = require('../constants/colors.js');
+import COLORS from '../constants/colors.js';
 
 const auxObj3D = new THREE.Object3D();
 const collisionZThreshold = -1.65;

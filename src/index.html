@@ -19,11 +19,13 @@
     {% if DEBUG_AFRAME %}
       <script src="http://{{ HOST }}:9000/dist/aframe-master.js"></script>
     {% elif IS_PRODUCTION %}
-      <script src="vendor/aframe-master.min.js"></script>
+      <script src="vendor/aframe-master.js"></script>
+    <script src="vendor/BufferGeometryUtils.js"></script>
     {% else %}
       <script src="vendor/aframe-master.js"></script>
+    <script src="vendor/BufferGeometryUtils.js"></script>
     {% endif %}
-    <script src="build/build.js"></script>
+    <script type="module" src="src/index.js"></script>
   </head>
   <body>
     <audio id="introSong" src="assets/sounds/introSong.ogg" loop></audio>
@@ -224,11 +226,12 @@
                   geometry="primitive: box; height: 0.9; depth: 0.02; width: 0.02"
                   material="shader: flat; color: #fff; visible: true"
                   bind__material="visible: !customSaberModel"
+                  raycastable-game
+                  position="0 -0.55 0"></a-entity>
                 <a-entity
                   class="customSaber"
                   bind__obj-model="obj: customSaberModel"
                   bind__visible="!!customSaberModel"
-                  position="0 -0.55 0"></a-entity>
                   raycastable-game
                   position="0 -0.55 0"></a-entity>
                 <a-entity
@@ -300,29 +303,61 @@
     <img id="tutorial2d" data-src="assets/img/tutorial2d.png">
     <h1 id="loadingText2d" style="position: fixed; bottom: 10px; left: 0; right: 0; margin: 0 auto; text-transform: uppercase; color: #FAFAFA; text-align: center; font-family: monospace">Loading...</h1>
 
-    <!-- 2D Desktop Mode UI -->
-    <div id="desktopUI" style="position: fixed; top: 10px; left: 10px; z-index: 9999; background: rgba(0,0,0,0.7); padding: 15px; color: white; font-family: monospace; border-radius: 8px;">
-      <h3 style="margin-top: 0;">Ultimate Desktop Mode</h3>
+    <!-- Optical Tracking Failure Warning -->
+    <div id="trackingFailureWarning" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10000; background: rgba(255,0,0,0.8); padding: 30px; color: white; font-family: monospace; font-size: 24px; font-weight: bold; border-radius: 10px; text-align: center; box-shadow: 0 0 20px red;">
+      OPTICAL TRACKING LOST<br>
+      <span style="font-size: 16px; font-weight: normal;">Ensure sufficient lighting and keep hands in view of the webcam.</span>
+    </div>
 
-      <div style="margin-bottom: 15px;">
-        <button id="toggleDesktopMode" style="padding: 10px; cursor: pointer; background: #256c43; color: white; border: none; border-radius: 5px; width: 100%;">Enable Optical Tracking</button>
-        <p id="trackingStatus" style="font-size: 12px; margin-top: 5px;">Status: Inactive</p>
+    <!-- 2D Desktop Mode UI Dashboard -->
+    <div id="desktopUI" style="position: fixed; top: 10px; left: 10px; bottom: 10px; z-index: 9999; background: rgba(0,0,0,0.85); padding: 20px; color: white; font-family: monospace; border-radius: 8px; width: 320px; overflow-y: auto; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
+      <h2 style="margin-top: 0; text-align: center; border-bottom: 2px solid #555; padding-bottom: 10px; color: #0ff;">SUPER SABER<br><span style="font-size: 14px; color: #aaa;">Unified Dashboard</span></h2>
+
+      <div style="margin-bottom: 20px;">
+        <h3 style="color: #0f0; margin-bottom: 5px;">Tracking & Controls</h3>
+        <p style="font-size: 11px; color: #aaa; margin-top: 0;">Play without VR using your webcam.</p>
+        <button id="toggleDesktopMode" title="Use your webcam to track your hands and control the sabers." style="padding: 12px; cursor: pointer; background: #256c43; color: white; border: 1px solid #4CAF50; border-radius: 5px; width: 100%; font-weight: bold; transition: background 0.2s;">Enable Optical Tracking</button>
+        <p id="trackingStatus" style="font-size: 12px; margin-top: 5px; text-align: center;">Status: Inactive</p>
+        <div style="margin-top: 10px;">
+          <label style="font-size: 11px; color: #aaa;">Tracking Sensitivity: <span id="sensitivityVal">0.5</span></label>
+          <input type="range" id="trackingSensitivity" min="0.1" max="0.9" step="0.1" value="0.5" style="width: 100%;">
+        </div>
       </div>
 
-      <div style="margin-bottom: 15px; border-top: 1px solid #555; padding-top: 10px;">
-        <h4>Modifiers</h4>
-        <label><input type="checkbox" id="modGhostNotes"> Ghost Notes</label><br>
-        <label><input type="checkbox" id="modDisappearing"> Disappearing Arrows</label><br>
-        <label><input type="checkbox" id="modFastSong"> Fast Song</label><br>
-        <label><input type="checkbox" id="modNoFail"> No Fail</label><br>
-        <label><input type="checkbox" id="modOneSaber"> One Saber</label><br>
-        <label><input type="checkbox" id="modMode360"> 360 Levels</label>
+      <div style="margin-bottom: 20px; border-top: 1px solid #444; padding-top: 15px;">
+        <h3 style="color: #f5a; margin-bottom: 5px;">Game Modifiers</h3>
+        <p style="font-size: 11px; color: #aaa; margin-top: 0;">Customize your gameplay experience.</p>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <label title="Arrows disappear right before you hit them"><input type="checkbox" id="modGhostNotes"> Ghost Notes</label>
+          <label title="Notes fade out as they approach"><input type="checkbox" id="modDisappearing"> Disappearing Arrows</label>
+          <label title="Increases song playback speed and note frequency"><input type="checkbox" id="modFastSong"> Fast Song</label>
+          <label title="Missing notes does not end the song"><input type="checkbox" id="modNoFail"> No Fail</label>
+          <label title="All notes become center aligned for a single blade"><input type="checkbox" id="modOneSaber"> One Saber</label>
+          <label title="The stage rotates dynamically during the song"><input type="checkbox" id="modMode360"> 360 Levels</label>
+        </div>
       </div>
 
-      <div style="border-top: 1px solid #555; padding-top: 10px;">
-        <h4>Twitch Integration</h4>
-        <input type="text" id="twitchChannelInput" value="robertpelloni" style="padding: 5px; width: calc(100% - 14px); background: #222; color: white; border: 1px solid #555;">
-        <button id="setTwitchChannel" style="margin-top: 5px; padding: 5px; cursor: pointer; background: #850e3e; color: white; border: none; border-radius: 5px; width: 100%;">Connect</button>
+      <div style="margin-bottom: 20px; border-top: 1px solid #444; padding-top: 15px;">
+        <h3 style="color: #a5f; margin-bottom: 5px;">Twitch Integration</h3>
+        <p style="font-size: 11px; color: #aaa; margin-top: 0;">Let chat control the game via !vote</p>
+        <input type="text" id="twitchChannelInput" value="robertpelloni" title="Enter your Twitch channel name" style="padding: 8px; width: calc(100% - 18px); background: #222; color: white; border: 1px solid #666; border-radius: 4px; margin-bottom: 8px;">
+        <button id="setTwitchChannel" style="padding: 10px; cursor: pointer; background: #5a2e8c; color: white; border: 1px solid #854bce; border-radius: 5px; width: 100%; font-weight: bold;">Connect to Chat</button>
+      </div>
+
+      <div style="margin-bottom: 20px; border-top: 1px solid #444; padding-top: 15px;">
+        <h3 style="color: #fa5; margin-bottom: 5px;">Multiplayer</h3>
+        <p style="font-size: 11px; color: #aaa; margin-top: 0;">Join peers via WebRTC/WebSockets</p>
+        <button id="toggleMultiplayerBtn" title="Toggle network replication" style="padding: 10px; cursor: pointer; background: #8c5a2e; color: white; border: 1px solid #ce854b; border-radius: 5px; width: 100%; font-weight: bold; margin-bottom: 5px;">Enable Multiplayer</button>
+        <input type="text" id="multiplayerRoomInput" value="ROOM1" title="Enter Multiplayer Room ID" style="padding: 8px; width: calc(100% - 18px); background: #222; color: white; border: 1px solid #666; border-radius: 4px; display: none;">
+        <button id="setMultiplayerRoomBtn" style="padding: 5px; cursor: pointer; background: #666; color: white; border: none; border-radius: 5px; width: 100%; display: none;">Join Room</button>
+      </div>
+
+      <div style="border-top: 1px solid #444; padding-top: 15px;">
+        <h3 style="color: #ff0; margin-bottom: 5px;">Custom Mods</h3>
+        <p style="font-size: 11px; color: #aaa; margin-top: 0; line-height: 1.3;">
+          To play custom BeatSaver levels or load custom .obj sabers, simply <b>drag and drop</b> the .zip or .obj files directly onto this browser window.
+        </p>
+        <p id="saberStatus" style="font-size: 12px; margin-top: 5px; text-align: center; color: #fff;">Custom Saber: None</p>
       </div>
     </div>
 
@@ -349,20 +384,55 @@
           const isEnabled = sceneEl.systems.state.state.is2DDesktopMode;
           document.getElementById('trackingStatus').innerText = isEnabled ? 'Status: Tracking Active (Webcam On)' : 'Status: Inactive';
           document.getElementById('toggleDesktopMode').innerText = isEnabled ? 'Disable Optical Tracking' : 'Enable Optical Tracking';
+
+          if (!isEnabled) {
+             document.getElementById('trackingFailureWarning').style.display = 'none';
+          }
+        }
+      });
+
+      // Optical Tracking Event Listener
+      document.querySelector('a-scene').addEventListener('optical-tracking-failed', (evt) => {
+        const warningEl = document.getElementById('trackingFailureWarning');
+        if (evt.detail) {
+          warningEl.style.display = 'block';
+        } else {
+          warningEl.style.display = 'none';
         }
       });
 
       // Modifiers Logic
       const modifiers = ['GhostNotes', 'Disappearing', 'FastSong', 'NoFail', 'OneSaber', 'Mode360'];
       modifiers.forEach(mod => {
-        document.getElementById(`mod${mod}`).addEventListener('change', (e) => {
-          const sceneEl = document.querySelector('a-scene');
-          if (sceneEl) {
-            // camelCase event payload for state
-            const payload = mod.charAt(0).toLowerCase() + mod.slice(1);
-            sceneEl.emit('toggle-modifier', payload);
-          }
-        });
+        const el = document.getElementById(`mod${mod}`);
+        if (el) {
+          el.addEventListener('change', (e) => {
+            const sceneEl = document.querySelector('a-scene');
+            if (sceneEl) {
+              const payloadMap = {
+                'GhostNotes': 'ghostNotes',
+                'Disappearing': 'disappearingArrows',
+                'FastSong': 'fastSong',
+                'NoFail': 'noFail',
+                'OneSaber': 'oneSaber',
+                'Mode360': 'mode360'
+              };
+              sceneEl.emit('toggle-modifier', payloadMap[mod]);
+            }
+          });
+        }
+      });
+
+      // Tracking Sensitivity Binding
+      document.getElementById('trackingSensitivity').addEventListener('input', (e) => {
+        const val = e.target.value;
+        document.getElementById('sensitivityVal').innerText = val;
+        const sceneEl = document.querySelector('a-scene');
+        if (sceneEl) {
+          sceneEl.emit('set-tracking-sensitivity', val);
+          // Tracking component caches config on init, force a restart
+          sceneEl.emit('optical-tracking-failed', false);
+        }
       });
 
       // Twitch Channel Logic
@@ -371,10 +441,32 @@
         const sceneEl = document.querySelector('a-scene');
         if (sceneEl) {
           sceneEl.emit('set-twitch-channel', channel);
-          // For a robust implementation, this would trigger a reconnect in the twitch component
-          // Currently, the component takes the initial channel state.
           document.getElementById('setTwitchChannel').innerText = 'Connected';
-          setTimeout(() => { document.getElementById('setTwitchChannel').innerText = 'Connect'; }, 2000);
+          setTimeout(() => { document.getElementById('setTwitchChannel').innerText = 'Connect to Chat'; }, 2000);
+        }
+      });
+
+      // Multiplayer Toggle Desktop Binding
+      document.getElementById('toggleMultiplayerBtn').addEventListener('click', () => {
+        const sceneEl = document.querySelector('a-scene');
+        if (sceneEl) {
+          const currentState = sceneEl.systems.state.state.multiplayerEnabled;
+          sceneEl.emit('multiplayer-toggle');
+
+          const isEnabled = !currentState;
+          document.getElementById('toggleMultiplayerBtn').innerText = isEnabled ? 'Disable Multiplayer' : 'Enable Multiplayer';
+          document.getElementById('multiplayerRoomInput').style.display = isEnabled ? 'block' : 'none';
+          document.getElementById('setMultiplayerRoomBtn').style.display = isEnabled ? 'block' : 'none';
+        }
+      });
+
+      document.getElementById('setMultiplayerRoomBtn').addEventListener('click', () => {
+        const room = document.getElementById('multiplayerRoomInput').value;
+        const sceneEl = document.querySelector('a-scene');
+        if (sceneEl && room) {
+          sceneEl.emit('multiplayer-set-room', room);
+          document.getElementById('setMultiplayerRoomBtn').innerText = 'Joined!';
+          setTimeout(() => { document.getElementById('setMultiplayerRoomBtn').innerText = 'Join Room'; }, 2000);
         }
       });
     </script>

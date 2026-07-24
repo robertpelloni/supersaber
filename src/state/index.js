@@ -1,7 +1,8 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-mixed-operators */
 /* global localStorage */
-var utils = require('../utils');
+import genres from '../constants/genres.js';
+import utils from '../utils';
 
 const challengeDataStore = {};
 const NUM_LEADERBOARD_DISPLAY = 10;
@@ -63,10 +64,12 @@ AFRAME.registerState({
     controllerType: '',
     damage: 0,
     genre: '',
-    genres: require('../constants/genres'),
+    genres: genres,
     genreMenuOpen: false,
     inVR: false,
     is2DDesktopMode: false, // Windowed "corner of desk" mode
+    opticalTrackingFailed: false,
+    opticalTrackingSensitivity: 0.5, // For MediaPipe warnings
     isGameOver: false,  // Game over screen.
     isPaused: false,  // Playing, but paused. Not active during menu.
     isPlaying: false,  // Actively playing (slicing beats).
@@ -575,6 +578,15 @@ AFRAME.registerState({
 
     'toggle-2d-mode': (state) => {
       state.is2DDesktopMode = !state.is2DDesktopMode;
+    },
+
+    'optical-tracking-failed': (state, payload) => {
+      state.opticalTrackingFailed = payload;
+    },
+
+    'set-tracking-sensitivity': (state, payload) => {
+      state.opticalTrackingSensitivity = parseFloat(payload);
+      console.log('Optical tracking sensitivity set to:', state.opticalTrackingSensitivity);
     },
 
     'toggle-modifier': (state, payload) => {

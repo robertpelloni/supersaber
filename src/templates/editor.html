@@ -28,6 +28,14 @@
 
        <a-entity geometry="primitive: sphere; radius: 0.15" material="color: #444444" position="0 -0.4 0"
           class="raycastable" proxy-event="event: click; to: a-scene; as: editor-select-type" bind__material="opacity: editorActiveType === 3 ? 1 : 0.4" data-proxy-event-detail="3"></a-entity>
+
+       <!-- Wall (Obstacle) -->
+       <a-entity geometry="primitive: box; width: 0.1; height: 0.3; depth: 0.3" material="color: #00ff00" position="0 -0.8 0"
+          class="raycastable" proxy-event="event: click; to: a-scene; as: editor-select-type" bind__material="opacity: editorActiveType === 4 ? 1 : 0.4" data-proxy-event-detail="4"></a-entity>
+
+       <!-- Event (e.g., 360 modifier) -->
+       <a-entity geometry="primitive: cylinder; radius: 0.15; height: 0.1" material="color: #ff00ff" position="0 -1.2 0" rotation="90 0 0"
+          class="raycastable" proxy-event="event: click; to: a-scene; as: editor-select-type" bind__material="opacity: editorActiveType === 5 ? 1 : 0.4" data-proxy-event-detail="5"></a-entity>
     </a-entity>
 
     <a-entity id="editorExportBtn" bind__visible="!!editorAudioUrl" position="2 -0.8 0.01">

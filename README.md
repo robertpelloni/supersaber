@@ -30,6 +30,19 @@ URL](https://supermedium.com/supersaber/play.html) if you have a
 WebVR-compatible browser with Vive or Rift. We recommend Supermedium though as
 it is not prone to regressions and is configured for performance.
 
+
+
+## New Features
+Super Saber now supports several advanced features for an enhanced experience:
+
+- **2D Desktop Mode:** Play directly in your browser without a VR headset using a 2D interface.
+- **Optical Hand Tracking:** Enable optical tracking using your webcam to play with your hands (powered by MediaPipe).
+- **Twitch Integration:** Connect your Twitch channel to allow chat interactions, polling, and events in-game.
+- **Game Modifiers:** Customize your gameplay with modifiers like Ghost Notes, Disappearing Arrows, Fast Song, No Fail, One Saber, and 360 Levels.
+- **Multiplayer WebRTC:** Experience low-latency multiplayer sync.
+
+To access these features in 2D mode, open `play.html` in your browser and use the "Ultimate Desktop Mode" UI overlay located at the top-left of the screen to toggle optical tracking, modifiers, and connect your Twitch channel.
+
 ## Development
 
 Super Saber is built with [A-Frame](https://aframe.io) (incl.

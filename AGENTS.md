@@ -19,3 +19,8 @@
 
 ## General Multi-modal Guidelines
 - Ensure all references to `CLAUDE.md`, `GEMINI.md`, `GPT.md`, and `copilot-instructions.md` cascade back up to this central document.
+
+## Handoff Protocol & 10-Point Audit Analysis
+- At the end of every major development session or phase transition, agents must generate a `10-Point Audit Analysis` and append it to `HANDOFF.md`.
+- This audit must cover: Completed Features, Partially Implemented Features, Backend/Frontend Gaps, UI Issues, Bugs/Fragile Areas, Refactor Opportunities, Documentation Gaps, Dependency Updates, Deployment Status, and Next Highest-Impact Tasks.
+- This ensures continuous context sharing across autonomous agent sessions without requiring human intervention to re-establish state.

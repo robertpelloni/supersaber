@@ -120,3 +120,35 @@ All notable changes to this project will be documented in this file.
 * v1.3.9 (2026-04-22)
   * Finalized structural branches, merged Phase 7 Editor mappings into `master`.
   * Verified build pipelines and validated package dependency graph stability natively across `master`.
+- Bumped version to 1.4.1 reflecting build dependency stabilization.
+- Bumped version to 1.4.2 reflecting Phase 8 WebRTC P2P networking implementation.
+
+## [v1.4.3] - 2026-07-02
+### Added
+- Completely overhauled the 2D Desktop UI into a unified dashboard panel consolidating Modifiers, Twitch, Multiplayer, and Custom Assets.
+- Integrated `jszip` to natively unpack BeatSaver `.zip` files via drag-and-drop, parsing `info.dat` and audio blobs in memory.
+- Fixed a DOM collision issue where custom `.obj` sabers were losing their `raycastable-game` meshes upon load.
+- Patched a WebRTC initialization signaling error where the local client ID was excluded from the `join` socket payload.
+
+## [v1.5.0] - 2026-07-03
+### Refactor
+- Completely decoupled the legacy Webpack 2.3.3 dependency chain from the core build loop.
+- Implemented Vite 4 for lightning-fast HMR and significantly smaller production bounds.
+- Migrated Nunjucks compilation to a pre-build parsing script (`build-nunjucks.js`).
+
+## [v1.5.2] - 2026-07-03
+### Added
+- Integrated `vitest` into the repository. Formalized `npm test` scripts to protect the DOM UI overlays and A-Frame component bindings from regressions.
+
+## [v2.0.0-beta.11] - 2026-07-09
+### Added
+- Explicit `[ RECALIBRATE OPTICAL ]` toggle to `src/templates/menu.html` to support dynamically zeroing optical hand tracking limits within the ECS state loop.
+- Support for dragging and dropping `.json` custom map files into the browser directly mapping to the `custom-map-json-loaded` state via `custom-asset-loader.js`.
+
+### Changed
+- Finalized Phase 6 UI Polish parameters.
+- Re-wired the `#toggleMultiplayerBtn` desktop block logic to read securely from the A-Frame state rather than static toggles, resolving network indicator mismatches natively.
+- Refactored legacy CommonJS syntax (`require.context()`, `module.exports`) to native Vite ES modules (`import.meta.glob`, `export { ... }`) to eliminate `npm run build` syntax collision errors.
+
+### Fixed
+- Fatal Rollup crash caused by improperly transpiled `export { transformPlane } transformPlane;` assignments.

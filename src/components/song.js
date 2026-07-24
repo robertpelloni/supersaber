@@ -1,4 +1,5 @@
-const utils = require('../utils');
+/* eslint-disable no-undef */
+import utils from '../utils';
 
 const GAME_OVER_LENGTH = 3.5;
 const ONCE = {once: true};
@@ -126,11 +127,29 @@ AFRAME.registerComponent('song', {
         this.source = evt.detail;
         resolve(this.source);
       }, ONCE);
+      // Check if this is a custom local mod
+      const currentChallenge = this.el.sceneEl.systems.state.state.menuSelectedChallenge;
+      if (currentChallenge && currentChallenge.isLocalMod && currentChallenge.zipFile) {
+        console.log('[song] Parsing local zip audio for', currentChallenge.audioFileName);
+        let audioFile = currentChallenge.zipFile.file(currentChallenge.audioFileName) || currentChallenge.zipFile.file('song.ogg');
+
+        if (audioFile) {
+          audioFile.async('blob').then(audioBlob => {
+            const blobUrl = URL.createObjectURL(audioBlob);
+            this.analyserSetter.src = blobUrl;
+            data.analyserEl.setAttribute('audioanalyser', this.analyserSetter);
+            this.songLoadingIndicator.setAttribute('material', 'progress', 1);
+            this.el.sceneEl.emit('songfetchfinish', null, false);
+          });
+          return;
+        }
+      }
+
       this.analyserSetter.src = utils.getS3FileUrl(data.challengeId, 'song.ogg');
       data.analyserEl.setAttribute('audioanalyser', this.analyserSetter);
 
       // Already loaded.
-      if (this.audioAnalyser.xhr.response) {
+      if (this.audioAnalyser.xhr && this.audioAnalyser.xhr.response) {
         this.songLoadingIndicator.setAttribute('material', 'progress', 1);
         this.el.sceneEl.emit('songfetchfinish', null, false);
         return;

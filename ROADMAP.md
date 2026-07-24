@@ -1,9 +1,9 @@
 # Roadmap
 
-## Phase 1: Deep Analysis & Restructuring (Current)
+## Phase 1: Deep Analysis & Restructuring (Complete)
 - [x] Initial codebase review (A-Frame, package setup).
 - [x] Establishment of project documentation (VISION, ROADMAP, TODO, CHANGELOG, MEMORY, DEPLOY, HANDOFF, IDEAS, AGENTS).
-- [ ] Upgrade dependencies and ensure build system stability.
+- [x] Upgrade dependencies and ensure build system stability.
 
 ## Phase 2: Desktop "Corner of Desk" Mode (Complete)
 - [x] Implement a fixed-camera 2D desktop mode alongside the existing VR rig.
@@ -21,7 +21,7 @@
 - [x] Link chat events to the A-Frame state component to dynamically modify gameplay.
 - [x] Twitch chat voting integration for song selection.
 
-## Phase 5: Feature Parity ## Phase 5: Feature Parity & Enhancements (In Progress) Enhancements (Complete)
+## Phase 5: Feature Parity & Enhancements (Complete)
 - [x] Initial modifiers state implemented and wired to UI.
 - [x] Implemented core backend visual logic for Ghost Notes, Disappearing Arrows, No Fail, and Fast Song modifiers.
 - [x] Implement remaining modifiers (e.g., 360 levels, one-saber).
@@ -55,3 +55,7 @@
 - [x] Extend custom-mod-loader.js to parse .mp3 drag-and-drop actions natively bypassing .zip restrictions.
 - [x] Build interactive 3D timeline slider.
 - [x] Hook up audio waveform extraction and beat placement.
+
+## Phase 9: WebXR & Vite Migration
+- [x] Remove Webpack 2 dependencies and replace with Vite natively.
+- [x] Compile Nunjucks templates using a pre-build node script to decouple from complex loader chains.

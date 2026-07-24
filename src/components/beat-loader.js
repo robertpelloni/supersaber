@@ -124,6 +124,46 @@ AFRAME.registerComponent('beat-loader', {
 
     if (this.xhr) { this.xhr.abort(); }
 
+    // Check if this is a custom local mod
+    const currentChallenge = this.el.sceneEl.systems.state.state.menuSelectedChallenge;
+    if (currentChallenge && currentChallenge.isLocalMod && currentChallenge.zipFile) {
+      console.log('[beat-loader] Parsing local zip beatmap for', this.data.difficulty);
+      let difficultyFileName = `${this.data.difficulty}.dat`;
+      let beatmapFile = currentChallenge.zipFile.file(difficultyFileName);
+
+      if (!beatmapFile) {
+            // Try alternate casing
+        const diffMap = {'ExpertPlus': 'ExpertPlus.dat', 'Expert': 'Expert.dat', 'Hard': 'Hard.dat', 'Normal': 'Normal.dat', 'Easy': 'Easy.dat'};
+        const searchName = diffMap[this.data.difficulty];
+            // Loop through to find case-insensitive match
+        for (let f in currentChallenge.zipFile.files) {
+          if (f.toLowerCase() === searchName.toLowerCase()) {
+            beatmapFile = currentChallenge.zipFile.files[f];
+            break;
+          }
+        }
+      }
+
+      if (beatmapFile) {
+        el.emit('beatloaderstart');
+        beatmapFile.async('string').then(beatmapJson => {
+          this.beatData = JSON.parse(beatmapJson);
+                // BeatSaver .dat files use _beatsPerMinute, mapping.json uses it natively. Wait, some use _beatsPerMinute inside info.dat.
+                // Inherit from state if missing.
+          if (!this.beatData._beatsPerMinute && currentChallenge.info) {
+            this.beatData._beatsPerMinute = currentChallenge.info._beatsPerMinute;
+          }
+
+          this.beatDataProcessed = false;
+          this.xhr = null;
+          this.el.sceneEl.emit('beatloaderfinish', null, false);
+        });
+        return; // Skip the XHR
+      } else {
+        console.error('[beat-loader] Could not find beatmap inside local zip:', this.data.difficulty);
+      }
+    }
+
     // Load beats.
     let url = utils.getS3FileUrl(this.data.menuSelectedChallengeId,
                                  `${this.data.difficulty}.json`);

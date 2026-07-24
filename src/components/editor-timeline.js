@@ -39,6 +39,8 @@ AFRAME.registerComponent('editor-timeline', {
 
     this.el.sceneEl.addEventListener('editor-play', () => this.play());
     this.blocks = [];
+    this.obstacles = [];
+    this.events = [];
     this.beatGrid = document.querySelector('#editorTimelineGrid');
 
     this.onGridClick = this.onGridClick.bind(this);
@@ -67,24 +69,63 @@ AFRAME.registerComponent('editor-timeline', {
     // Current Time of the playhead (with snapping to 1/8th beats usually, but simple for now)
     let currentTime = this.data.isPlaying ? this.audioContext.currentTime - this.startTime : this.pausedAt;
 
-    console.log(`[Editor] Placing block at grid [${clampedX}, ${clampedY}] at ${currentTime.toFixed(2)}s`);
+    const state = this.el.sceneEl.systems.state.state;
+    const activeType = state.editorActiveType !== undefined ? state.editorActiveType : 0;
+    const activeDirection = state.editorActiveCutDirection !== undefined ? state.editorActiveCutDirection : 1;
+
+    console.log(`[Editor] Placing element (type ${activeType}) at grid [${clampedX}, ${clampedY}] at ${currentTime.toFixed(2)}s`);
 
     const blockVisual = document.createElement('a-entity');
-    blockVisual.setAttribute('geometry', 'primitive: box; width: 0.2; height: 0.2; depth: 0.2');
-    blockVisual.setAttribute('material', 'color: #ff0000; shader: flat');
+
+    // Set visual appearance based on type
+    let color = '#ff0000'; // Default red (Type 0)
+    let geometry = 'primitive: box; width: 0.2; height: 0.2; depth: 0.2';
+
+    if (activeType === 1) color = '#0000ff'; // Blue
+    else if (activeType === 3) { color = '#444444'; geometry = 'primitive: sphere; radius: 0.1'; } // Mine
+    else if (activeType === 4) { color = '#00ff00'; geometry = 'primitive: box; width: 0.1; height: 0.3; depth: 0.3'; } // Wall
+    else if (activeType === 5) { color = '#ff00ff'; geometry = 'primitive: cylinder; radius: 0.15; height: 0.1'; } // Event
+
+    blockVisual.setAttribute('geometry', geometry);
+    blockVisual.setAttribute('material', `color: ${color}; shader: flat`);
+
+    if (activeType === 5) {
+      blockVisual.setAttribute('rotation', '90 0 0');
+    }
 
     // Position it visually on the grid offset for feedback
     blockVisual.setAttribute('position', `${(clampedX - 1.5) * 0.4} ${(clampedY - 1) * 0.4} 0.1`);
     this.beatGrid.appendChild(blockVisual);
 
-    this.blocks.push({
-      time: currentTime,
-      lineIndex: clampedX,
-      lineLayer: clampedY,
-      type: 0,
-      cutDirection: 1,
-      element: blockVisual
-    });
+    if (activeType === 0 || activeType === 1 || activeType === 3) {
+      // Note or Mine
+      this.blocks.push({
+        _time: currentTime,
+        _lineIndex: clampedX,
+        _lineLayer: clampedY,
+        _type: activeType,
+        _cutDirection: activeDirection,
+        element: blockVisual
+      });
+    } else if (activeType === 4) {
+      // Obstacle (Wall)
+      this.obstacles.push({
+        _time: currentTime,
+        _lineIndex: clampedX,
+        _type: 0, // Wall type (0 = full wall, 1 = crouch)
+        _duration: 1, // Default duration
+        _width: 1, // Default width
+        element: blockVisual
+      });
+    } else if (activeType === 5) {
+      // Event (e.g. 360 modifier)
+      this.events.push({
+        _time: currentTime,
+        _type: 14, // 360 event type or similar
+        _value: 1,
+        element: blockVisual
+      });
+    }
 
     this.el.sceneEl.addEventListener('editor-pause', () => this.pause());
     this.exportJSON = this.exportJSON.bind(this);
@@ -96,7 +137,11 @@ AFRAME.registerComponent('editor-timeline', {
 
     const mapData = {
       _version: '2.0.0',
-      _events: [],
+      _events: this.events.map(e => ({
+        _time: e._time,
+        _type: e._type,
+        _value: e._value
+      })),
       _notes: this.blocks.map(b => ({
         _time: b._time,
         _lineIndex: b._lineIndex,
@@ -104,7 +149,13 @@ AFRAME.registerComponent('editor-timeline', {
         _type: b._type,
         _cutDirection: b._cutDirection
       })),
-      _obstacles: []
+      _obstacles: this.obstacles.map(o => ({
+        _time: o._time,
+        _lineIndex: o._lineIndex,
+        _type: o._type,
+        _duration: o._duration,
+        _width: o._width
+      }))
     };
 
     const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(mapData, null, 2));
