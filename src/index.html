@@ -583,10 +583,25 @@
         <p id="twitchStatus" class="dash-status-text" style="color: #b48ead;">Chat: Ready (commands: !vote, !speedup, !hype)</p>
       </div>
 
-      <!-- SECTION 5: System Tray & Server Management Controls -->
+      <!-- SECTION 5: Custom Assets & Mod Upload -->
       <div class="dash-section">
         <div class="dash-section-title">
-          <span>5. Server & Tray Controls</span>
+          <span>5. Custom Assets & Mod Files</span>
+          <span class="tooltip-marker" title="Drag and drop or browse custom 3D models (.obj/.glb), textures (.png/.jpg), beatmap zips, or audio (.mp3/.ogg/.wav).">?</span>
+        </div>
+        <div style="display: flex; gap: 6px; align-items: center;">
+          <input type="file" id="customAssetFileInput" style="display: none;" accept=".obj,.glb,.gltf,.png,.jpg,.jpeg,.mp3,.ogg,.wav,.zip">
+          <button id="btnBrowseAsset" class="dash-btn dash-btn-secondary" style="width: 100%;" title="Select asset from file system">
+            📂 Browse Custom Asset / Mod File
+          </button>
+        </div>
+        <p id="customAssetStatus" class="dash-status-text" style="color: #88c0d0;">Drop or select: .obj, .glb, .zip, .mp3, .png</p>
+      </div>
+
+      <!-- SECTION 6: System Tray & Server Management Controls -->
+      <div class="dash-section">
+        <div class="dash-section-title">
+          <span>6. Server & Tray Controls</span>
           <span class="tooltip-marker" title="Monitor webpack development server, inspect logs, and manage server process status.">?</span>
         </div>
         <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11.5px; color: #eceff4;">
@@ -610,10 +625,10 @@
         </details>
       </div>
 
-      <!-- SECTION 6: Submodules, Architecture & Documentation Inventory -->
+      <!-- SECTION 7: Submodules, Architecture & Documentation Inventory -->
       <div class="dash-section" style="margin-bottom: 0;">
         <div class="dash-section-title">
-          <span>6. Architecture & Submodules</span>
+          <span>7. Architecture & Submodules</span>
           <span class="tooltip-marker" title="Consolidated inventory of submodules, external libraries, and architectural components.">?</span>
         </div>
         <details class="dash-details">
@@ -748,7 +763,43 @@
         }
       });
 
-      // SECTION 5: Refresh Scene and Recenter
+      // SECTION 5: Custom Asset File Selector
+      const fileInput = document.getElementById('customAssetFileInput');
+      document.getElementById('btnBrowseAsset').addEventListener('click', () => {
+        if (fileInput) fileInput.click();
+      });
+      if (fileInput) {
+        fileInput.addEventListener('change', (e) => {
+          const files = e.target.files;
+          if (files && files.length > 0) {
+            const file = files[0];
+            const sceneEl = document.querySelector('a-scene');
+            const statusEl = document.getElementById('customAssetStatus');
+            const blobUrl = URL.createObjectURL(file);
+            const lower = file.name.toLowerCase();
+
+            if (lower.endsWith('.obj')) {
+              sceneEl.emit('custom-saber-loaded', blobUrl);
+              statusEl.innerText = `Loaded 3D Saber: ${file.name}`;
+            } else if (lower.endsWith('.glb') || lower.endsWith('.gltf')) {
+              sceneEl.emit('custom-model-loaded', { url: blobUrl, format: lower.endsWith('.glb') ? 'glb' : 'gltf', name: file.name });
+              statusEl.innerText = `Loaded 3D Model: ${file.name}`;
+            } else if (lower.endsWith('.png') || lower.endsWith('.jpg') || lower.endsWith('.jpeg')) {
+              sceneEl.emit('custom-texture-loaded', blobUrl);
+              statusEl.innerText = `Loaded Texture: ${file.name}`;
+            } else if (lower.endsWith('.mp3') || lower.endsWith('.ogg') || lower.endsWith('.wav')) {
+              sceneEl.emit('editor-audio-loaded', { url: blobUrl, name: file.name });
+              statusEl.innerText = `Loaded Audio: ${file.name}`;
+            } else if (lower.endsWith('.zip')) {
+              sceneEl.emit('asset-load-start', `Loading zip ${file.name}...`);
+              statusEl.innerText = `Processing BeatMap Zip: ${file.name}`;
+            }
+            logDash(`Custom asset selected: ${file.name}`);
+          }
+        });
+      }
+
+      // SECTION 6: Refresh Scene and Recenter
       document.getElementById('btnRefreshScene').addEventListener('click', () => {
         const sceneEl = document.querySelector('a-scene');
         if (sceneEl) {

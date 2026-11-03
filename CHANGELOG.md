@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [1.5.0] - 2026-10-19
 ### Added
+- **Custom Asset Loading Refinement:**
+  - Extended `custom-asset-loader.js` to support `.glb` / `.gltf` 3D model formats and `.wav` audio.
+  - Bound `custom-texture-loaded` and `custom-model-loaded` into centralized `state/index.js` state.
+  - Integrated interactive custom asset file browsing input directly into Section 5 of the Operations Dashboard.
 - **Unified Operations Dashboard Redesign & Consolidation:**
   - Combined and consolidated all disparate features, toggles, controls, and diagnostics from all pages into a single, cohesive, high-value Operations Dashboard (`#desktopUI`) in `src/index.html`.
   - Reorganized into 6 prominent categories prioritized by value: Core Mode & Tracking, Gameplay Modifiers, Multiplayer & Networking, Twitch Live Integration, Server & Tray Controls, and Architecture & Submodules.

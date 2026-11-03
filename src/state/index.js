@@ -382,10 +382,18 @@ AFRAME.registerState({
     },
 
     'custom-texture-loaded': (state, url) => {
-      // Stub for future texture application to blocks or stage
+      state.customTextureUrl = url;
       state.isDraggingAsset = false;
       state.assetUploadStatus = 'Custom Texture Loaded!';
       console.log('Custom Texture Set:', url);
+    },
+
+    'custom-model-loaded': (state, payload) => {
+      state.customModelUrl = payload.url;
+      state.customModelFormat = payload.format;
+      state.isDraggingAsset = false;
+      state.assetUploadStatus = `Custom ${payload.format.toUpperCase()} Loaded: ${payload.name}`;
+      console.log('Custom Model Set:', payload);
     },
 
     'editor-audio-loaded': (state, payload) => {

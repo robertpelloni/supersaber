@@ -71,12 +71,12 @@ AFRAME.registerComponent('custom-asset-loader', {
 
       const blobUrl = URL.createObjectURL(file);
 
-      // We assume .obj by default based on the existing `customSaberModel` mapping which binds to `obj-model`
-      // For a robust system, we would conditionally attach `gltf-model` vs `obj-model` but we will stick to the existing OBJ pattern
+      // Support .obj directly for custom saber handles and meshes
       if (fileName.endsWith('.obj')) {
         this.el.sceneEl.emit('custom-saber-loaded', blobUrl);
       } else {
-        this.el.sceneEl.emit('asset-load-error', `Only .obj models are fully supported for sabers currently.`);
+        // Broadcast custom model URL for GLTF/GLB compatible entities
+        this.el.sceneEl.emit('custom-model-loaded', { url: blobUrl, format: fileName.endsWith('.glb') ? 'glb' : 'gltf', name: file.name });
       }
     }
     // Process texture assets (Stage/Blocks)
@@ -86,7 +86,7 @@ AFRAME.registerComponent('custom-asset-loader', {
 
       const blobUrl = URL.createObjectURL(file);
       this.el.sceneEl.emit('custom-texture-loaded', blobUrl);
-    } else if (fileName.endsWith('.mp3') || fileName.endsWith('.ogg')) {
+    } else if (fileName.endsWith('.mp3') || fileName.endsWith('.ogg') || fileName.endsWith('.wav')) {
       console.log(`[Custom Asset Loader] Processing Audio: ${file.name}`);
       this.el.sceneEl.emit('asset-load-start', `Loading audio ${file.name}...`);
 

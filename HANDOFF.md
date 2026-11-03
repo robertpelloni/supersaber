@@ -70,7 +70,8 @@
 - **A-Frame Ecosystem:** Bumping A-Frame components like `aframe-state-component` to latest (`7.1.1`) breaks due to strict `aframe` peer dependencies expecting `>=1.0.0` but the core is locked at `0.8.2` intentionally for WebVR bindings. Thus, A-Frame related packages cannot be incrementally bumped without causing cascading peer dependency failures.
 - **tmi.js & Firebase:** `firebase@5` is obsolete, but updating it breaks the synchronous legacy API calls used in `leaderboard.js`. The Twitch library `tmi.js` is fine at `1.8.3`.
 
-## Session v1.5.0: Unified Operations Dashboard & Tray Controls Implementation
+## Session v1.5.0: Unified Operations Dashboard, Custom Assets & Tray Controls Implementation
+- **Custom Asset Loading Refinement**: Expanded `custom-asset-loader.js` to process `.glb` and `.gltf` 3D models alongside `.obj`, and expanded audio formats to include `.wav`. Added explicit file picker inside Dashboard Section 5.
 - **Consolidation**: Successfully redesigned and merged all application sub-features, modifiers, networking controls, Twitch integration, and submodule documentation from across disparate pages into a single, comprehensive Operations Dashboard in `src/index.html`.
 - **High-Value Organization**: Prioritized elements into 6 logical categories:
   1. Core Mode & Tracking (VR vs Desktop optical hand tracking, quick links to Map Editor and Song Browser).
