@@ -11,6 +11,9 @@ if errorlevel 1 (
     exit /b 1
 )
 
+echo [SuperSaber] Launching tray controller status monitor...
+python tray_control.py status
+
 npm start
 
 if errorlevel 1 (

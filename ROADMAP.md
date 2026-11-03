@@ -35,6 +35,8 @@
 - [x] Ensure every single feature added is represented in the in-game menus.
 - [x] Detailed tooltips and documentation within the UI.
 - [x] Comprehensive bug fixing.
+- [x] Unified Operations Dashboard redesign combining all page features into a single, high-value, categorized interface with tooltips and diagnostic live event logging.
+- [x] System & Server tray process management with graceful shutdown and status verification.
 
 ## Submodules & External Libraries Tracking
 - **A-Frame Core (`vendor/aframe-master.js`)**: Modified 0.8.2 framework (WebVR API legacy compatibility).

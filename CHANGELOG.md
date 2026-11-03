@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.5.0] - 2026-10-19
+### Added
+- **Unified Operations Dashboard Redesign & Consolidation:**
+  - Combined and consolidated all disparate features, toggles, controls, and diagnostics from all pages into a single, cohesive, high-value Operations Dashboard (`#desktopUI`) in `src/index.html`.
+  - Reorganized into 6 prominent categories prioritized by value: Core Mode & Tracking, Gameplay Modifiers, Multiplayer & Networking, Twitch Live Integration, Server & Tray Controls, and Architecture & Submodules.
+  - Added descriptive labels, interactive modifier toggles, real-time status indicators, and contextual tooltip markers (`?`) for user guidance across all subsystems.
+  - Added diagnostic live event console log within the dashboard.
+  - Created `tray_control.py` process & system tray controller with port tracking (ports 3000 & 3001), recent log inspection, and graceful shutdown capabilities; linked to `start.bat`.
+  - Sourced version bump to `v1.5.0` via `VERSION.md`.
+
+## [1.4.0] - 2026-10-19
+### Added
+- Phase 7 Web Editor Waveform Extraction and dynamic timeline peaks visualizer.
+
 ## [1.1.7] - In Progress
 ### Added
 - Extended remote multiplayer avatars with explicit `saberHandle` and `saberglow` features dynamically rendering for full feature integration and polish.

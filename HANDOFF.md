@@ -69,3 +69,15 @@
 - **Webpack & Tooling:** Webpack is heavily tied to version `2.3.3`. Upgrading to modern `webpack` (4 or 5) breaks several legacy loaders (`webpack-glsl-loader`, outdated `babel-loader` and `url-loader` syntaxes). A full upgrade would necessitate rewriting `webpack.config.js` and abandoning unsupported packages entirely.
 - **A-Frame Ecosystem:** Bumping A-Frame components like `aframe-state-component` to latest (`7.1.1`) breaks due to strict `aframe` peer dependencies expecting `>=1.0.0` but the core is locked at `0.8.2` intentionally for WebVR bindings. Thus, A-Frame related packages cannot be incrementally bumped without causing cascading peer dependency failures.
 - **tmi.js & Firebase:** `firebase@5` is obsolete, but updating it breaks the synchronous legacy API calls used in `leaderboard.js`. The Twitch library `tmi.js` is fine at `1.8.3`.
+
+## Session v1.5.0: Unified Operations Dashboard & Tray Controls Implementation
+- **Consolidation**: Successfully redesigned and merged all application sub-features, modifiers, networking controls, Twitch integration, and submodule documentation from across disparate pages into a single, comprehensive Operations Dashboard in `src/index.html`.
+- **High-Value Organization**: Prioritized elements into 6 logical categories:
+  1. Core Mode & Tracking (VR vs Desktop optical hand tracking, quick links to Map Editor and Song Browser).
+  2. Gameplay Modifiers (Ghost Notes, Disappear Notes, Fast Song, No Fail, One Saber, 360 Levels) with tooltips.
+  3. Multiplayer & Networking (WebSocket / P2P URL configurator and live status).
+  4. Twitch Live Integration (IRC channel input, connect button, and song voting toggle).
+  5. Server & Tray Controls (Dev server port status, live diagnostic event logging, scene refresh and view recentering).
+  6. Architecture & Submodules (Collapsible dependency inventory and link to `docs.html`).
+- **Server Tray Management**: Added `tray_control.py` providing process status checking on ports 3000/3001, dev server log tailing, and graceful server shutdown controls; integrated with `start.bat`.
+- **Versioning**: Bumped version to `v1.5.0` in `VERSION.md` and synced documentation across `CHANGELOG.md`, `ROADMAP.md`, `TODO.md`, `VISION.md`, `DEPLOY.md`, `IDEAS.md`, and `MEMORY.md`.

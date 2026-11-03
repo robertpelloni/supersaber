@@ -46,6 +46,7 @@
 ## 2026-04-17 UI Polish and Tooltips Integration
 - Implemented inline descriptive text objects via A-Frame text elements for Modifiers and Multiplayer.
 - Successfully generated docs.html manually and bound it to Webpack builds, giving it a raycastable link from the main menu context.
+- Consolidated all disjoint dashboard panels into a singular, high-value Operations Dashboard in src/index.html with interactive tooltips, live diagnostics, server port tracking, and submodules inventory.
 ## 2026-04-18 Leaderboard Mock Implementation
 - Successfully mocked the firebase database interface locally to test `this.db.add(scoreData)`.
 - Modified `src/components/leaderboard.js` to correctly apply base score modifiers (e.g. 1.15x for Ghost Notes, 0.5x penalty for No Fail) before submission to the cloud, allowing leaderboards to reflect ultimate challenge runs accurately.

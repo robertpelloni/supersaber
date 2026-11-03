@@ -1,6 +1,9 @@
 # TODO
 
 ## Immediate Tasks
+- [x] Consolidate and redesign Unified Dashboard UI (`#desktopUI`) in `src/index.html` combining all page features into a single high-value page.
+- [x] Integrate tooltip guidance markers across all dashboard feature items.
+- [x] Implement `tray_control.py` system tray and dev server controller with process checking and graceful shutdown.
 - [x] Complete documentation generation for this session.
 - [x] Check `npm install` progress.
 - [x] Locate main camera rig in `src/index.html` to begin designing the 2D "corner of desk" layout.
