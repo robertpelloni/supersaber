@@ -41,6 +41,8 @@ AFRAME.registerState({
     twitchVotingActive: false,
     twitchVotes: {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0},
     twitchVoters: [],
+    twitchConnected: false,
+    twitchRecentMessages: [],
 
     multiplayerEnabled: false,
     multiplayerRoom: 'ROOM1',
@@ -593,6 +595,27 @@ AFRAME.registerState({
 
     'set-twitch-channel': (state, payload) => {
       state.twitchChannel = payload;
+    },
+
+    'twitch-connected': (state, payload) => {
+      state.twitchConnected = true;
+      if (payload && payload.channel) {
+        state.twitchChannel = payload.channel;
+      }
+    },
+
+    'twitch-connection-error': (state) => {
+      state.twitchConnected = false;
+    },
+
+    'twitch-chat-message': (state, payload) => {
+      if (!state.twitchRecentMessages) {
+        state.twitchRecentMessages = [];
+      }
+      state.twitchRecentMessages.push(payload);
+      if (state.twitchRecentMessages.length > 20) {
+        state.twitchRecentMessages.shift();
+      }
     },
 
     victory: function (state) {

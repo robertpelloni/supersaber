@@ -16,6 +16,19 @@
 - Nunjucks templates require array access `twitchVotes[item.index + 1] || 0` syntax in the `menu.html` bindings instead of direct nested object calls when building lists dynamically.
 - `tmi.js` parses the tags properly to fetch the `username`.
 - Updating DOM bindings inside the `searchResultTemplate` loop ensures that each block renders independent values based on the global state structure.
+- **Twitch Integration State & Event Flow:**
+  * **Component Lifecycle (`src/components/twitch-integration.js`):** Initializes a connection via `tmi.Client` to `this.data.channel`. On success, emits `twitch-connected` with the channel payload; on failure, emits `twitch-connection-error`.
+  * **Chat Stream & Permissions:** Listens to `message` events, extracting broadcaster/mod privileges (`isMod`). Dispatches `twitch-chat-message` (`{ user, message, badges }`) for live chat feed visualizers.
+  * **Command Mapping:**
+    - `!vote [1-6]`: Dispatches `twitch-vote` (`{ user, option }`). Handled in `state/index.js` to increment `state.twitchVotes[option]` and record voter into `state.twitchVoters` to enforce single-vote per chatter.
+    - `!startvote` / `!stopvote`: Moderator-restricted commands that toggle `state.twitchVotingActive` and reset poll tallies.
+    - `!speedup` / `!slowdown`: Dispatches pacing adjustments affecting score multipliers.
+    - `!ghostnotes` / `!nofail`: Dispatches direct toggles to `state.modifiers`.
+  * **DOM & UI Sync (`src/index.html` and `src/templates/menu.html`):**
+    - The Operations Dashboard (`#desktopUI`) listens for `twitch-connected`, updating connection badges to green `#a3be8c`.
+    - Live feed `#twitchRecentFeed` updates whenever a `twitch-chat-message` arrives.
+    - Vote updates compute the current top song in real-time (`#twitchLeaderOption`).
+    - In-VR `#twitchVotingBanner` displays across the top of the search menu when `twitchVotingActive` is true, and individual song search rows render `[#] Votes: N`.
 
 ## Custom Sabers
 - To fully integrate custom sabers, replacing the geometries directly works but ensuring `raycastable-game` stays intact for collisions is necessary. Setting `visible="false"` via dynamic state bindings allows physics to process without the primitive meshes rendering over the custom geometries.

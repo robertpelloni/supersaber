@@ -5,6 +5,9 @@
 - [x] Integrate tooltip guidance markers across all dashboard feature items.
 - [x] Implement `tray_control.py` system tray and dev server controller with process checking and graceful shutdown.
 - [x] Refine custom asset loader to support .glb/.gltf models, .wav audio, and explicit file dialog browser inside dashboard.
+- [x] Clean up duplicated `#twitchVotingBanner` and `#versionText` elements in `src/templates/menu.html`.
+- [x] Refine Twitch integration with `twitch-connected`, `twitch-connection-error`, and real-time chat message streaming into dashboard UI.
+- [x] Document Twitch state architecture, event flows, and DOM interaction patterns in `MEMORY.md`.
 - [x] Complete documentation generation for this session.
 - [x] Check `npm install` progress.
 - [x] Locate main camera rig in `src/index.html` to begin designing the 2D "corner of desk" layout.

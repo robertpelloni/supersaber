@@ -17,10 +17,23 @@ AFRAME.registerComponent('twitch-integration', {
       channels: [this.data.channel]
     });
 
-    this.client.connect().catch(console.error);
+    this.client.connect().then(() => {
+      console.log('[Twitch] Connected successfully to #' + this.data.channel);
+      this.el.emit('twitch-connected', { channel: this.data.channel });
+    }).catch((err) => {
+      console.error('[Twitch] Connection error:', err);
+      this.el.emit('twitch-connection-error', { error: err });
+    });
 
     this.client.on('message', (channel, tags, message, self) => {
       if (self) return;
+
+      // Emit incoming chat message for UI loggers and viewer feeds
+      this.el.emit('twitch-chat-message', {
+        user: tags['display-name'] || tags.username,
+        message: message,
+        badges: tags.badges || {}
+      });
 
       const command = message.trim().toLowerCase();
 

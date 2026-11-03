@@ -580,7 +580,14 @@
           <button id="setTwitchChannel" class="dash-btn dash-btn-accent" title="Connect to specified Twitch IRC chat channel">Connect Chat</button>
           <button id="toggleTwitchVoting" class="dash-btn dash-btn-secondary" title="Trigger or toggle chat song vote poll">Vote Poll</button>
         </div>
+        <div id="twitchVoteTally" style="margin-top: 6px; font-size: 11px; color: #88c0d0; display: flex; justify-content: space-between;">
+          <span>Poll: <strong id="twitchPollStatus">Inactive</strong></span>
+          <span id="twitchLeaderOption">Top: -</span>
+        </div>
         <p id="twitchStatus" class="dash-status-text" style="color: #b48ead;">Chat: Ready (commands: !vote, !speedup, !hype)</p>
+        <div id="twitchRecentFeed" style="margin-top: 4px; font-size: 10px; color: #d8dee9; background: rgba(0,0,0,0.25); border-radius: 4px; padding: 4px 6px; font-family: monospace; max-height: 48px; overflow-y: hidden;">
+          <em>Waiting for Twitch chat messages...</em>
+        </div>
       </div>
 
       <!-- SECTION 5: Custom Assets & Mod Upload -->
@@ -754,14 +761,57 @@
         }
       });
 
-      // SECTION 4: Twitch Voting Toggle
+      // SECTION 4: Twitch Voting Toggle & Feed Listener
       document.getElementById('toggleTwitchVoting').addEventListener('click', () => {
         const sceneEl = document.querySelector('a-scene');
         if (sceneEl) {
-          sceneEl.emit('toggletwitchvoting');
-          logDash('Toggled Twitch song voting poll');
+          const currentState = sceneEl.systems.state && sceneEl.systems.state.state;
+          if (currentState && currentState.twitchVotingActive) {
+            sceneEl.emit('twitch-stop-voting');
+            document.getElementById('twitchPollStatus').innerText = 'Inactive';
+            document.getElementById('twitchPollStatus').style.color = '#bf616a';
+            logDash('Closed Twitch song voting poll');
+          } else {
+            sceneEl.emit('twitch-start-voting');
+            document.getElementById('twitchPollStatus').innerText = 'Active (Voting Open)';
+            document.getElementById('twitchPollStatus').style.color = '#a3be8c';
+            logDash('Started Twitch song voting poll');
+          }
         }
       });
+
+      // Listen for Twitch events from a-scene
+      const twitchSceneEl = document.querySelector('a-scene');
+      if (twitchSceneEl) {
+        twitchSceneEl.addEventListener('twitch-connected', (evt) => {
+          const channel = evt.detail && evt.detail.channel ? evt.detail.channel : 'channel';
+          document.getElementById('twitchStatus').innerText = `Chat: Connected to #${channel}`;
+          document.getElementById('twitchStatus').style.color = '#a3be8c';
+          logDash(`Twitch connected to #${channel}`);
+        });
+
+        twitchSceneEl.addEventListener('twitch-chat-message', (evt) => {
+          const feed = document.getElementById('twitchRecentFeed');
+          if (feed && evt.detail) {
+            feed.innerHTML = `<strong>${evt.detail.user}:</strong> ${evt.detail.message}`;
+          }
+        });
+
+        twitchSceneEl.addEventListener('twitch-vote', (evt) => {
+          const state = twitchSceneEl.systems.state && twitchSceneEl.systems.state.state;
+          if (state && state.twitchVotes) {
+            let maxVotes = 0;
+            let leader = '-';
+            Object.keys(state.twitchVotes).forEach(k => {
+              if (state.twitchVotes[k] > maxVotes) {
+                maxVotes = state.twitchVotes[k];
+                leader = `Song #${k} (${maxVotes} votes)`;
+              }
+            });
+            document.getElementById('twitchLeaderOption').innerText = leader !== '-' ? `Top: ${leader}` : 'Top: -';
+          }
+        });
+      }
 
       // SECTION 5: Custom Asset File Selector
       const fileInput = document.getElementById('customAssetFileInput');

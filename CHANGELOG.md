@@ -15,6 +15,11 @@ All notable changes to this project will be documented in this file.
   - Added diagnostic live event console log within the dashboard.
   - Created `tray_control.py` process & system tray controller with port tracking (ports 3000 & 3001), recent log inspection, and graceful shutdown capabilities; linked to `start.bat`.
   - Sourced version bump to `v1.5.0` via `VERSION.md`.
+- **Twitch Integration & Live Dashboard Polish:**
+  - Extended `src/components/twitch-integration.js` to emit `twitch-connected`, `twitch-connection-error`, and real-time `twitch-chat-message` events.
+  - Bound live Twitch chat message ticker (`#twitchRecentFeed`) and dynamic voting poll tally leader indicators (`#twitchLeaderOption`) to `#desktopUI`.
+  - Cleaned up duplicated `#twitchVotingBanner` and `#versionText` elements in `src/templates/menu.html`.
+  - Documented complete Twitch state management, event flow, and DOM bindings in `MEMORY.md`.
 
 ## [1.4.0] - 2026-10-19
 ### Added
