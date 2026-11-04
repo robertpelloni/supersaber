@@ -41,6 +41,8 @@ AFRAME.registerState({
     twitchVotingActive: false,
     twitchVotes: {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0},
     twitchVoters: [],
+    twitchConnected: false,
+    twitchRecentMessages: [],
 
     multiplayerEnabled: false,
     multiplayerRoom: 'ROOM1',
@@ -382,10 +384,18 @@ AFRAME.registerState({
     },
 
     'custom-texture-loaded': (state, url) => {
-      // Stub for future texture application to blocks or stage
+      state.customTextureUrl = url;
       state.isDraggingAsset = false;
       state.assetUploadStatus = 'Custom Texture Loaded!';
       console.log('Custom Texture Set:', url);
+    },
+
+    'custom-model-loaded': (state, payload) => {
+      state.customModelUrl = payload.url;
+      state.customModelFormat = payload.format;
+      state.isDraggingAsset = false;
+      state.assetUploadStatus = `Custom ${payload.format.toUpperCase()} Loaded: ${payload.name}`;
+      console.log('Custom Model Set:', payload);
     },
 
     'editor-audio-loaded': (state, payload) => {
@@ -587,6 +597,27 @@ AFRAME.registerState({
       state.twitchChannel = payload;
     },
 
+    'twitch-connected': (state, payload) => {
+      state.twitchConnected = true;
+      if (payload && payload.channel) {
+        state.twitchChannel = payload.channel;
+      }
+    },
+
+    'twitch-connection-error': (state) => {
+      state.twitchConnected = false;
+    },
+
+    'twitch-chat-message': (state, payload) => {
+      if (!state.twitchRecentMessages) {
+        state.twitchRecentMessages = [];
+      }
+      state.twitchRecentMessages.push(payload);
+      if (state.twitchRecentMessages.length > 20) {
+        state.twitchRecentMessages.shift();
+      }
+    },
+
     victory: function (state) {
       state.isVictory = true;
 
@@ -640,11 +671,25 @@ AFRAME.registerState({
       this.el.emit('spawn-random-obstacle');
     },
 
+    'twitch-heal': function (state) {
+      if (!state.isPlaying) return;
+      state.damage = Math.max(0, state.damage - 2);
+      console.log('Twitch Chat: Healed player! Current damage:', state.damage);
+    },
+
+    'twitch-dance': function (state) {
+      this.el.emit('stage-pulse-lasers');
+      console.log('Twitch Chat: Laser pulse dance triggered!');
+    },
+
+    'twitch-clear-mines': function (state) {
+      this.el.emit('clear-active-mines');
+      console.log('Twitch Chat: Clear active mines triggered!');
+    },
+
     'twitch-speed-up': function (state) {
       if (!state.isPlaying) return;
       state.score.multiplier = Math.min(state.score.multiplier * 2, 8);
-      // Actual audio/beat speedup would require modifying howler.js audio rate
-      // For this phase, we add a visual indicator or multiplier bump
       console.log('Twitch Speed Up Applied!');
     },
 

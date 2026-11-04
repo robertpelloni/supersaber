@@ -300,81 +300,601 @@
     <img id="tutorial2d" data-src="assets/img/tutorial2d.png">
     <h1 id="loadingText2d" style="position: fixed; bottom: 10px; left: 0; right: 0; margin: 0 auto; text-transform: uppercase; color: #FAFAFA; text-align: center; font-family: monospace">Loading...</h1>
 
-    <!-- 2D Desktop Mode UI -->
-    <div id="desktopUI" style="position: fixed; top: 10px; left: 10px; z-index: 9999; background: rgba(0,0,0,0.7); padding: 15px; color: white; font-family: monospace; border-radius: 8px;">
-      <h3 style="margin-top: 0;">Ultimate Desktop Mode</h3>
+    <!-- Unified Operations Dashboard UI (All features combined into single consolidated dashboard) -->
+    <style>
+      #desktopUI {
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        z-index: 9999;
+        background: rgba(12, 14, 20, 0.88);
+        backdrop-filter: blur(8px);
+        padding: 16px;
+        color: #e5e9f0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, monospace, sans-serif;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.65);
+        max-width: 360px;
+        max-height: 94vh;
+        overflow-y: auto;
+        font-size: 13px;
+        box-sizing: border-box;
+      }
+      #desktopUI::-webkit-scrollbar {
+        width: 6px;
+      }
+      #desktopUI::-webkit-scrollbar-thumb {
+        background: rgba(255,255,255,0.25);
+        border-radius: 4px;
+      }
+      .dash-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 12px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        padding-bottom: 8px;
+      }
+      .dash-title {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .dash-version-badge {
+        font-size: 11px;
+        background: #0088cc;
+        color: #fff;
+        padding: 2px 7px;
+        border-radius: 10px;
+        font-weight: 600;
+      }
+      .dash-section {
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 6px;
+        padding: 10px 12px;
+        margin-bottom: 10px;
+      }
+      .dash-section-title {
+        margin: 0 0 8px 0;
+        font-size: 12px;
+        text-transform: uppercase;
+        font-weight: 700;
+        color: #5af;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        letter-spacing: 0.5px;
+      }
+      .dash-btn {
+        width: 100%;
+        padding: 8px 12px;
+        cursor: pointer;
+        background: #256c43;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-weight: 600;
+        font-size: 12px;
+        transition: background 0.15s ease, transform 0.05s ease;
+      }
+      .dash-btn:hover {
+        background: #2f8c56;
+      }
+      .dash-btn:active {
+        transform: scale(0.99);
+      }
+      .dash-btn-secondary {
+        background: #3b4252;
+      }
+      .dash-btn-secondary:hover {
+        background: #4c566a;
+      }
+      .dash-btn-accent {
+        background: #850e3e;
+      }
+      .dash-btn-accent:hover {
+        background: #a8134f;
+      }
+      .dash-btn-outline {
+        background: transparent;
+        border: 1px solid #5af;
+        color: #5af;
+        margin-top: 6px;
+      }
+      .dash-btn-outline:hover {
+        background: rgba(85, 170, 255, 0.15);
+      }
+      .dash-grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+      }
+      .dash-grid-modifiers {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+      }
+      .dash-checkbox-label {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 11.5px;
+        color: #d8dee9;
+        cursor: pointer;
+        padding: 3px 0;
+      }
+      .dash-checkbox-label:hover {
+        color: #fff;
+      }
+      .tooltip-marker {
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        line-height: 14px;
+        text-align: center;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.18);
+        color: #88c0d0;
+        font-size: 10px;
+        cursor: help;
+        font-weight: bold;
+        margin-left: 4px;
+        vertical-align: middle;
+      }
+      .dash-status-text {
+        font-size: 11px;
+        margin: 5px 0 0 0;
+        color: #a3be8c;
+      }
+      .dash-input {
+        padding: 6px 8px;
+        width: 100%;
+        background: #1e222b;
+        color: white;
+        border: 1px solid rgba(255,255,255,0.15);
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-size: 12px;
+      }
+      .dash-input:focus {
+        border-color: #5af;
+        outline: none;
+      }
+      .dash-details {
+        font-size: 11px;
+        color: #99a;
+        margin-top: 4px;
+      }
+      .dash-details summary {
+        cursor: pointer;
+        color: #5af;
+        font-weight: 600;
+        user-select: none;
+      }
+      .dash-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 6px;
+        font-size: 10.5px;
+      }
+      .dash-table th, .dash-table td {
+        border: 1px solid rgba(255,255,255,0.1);
+        padding: 3px 5px;
+        text-align: left;
+      }
+      .dash-table th {
+        background: rgba(255,255,255,0.08);
+      }
+    </style>
 
-      <div style="margin-bottom: 15px;">
-        <button id="toggleDesktopMode" style="padding: 10px; cursor: pointer; background: #256c43; color: white; border: none; border-radius: 5px; width: 100%;">Enable Optical Tracking</button>
-        <p id="trackingStatus" style="font-size: 12px; margin-top: 5px;">Status: Inactive</p>
+    <div id="desktopUI">
+      <!-- Dashboard Header -->
+      <div class="dash-header">
+        <h3 class="dash-title">
+          <span>⚡ SuperSaber Operations</span>
+        </h3>
+        <span class="dash-version-badge" title="Current build release">v{{ VERSION }}</span>
       </div>
 
-      <div style="margin-bottom: 15px; border-top: 1px solid #555; padding-top: 10px;">
-        <h4>Modifiers</h4>
-        <label><input type="checkbox" id="modGhostNotes"> Ghost Notes</label><br>
-        <label><input type="checkbox" id="modDisappearing"> Disappearing Arrows</label><br>
-        <label><input type="checkbox" id="modFastSong"> Fast Song</label><br>
-        <label><input type="checkbox" id="modNoFail"> No Fail</label><br>
-        <label><input type="checkbox" id="modOneSaber"> One Saber</label><br>
-        <label><input type="checkbox" id="modMode360"> 360 Levels</label>
+      <!-- SECTION 1: High-Value Primary Controls & Tracking -->
+      <div class="dash-section">
+        <div class="dash-section-title">
+          <span>1. Core Mode & Tracking</span>
+          <span class="tooltip-marker" title="Toggle between standard VR mode and 2D desktop mode with AI MediaPipe optical webcam hand tracking.">?</span>
+        </div>
+        <button id="toggleDesktopMode" class="dash-btn" title="Launch webcam optical hand tracking via MediaPipe">Enable Optical Tracking</button>
+        <p id="trackingStatus" class="dash-status-text" style="color: #d08770;">● Optical Hand Tracking: Inactive (VR Ready)</p>
+
+        <div class="dash-grid-2" style="margin-top: 8px;">
+          <button id="btnLaunchEditor" class="dash-btn dash-btn-secondary" title="Switch into the 3D Beatmap Editor to build custom maps">
+            🎵 Map Editor <span class="tooltip-marker" title="Launch Phase 7 3D timeline beatmap editor. Drag and drop audio to build custom maps.">?</span>
+          </button>
+          <button id="btnBrowseGenres" class="dash-btn dash-btn-secondary" title="Open song browser and genres catalog">
+            🔍 Browse Songs <span class="tooltip-marker" title="Browse catalog of over 6,000 community beatmaps.">?</span>
+          </button>
+        </div>
       </div>
 
-      <div style="border-top: 1px solid #555; padding-top: 10px;">
-        <h4>Twitch Integration</h4>
-        <input type="text" id="twitchChannelInput" value="robertpelloni" style="padding: 5px; width: calc(100% - 14px); background: #222; color: white; border: 1px solid #555;">
-        <button id="setTwitchChannel" style="margin-top: 5px; padding: 5px; cursor: pointer; background: #850e3e; color: white; border: none; border-radius: 5px; width: 100%;">Connect</button>
+      <!-- SECTION 2: High-Value Gameplay Modifiers -->
+      <div class="dash-section">
+        <div class="dash-section-title">
+          <span>2. Gameplay Modifiers</span>
+          <span class="tooltip-marker" title="Enable custom game modifiers that impact scoring and gameplay rules.">?</span>
+        </div>
+        <div class="dash-grid-modifiers">
+          <label class="dash-checkbox-label">
+            <input type="checkbox" id="modGhostNotes"> Ghost Notes
+            <span class="tooltip-marker" title="Arrows vanish right before reach (+15% score multiplier)">?</span>
+          </label>
+          <label class="dash-checkbox-label">
+            <input type="checkbox" id="modDisappearing"> Disappear Notes
+            <span class="tooltip-marker" title="Notes fade out smoothly as they approach (+10% score multiplier)">?</span>
+          </label>
+          <label class="dash-checkbox-label">
+            <input type="checkbox" id="modFastSong"> Fast Song
+            <span class="tooltip-marker" title="Increases song speed by 120% and ramps note spawn frequencies (+8% score)">?</span>
+          </label>
+          <label class="dash-checkbox-label">
+            <input type="checkbox" id="modNoFail"> No Fail
+            <span class="tooltip-marker" title="Play through complete song without triggering Game Over (-50% score penalty)">?</span>
+          </label>
+          <label class="dash-checkbox-label">
+            <input type="checkbox" id="modOneSaber"> One Saber
+            <span class="tooltip-marker" title="Single blade challenge: all spawned notes align for one saber color">?</span>
+          </label>
+          <label class="dash-checkbox-label">
+            <input type="checkbox" id="modMode360"> 360 Levels
+            <span class="tooltip-marker" title="Spawns notes in a full 360-degree radius around player arena">?</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- SECTION 3: Multiplayer & Networking -->
+      <div class="dash-section">
+        <div class="dash-section-title">
+          <span>3. Multiplayer & Networking</span>
+          <span class="tooltip-marker" title="Real-time multi-client synchronization via WebSockets (relay port 3001) / WebRTC P2P mesh.">?</span>
+        </div>
+        <div style="display: flex; gap: 6px; align-items: center; margin-bottom: 6px;">
+          <input type="text" id="multiplayerServerInput" class="dash-input" value="ws://localhost:3001/" placeholder="ws://localhost:3001/">
+          <button id="toggleMultiplayerBtn" class="dash-btn dash-btn-secondary" style="width: auto; white-space: nowrap;" title="Toggle multiplayer connection">Connect</button>
+        </div>
+        <p id="multiplayerStatus" class="dash-status-text" style="color: #88c0d0;">Status: Ready (ws://localhost:3001)</p>
+      </div>
+
+      <!-- SECTION 4: Interactive Twitch Live Integration -->
+      <div class="dash-section">
+        <div class="dash-section-title">
+          <span>4. Twitch Live Integration</span>
+          <span class="tooltip-marker" title="Connect to Twitch chat so viewers can vote on songs (!vote 1-6) or trigger gameplay modifiers (!speedup, !ghostnotes).">?</span>
+        </div>
+        <input type="text" id="twitchChannelInput" class="dash-input" value="robertpelloni" placeholder="Twitch Channel Name">
+        <div class="dash-grid-2" style="margin-top: 6px;">
+          <button id="setTwitchChannel" class="dash-btn dash-btn-accent" title="Connect to specified Twitch IRC chat channel">Connect Chat</button>
+          <button id="toggleTwitchVoting" class="dash-btn dash-btn-secondary" title="Trigger or toggle chat song vote poll">Vote Poll</button>
+        </div>
+        <div style="display: flex; gap: 4px; margin-top: 6px;">
+          <button id="cmdBomb" class="dash-btn dash-btn-secondary" style="font-size: 10px; padding: 4px 6px;" title="Spawn random bomb obstacle (!bomb)">💣 Bomb</button>
+          <button id="cmdHeal" class="dash-btn dash-btn-secondary" style="font-size: 10px; padding: 4px 6px;" title="Heal player damage (!heal)">❤️ Heal</button>
+          <button id="cmdDance" class="dash-btn dash-btn-secondary" style="font-size: 10px; padding: 4px 6px;" title="Trigger laser pulse lightshow (!dance)">✨ Dance</button>
+          <button id="cmdClear" class="dash-btn dash-btn-secondary" style="font-size: 10px; padding: 4px 6px;" title="Clear active mines (!clearmines)">🧹 Clear</button>
+        </div>
+        <div id="twitchVoteTally" style="margin-top: 6px; font-size: 11px; color: #88c0d0; display: flex; justify-content: space-between;">
+          <span>Poll: <strong id="twitchPollStatus">Inactive</strong></span>
+          <span id="twitchLeaderOption">Top: -</span>
+        </div>
+        <p id="twitchStatus" class="dash-status-text" style="color: #b48ead;">Chat: Ready (commands: !vote, !speedup, !hype)</p>
+        <div id="twitchRecentFeed" style="margin-top: 4px; font-size: 10px; color: #d8dee9; background: rgba(0,0,0,0.25); border-radius: 4px; padding: 4px 6px; font-family: monospace; max-height: 48px; overflow-y: hidden;">
+          <em>Waiting for Twitch chat messages...</em>
+        </div>
+      </div>
+
+      <!-- SECTION 5: Custom Assets & Mod Upload -->
+      <div class="dash-section">
+        <div class="dash-section-title">
+          <span>5. Custom Assets & Mod Files</span>
+          <span class="tooltip-marker" title="Drag and drop or browse custom 3D models (.obj/.glb), textures (.png/.jpg), beatmap zips, or audio (.mp3/.ogg/.wav).">?</span>
+        </div>
+        <div style="display: flex; gap: 6px; align-items: center;">
+          <input type="file" id="customAssetFileInput" style="display: none;" accept=".obj,.glb,.gltf,.png,.jpg,.jpeg,.mp3,.ogg,.wav,.zip">
+          <button id="btnBrowseAsset" class="dash-btn dash-btn-secondary" style="width: 100%;" title="Select asset from file system">
+            📂 Browse Custom Asset / Mod File
+          </button>
+        </div>
+        <p id="customAssetStatus" class="dash-status-text" style="color: #88c0d0;">Drop or select: .obj, .glb, .zip, .mp3, .png</p>
+      </div>
+
+      <!-- SECTION 6: System Tray & Server Management Controls -->
+      <div class="dash-section">
+        <div class="dash-section-title">
+          <span>6. Server & Tray Controls</span>
+          <span class="tooltip-marker" title="Monitor webpack development server, inspect logs, and manage server process status.">?</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11.5px; color: #eceff4;">
+          <span>Dev Server Port: <strong>3000</strong></span>
+          <span id="serverIndicator" style="color: #a3be8c; font-weight: bold;">● Active (Online)</span>
+        </div>
+        <div class="dash-grid-2" style="margin-top: 8px;">
+          <button id="btnRefreshScene" class="dash-btn dash-btn-secondary" title="Soft refresh the scene without reloading page">
+            🔄 Refresh Scene <span class="tooltip-marker" title="Resets camera rig and re-centers view">?</span>
+          </button>
+          <button id="btnRecenterCamera" class="dash-btn dash-btn-secondary" title="Re-center the VR or desktop camera rig">
+            🎯 Recenter View <span class="tooltip-marker" title="Recalibrates headset or tracking center">?</span>
+          </button>
+        </div>
+        <details class="dash-details" style="margin-top: 6px;">
+          <summary>📋 Live Event Log & Diagnostic Status</summary>
+          <div id="dashConsoleLog" style="margin-top: 4px; padding: 6px; background: #000; border-radius: 4px; font-family: monospace; font-size: 10px; max-height: 80px; overflow-y: auto; color: #a3be8c;">
+            [Ready] SuperSaber engine initialized.<br>
+            [Ready] All 6 dashboard subsystem groups linked.
+          </div>
+        </details>
+      </div>
+
+      <!-- SECTION 7: Submodules, Architecture & Documentation Inventory -->
+      <div class="dash-section" style="margin-bottom: 0;">
+        <div class="dash-section-title">
+          <span>7. Architecture & Submodules</span>
+          <span class="tooltip-marker" title="Consolidated inventory of submodules, external libraries, and architectural components.">?</span>
+        </div>
+        <details class="dash-details">
+          <summary>📂 View Submodules & Dependencies</summary>
+          <table class="dash-table">
+            <thead>
+              <tr><th>Component</th><th>Version</th><th>Purpose</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>A-Frame Core</td><td>0.8.2 (Mod)</td><td>WebVR 3D Scene ECS Framework</td></tr>
+              <tr><td>MediaPipe Hands</td><td>^0.4.x</td><td>Optical Hand Tracking AI</td></tr>
+              <tr><td>TMI.js</td><td>^1.8.3</td><td>Twitch Chat IRC Integration</td></tr>
+              <tr><td>Firebase</td><td>^5.11.1</td><td>Leaderboard Cloud Operations</td></tr>
+              <tr><td>Nunjucks</td><td>3.0.1</td><td>Template Macro Compilation</td></tr>
+              <tr><td>Webpack</td><td>2.3.3</td><td>Legacy Asset Bundling Pipeline</td></tr>
+            </tbody>
+          </table>
+        </details>
+        <button id="btnOpenDocs" class="dash-btn dash-btn-outline" onclick="window.open('docs.html', '_blank')" title="Open detailed library and submodule documentation page">
+          📖 Open Global Submodules Documentation (docs.html)
+        </button>
       </div>
     </div>
 
     <script>
+      // Logging helper for dashboard live log panel
+      function logDash(msg) {
+        const logEl = document.getElementById('dashConsoleLog');
+        if (logEl) {
+          const time = new Date().toTimeString().split(' ')[0];
+          logEl.innerHTML += `<br>[${time}] ${msg}`;
+          logEl.scrollTop = logEl.scrollHeight;
+        }
+      }
+
       // 360 Mode Rotation Logic
       document.querySelector('a-scene').addEventListener('rotate-stage-360', (evt) => {
         const stageRig = document.getElementById('stageRig');
         if (stageRig) {
-          // Set the target rotation via animation property update
           stageRig.setAttribute('animation__rotate', 'to', `0 ${evt.detail} 0`);
           stageRig.emit('rotate-stage');
+          logDash(`Rotated stage 360 to ${evt.detail} deg`);
         }
       });
 
       // Defer image so loading image loads first.
       const tutorial2d = document.getElementById('tutorial2d');
-      tutorial2d.src = tutorial2d.dataset.src;
+      if (tutorial2d) tutorial2d.src = tutorial2d.dataset.src;
 
-      // 2D Mode Toggle Logic
+      // SECTION 1: 2D Desktop Mode & Optical Tracking Logic
       document.getElementById('toggleDesktopMode').addEventListener('click', () => {
         const sceneEl = document.querySelector('a-scene');
         if (sceneEl && sceneEl.systems.state) {
           sceneEl.emit('toggle-2d-mode');
           const isEnabled = sceneEl.systems.state.state.is2DDesktopMode;
-          document.getElementById('trackingStatus').innerText = isEnabled ? 'Status: Tracking Active (Webcam On)' : 'Status: Inactive';
+          const statusEl = document.getElementById('trackingStatus');
+          statusEl.innerText = isEnabled ? '● Status: Tracking Active (Webcam On)' : '● Optical Hand Tracking: Inactive (VR Ready)';
+          statusEl.style.color = isEnabled ? '#a3be8c' : '#d08770';
           document.getElementById('toggleDesktopMode').innerText = isEnabled ? 'Disable Optical Tracking' : 'Enable Optical Tracking';
+          logDash(`Optical Tracking toggled: ${isEnabled ? 'ACTIVE' : 'INACTIVE'}`);
         }
       });
 
-      // Modifiers Logic
-      const modifiers = ['GhostNotes', 'Disappearing', 'FastSong', 'NoFail', 'OneSaber', 'Mode360'];
-      modifiers.forEach(mod => {
-        document.getElementById(`mod${mod}`).addEventListener('change', (e) => {
-          const sceneEl = document.querySelector('a-scene');
-          if (sceneEl) {
-            // camelCase event payload for state
-            const payload = mod.charAt(0).toLowerCase() + mod.slice(1);
-            sceneEl.emit('toggle-modifier', payload);
-          }
-        });
-      });
-
-      // Twitch Channel Logic
-      document.getElementById('setTwitchChannel').addEventListener('click', () => {
-        const channel = document.getElementById('twitchChannelInput').value;
+      // SECTION 1: Map Editor Quick Launch
+      document.getElementById('btnLaunchEditor').addEventListener('click', () => {
         const sceneEl = document.querySelector('a-scene');
         if (sceneEl) {
+          sceneEl.emit('toggle-editor');
+          logDash('Toggled 3D Beatmap Editor mode');
+        }
+      });
+
+      // SECTION 1: Browse Genres / Songs
+      document.getElementById('btnBrowseGenres').addEventListener('click', () => {
+        const sceneEl = document.querySelector('a-scene');
+        if (sceneEl) {
+          sceneEl.emit('genremenuopen');
+          logDash('Opened Browse Genres menu');
+        }
+      });
+
+      // SECTION 2: Modifiers Logic
+      const modifiers = ['GhostNotes', 'Disappearing', 'FastSong', 'NoFail', 'OneSaber', 'Mode360'];
+      modifiers.forEach(mod => {
+        const el = document.getElementById(`mod${mod}`);
+        if (el) {
+          el.addEventListener('change', (e) => {
+            const sceneEl = document.querySelector('a-scene');
+            if (sceneEl) {
+              const payload = mod.charAt(0).toLowerCase() + mod.slice(1);
+              sceneEl.emit('toggle-modifier', payload);
+              logDash(`Modifier ${mod}: ${e.target.checked ? 'ENABLED' : 'DISABLED'}`);
+            }
+          });
+        }
+      });
+
+      // SECTION 3: Multiplayer Network Toggle
+      document.getElementById('toggleMultiplayerBtn').addEventListener('click', () => {
+        const sceneEl = document.querySelector('a-scene');
+        if (sceneEl) {
+          sceneEl.emit('multiplayertoggle');
+          const isEnabled = sceneEl.systems.state ? sceneEl.systems.state.state.multiplayerEnabled : false;
+          const statusEl = document.getElementById('multiplayerStatus');
+          statusEl.innerText = `Status: ${isEnabled ? 'Connecting / Active' : 'Disconnected'}`;
+          statusEl.style.color = isEnabled ? '#a3be8c' : '#ebcb8b';
+          document.getElementById('toggleMultiplayerBtn').innerText = isEnabled ? 'Disconnect' : 'Connect';
+          logDash(`Multiplayer toggled: ${isEnabled ? 'ON' : 'OFF'}`);
+        }
+      });
+
+      // SECTION 4: Twitch Channel Connect Logic
+      document.getElementById('setTwitchChannel').addEventListener('click', () => {
+        const channel = document.getElementById('twitchChannelInput').value.trim();
+        const sceneEl = document.querySelector('a-scene');
+        if (sceneEl && channel) {
           sceneEl.emit('set-twitch-channel', channel);
-          // For a robust implementation, this would trigger a reconnect in the twitch component
-          // Currently, the component takes the initial channel state.
-          document.getElementById('setTwitchChannel').innerText = 'Connected';
-          setTimeout(() => { document.getElementById('setTwitchChannel').innerText = 'Connect'; }, 2000);
+          document.getElementById('twitchStatus').innerText = `Chat: Connected to #${channel}`;
+          document.getElementById('twitchStatus').style.color = '#a3be8c';
+          document.getElementById('setTwitchChannel').innerText = 'Connected!';
+          logDash(`Connected to Twitch channel: ${channel}`);
+          setTimeout(() => { document.getElementById('setTwitchChannel').innerText = 'Connect Chat'; }, 2000);
+        }
+      });
+
+      // SECTION 4: Twitch Voting Toggle & Feed Listener
+      document.getElementById('toggleTwitchVoting').addEventListener('click', () => {
+        const sceneEl = document.querySelector('a-scene');
+        if (sceneEl) {
+          const currentState = sceneEl.systems.state && sceneEl.systems.state.state;
+          if (currentState && currentState.twitchVotingActive) {
+            sceneEl.emit('twitch-stop-voting');
+            document.getElementById('twitchPollStatus').innerText = 'Inactive';
+            document.getElementById('twitchPollStatus').style.color = '#bf616a';
+            logDash('Closed Twitch song voting poll');
+          } else {
+            sceneEl.emit('twitch-start-voting');
+            document.getElementById('twitchPollStatus').innerText = 'Active (Voting Open)';
+            document.getElementById('twitchPollStatus').style.color = '#a3be8c';
+            logDash('Started Twitch song voting poll');
+          }
+        }
+      });
+
+      // Interactive Streamer Chat Command Emulators
+      const twitchSceneEl = document.querySelector('a-scene');
+      document.getElementById('cmdBomb').addEventListener('click', () => {
+        if (twitchSceneEl) {
+          twitchSceneEl.emit('twitch-spawn-obstacle');
+          logDash('Manual trigger: Spawn obstacle (!bomb)');
+        }
+      });
+      document.getElementById('cmdHeal').addEventListener('click', () => {
+        if (twitchSceneEl) {
+          twitchSceneEl.emit('twitch-heal');
+          logDash('Manual trigger: Heal damage (!heal)');
+        }
+      });
+      document.getElementById('cmdDance').addEventListener('click', () => {
+        if (twitchSceneEl) {
+          twitchSceneEl.emit('twitch-dance');
+          logDash('Manual trigger: Laser dance (!dance)');
+        }
+      });
+      document.getElementById('cmdClear').addEventListener('click', () => {
+        if (twitchSceneEl) {
+          twitchSceneEl.emit('twitch-clear-mines');
+          logDash('Manual trigger: Clear active mines (!clearmines)');
+        }
+      });
+
+      // Listen for Twitch events from a-scene
+      if (twitchSceneEl) {
+        twitchSceneEl.addEventListener('twitch-connected', (evt) => {
+          const channel = evt.detail && evt.detail.channel ? evt.detail.channel : 'channel';
+          document.getElementById('twitchStatus').innerText = `Chat: Connected to #${channel}`;
+          document.getElementById('twitchStatus').style.color = '#a3be8c';
+          logDash(`Twitch connected to #${channel}`);
+        });
+
+        twitchSceneEl.addEventListener('twitch-chat-message', (evt) => {
+          const feed = document.getElementById('twitchRecentFeed');
+          if (feed && evt.detail) {
+            feed.innerHTML = `<strong>${evt.detail.user}:</strong> ${evt.detail.message}`;
+          }
+        });
+
+        twitchSceneEl.addEventListener('twitch-vote', (evt) => {
+          const state = twitchSceneEl.systems.state && twitchSceneEl.systems.state.state;
+          if (state && state.twitchVotes) {
+            let maxVotes = 0;
+            let leader = '-';
+            Object.keys(state.twitchVotes).forEach(k => {
+              if (state.twitchVotes[k] > maxVotes) {
+                maxVotes = state.twitchVotes[k];
+                leader = `Song #${k} (${maxVotes} votes)`;
+              }
+            });
+            document.getElementById('twitchLeaderOption').innerText = leader !== '-' ? `Top: ${leader}` : 'Top: -';
+          }
+        });
+      }
+
+      // SECTION 5: Custom Asset File Selector
+      const fileInput = document.getElementById('customAssetFileInput');
+      document.getElementById('btnBrowseAsset').addEventListener('click', () => {
+        if (fileInput) fileInput.click();
+      });
+      if (fileInput) {
+        fileInput.addEventListener('change', (e) => {
+          const files = e.target.files;
+          if (files && files.length > 0) {
+            const file = files[0];
+            const sceneEl = document.querySelector('a-scene');
+            const statusEl = document.getElementById('customAssetStatus');
+            const blobUrl = URL.createObjectURL(file);
+            const lower = file.name.toLowerCase();
+
+            if (lower.endsWith('.obj')) {
+              sceneEl.emit('custom-saber-loaded', blobUrl);
+              statusEl.innerText = `Loaded 3D Saber: ${file.name}`;
+            } else if (lower.endsWith('.glb') || lower.endsWith('.gltf')) {
+              sceneEl.emit('custom-model-loaded', { url: blobUrl, format: lower.endsWith('.glb') ? 'glb' : 'gltf', name: file.name });
+              statusEl.innerText = `Loaded 3D Model: ${file.name}`;
+            } else if (lower.endsWith('.png') || lower.endsWith('.jpg') || lower.endsWith('.jpeg')) {
+              sceneEl.emit('custom-texture-loaded', blobUrl);
+              statusEl.innerText = `Loaded Texture: ${file.name}`;
+            } else if (lower.endsWith('.mp3') || lower.endsWith('.ogg') || lower.endsWith('.wav')) {
+              sceneEl.emit('editor-audio-loaded', { url: blobUrl, name: file.name });
+              statusEl.innerText = `Loaded Audio: ${file.name}`;
+            } else if (lower.endsWith('.zip')) {
+              sceneEl.emit('asset-load-start', `Loading zip ${file.name}...`);
+              statusEl.innerText = `Processing BeatMap Zip: ${file.name}`;
+            }
+            logDash(`Custom asset selected: ${file.name}`);
+          }
+        });
+      }
+
+      // SECTION 6: Refresh Scene and Recenter
+      document.getElementById('btnRefreshScene').addEventListener('click', () => {
+        const sceneEl = document.querySelector('a-scene');
+        if (sceneEl) {
+          sceneEl.emit('gamereset');
+          logDash('Triggered game/scene reset');
+        }
+      });
+
+      document.getElementById('btnRecenterCamera').addEventListener('click', () => {
+        const sceneEl = document.querySelector('a-scene');
+        if (sceneEl) {
+          sceneEl.emit('recenter');
+          logDash('Recalibrated and recentered camera view');
         }
       });
     </script>

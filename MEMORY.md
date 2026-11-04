@@ -79,3 +79,9 @@
 - Extracted 'saber-particles' & 'raycaster__game' logic and explicitly attached it into 'multiplayer-sync.js' avatar instantiation block. Remote sabers now accurately compute intersection hits natively to show visual FX.
 ## 2026-04-18 Multiplayer UI Overhaul
 - Extracted local user state metrics from A-Frame and packaged them implicitly into the multiplayer WebSocket payload array natively.
+
+## 2026-10-19 Operations Consolidation & Multiplayer Relay Integration
+- **Dashboard UI Architecture**: All features and functions are combined into a single, unified operations dashboard (`#desktopUI`) in `src/index.html` with 7 logical value categories and contextual tooltip guides (`?`).
+- **Multiplayer Relay Architecture**: Dedicated WebSocket relay server (`relay_server.js`) listening on port 3001 using `ws.Server`. Routes client messages based on room query params (`?room=ROOM1`) and broadcasts state payloads.
+- **Linux Webpack Watcher**: `fs.watch('src', { recursive: true })` throws `ERR_FEATURE_UNAVAILABLE_ON_PLATFORM` in Linux containers. `webpack.config.js` safely catches this error and watches individual directories (`src`, `src/templates`).
+- **Tray & Process Control**: `tray_control.py` monitors port 3000 (dev server) and port 3001 (multiplayer relay), views logs, and stops processes cleanly.

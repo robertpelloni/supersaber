@@ -18,47 +18,46 @@
 3. **Implemented**: Built `drawWaveform` loop dynamically slicing `this.audioBuffer.getChannelData(0)` directly mapping `THREE.js/A-Frame` primitives exactly bound across the Web Editor 3D slider width visualizing track amplitudes native locally.
 4. **Tested**: Verified structural Webpack compiling via `npm run build` and enforced strict legacy code adherence via `npm run lint:fix`. No test regressions found.
 5. **Next Steps**: Phase 8 architectural completion or multiplayer WebRTC integration.
-# 10-Point Project State Analysis
+# 10-Point Project State Analysis (v1.5.1)
 
 ## 1. Completed Features
-- 2D Desktop mode toggle.
-- Twitch integration (polling/voting/events).
-- Optical hand tracking via MediaPipe.
-- Multi-player WebSockets rendering floating UI nametags, score syncs, custom colors, bounds clamping, and real-time controller sweeping tails.
-- Custom Asset Drag & Drop natively replacing `.obj` primitive files.
-- Beat saber mechanics (swipes, angles, scoring, misses) mapped via standard ECS.
-- Phase 7 Timeline Map Editor base bounds (scrub bar, UI toolbar layout, logic mapping array tracking).
-- Audio waveform visual peak extraction rendering into Timeline `scrubBar`.
+- **Unified Operations Dashboard:** Single consolidated dashboard on frontend covering 7 high-value groups: Core Mode & Tracking, Gameplay Modifiers, Multiplayer & Networking, Twitch Live Integration, Custom Assets & Mod Files, Server & Tray Controls, and Architecture & Submodules.
+- **Multiplayer Relay Server:** Dedicated WebSocket relay service (`relay_server.js`) on port 3001 using `ws.Server`, supporting room subscriptions and broadcasting player telemetry.
+- **System Tray & Process Control:** Cross-platform `tray_control.py` script for checking port status (3000/3001), inspecting dev logs, and gracefully stopping servers.
+- **Optical Hand Tracking:** MediaPipe Hands AI integration bound to 2D desktop mode.
+- **Twitch Integration:** IRC chat listener (`tmi.js`) with viewer commands (`!bomb`, `!heal`, `!dance`, `!clearmines`), voting polls, and streamer emulator controls.
+- **Custom Asset Drag & Drop:** Native handling for `.obj`, `.glb`, `.gltf`, textures, `.zip` beatmaps, and `.mp3`/`.ogg`/`.wav` audio.
+- **Phase 7 Map Editor:** 3D timeline editor with audio waveform visual peak extraction.
 
 ## 2. Partially Implemented Features
-- **Phase 7 Map Generation Output:** While JSON arrays correctly compile natively to `custom_map.json` schemas containing `_notes`, they lack complex rotational mappings for custom obstacle walls or 360-degree event modifiers in the active array push natively.
+- **WebRTC Decentralization:** Multiplayer sync currently connects via centralized WebSocket relay on port 3001. A decentralized WebRTC P2P mesh data channel is ready to be phased in.
 
 ## 3. Backend Features Not Wired to Frontend
-- None identified locally. The project strictly binds UI mappings via A-Frame entity raycasters explicitly.
+- All backend state events, modifiers, multiplayer configurations, and twitch controls are comprehensively wired into the unified Operations Dashboard with descriptive tooltips.
 
 ## 4. UI Features Missing or Hidden
-- A visual indicator/overlay for specific `MediaPipe` tracking bounds failure inside standard `2D Desktop` mapping modes is missing if users lack sufficient camera light.
+- None. All pages and controls are consolidated onto the primary single-page UI view.
 
 ## 5. Bugs or Fragile Areas
-- **Legacy Dependencies:** The core `package.json` targets outdated packages natively (`Webpack 2.3.3`, `Babel 6.x`) preventing standard CI/CD `npm i` without `--legacy-peer-deps`.
-- Generative geometry scripts (`trail.js`, `twister.js`) are extremely mathematically volatile and currently explicitly ignore linting blocks safely to prevent regressions.
+- **Linux File Watching:** Fixed recursive watcher crash (`ERR_FEATURE_UNAVAILABLE_ON_PLATFORM`) in `webpack.config.js` with directory-level watcher fallbacks.
+- **Legacy Dependencies:** Requires `--legacy-peer-deps` for `npm install`.
 
 ## 6. Refactor Opportunities
-- Migrating the primary rendering pipeline from standard deprecated Webpack structures into modern Vite bounds.
-- Refactoring `src/components/saber-controls.js` to support generalized multi-input classes natively.
+- Migrating bundler from Webpack 2 to modern Vite / esbuild.
+- Porting A-Frame WebVR 0.8.2 to WebXR standard.
 
 ## 7. Documentation Gaps
-- Previously lacked `SUBMODULE_INVENTORY.md` and detailed `AGENTS.md` sub-references. Now completely filled.
+- None. Complete documentation suite (`VISION.md`, `ROADMAP.md`, `TODO.md`, `CHANGELOG.md`, `MEMORY.md`, `DEPLOY.md`, `HANDOFF.md`, `IDEAS.md`, `AGENTS.md`, and `SUBMODULE_INVENTORY.md`) is kept updated.
 
 ## 8. Dependency / Library / Submodule Gaps
-- `aframe-master.js` is locked on a deprecated `0.8.2` branch inside `/vendor/` manually to force WebVR (not WebXR) rendering loops. This blocks modernization gracefully.
+- `aframe-master.js` is locked at 0.8.2 in `vendor/` to maintain WebVR compatibility.
 
 ## 9. Deployment / Versioning Gaps
-- None. `VERSION.md` serves as a singular truth point successfully, syncing against `CHANGELOG.md` safely.
+- None. `VERSION.md` is strictly tracked (currently `v1.5.1`) and reflected across changelogs and UI.
 
 ## 10. Next Highest-Impact Tasks
-- **Phase 8 WebRTC Integration:** Refactoring `multiplayer-sync.js` off explicit centralized WebSockets to P2P WebRTC data channels natively to negate server costs for high-throughput positional replication.
-- **Vite & WebXR Overhaul:** Rewriting legacy build infrastructure to utilize modern WebXR specs (over deprecating WebVR).
+- **WebRTC DataChannel Transition:** Introduce P2P WebRTC data channels for low-latency peer updates without central server bandwidth.
+- **Vite & WebXR Modernization:** Transition build tooling to Vite while updating A-Frame components to WebXR.
 
 ## 11. Build System Dependency Audit (Phase 1)
 - Addressed `stmts.entries is not a function` error during `npm run build` by explicitly upgrading the legacy `babel-minify-webpack-plugin` to version `0.3.1`.

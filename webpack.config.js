@@ -27,17 +27,41 @@ fs.writeFileSync('docs.html', nunjucks.render('templates/docs.html'));
 // For development, watch HTML for changes to compile Nunjucks.
 // The production Express server will handle Nunjucks by itself.
 if (process.env.NODE_ENV !== 'production') {
-  fs.watch('src', { recursive: true }, (eventType, filename) => {
-    if (filename.indexOf('.html') === -1) {
-      return;
-    }
-    try {
-      fs.writeFileSync('play.html', nunjucks.render('index.html'));
-      fs.writeFileSync('docs.html', nunjucks.render('templates/docs.html'));
-    } catch (e) {
-      console.error(e);
-    }
-  });
+  try {
+    fs.watch('src', { recursive: true }, (eventType, filename) => {
+      if (filename && filename.indexOf('.html') === -1) {
+        return;
+      }
+      try {
+        fs.writeFileSync('play.html', nunjucks.render('index.html'));
+        fs.writeFileSync('docs.html', nunjucks.render('templates/docs.html'));
+      } catch (e) {
+        console.error(e);
+      }
+    });
+  } catch (err) {
+    // On Linux platforms, fs.watch with { recursive: true } throws ERR_FEATURE_UNAVAILABLE_ON_PLATFORM.
+    // Fall back to watching src and src/templates individually.
+    ['src', 'src/templates'].forEach(dir => {
+      if (fs.existsSync(dir)) {
+        try {
+          fs.watch(dir, (eventType, filename) => {
+            if (filename && filename.indexOf('.html') === -1) {
+              return;
+            }
+            try {
+              fs.writeFileSync('play.html', nunjucks.render('index.html'));
+              fs.writeFileSync('docs.html', nunjucks.render('templates/docs.html'));
+            } catch (e) {
+              console.error(e);
+            }
+          });
+        } catch (watchErr) {
+          console.warn('[Webpack] Could not watch dir:', dir, watchErr.message);
+        }
+      }
+    });
+  }
 }
 
 var PLUGINS = [new webpack.EnvironmentPlugin(['NODE_ENV'])];
