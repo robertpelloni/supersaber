@@ -7,6 +7,8 @@
 - [x] Refine custom asset loader to support .glb/.gltf models, .wav audio, and explicit file dialog browser inside dashboard.
 - [x] Clean up duplicated `#twitchVotingBanner` and `#versionText` elements in `src/templates/menu.html`.
 - [x] Refine Twitch integration with `twitch-connected`, `twitch-connection-error`, and real-time chat message streaming into dashboard UI.
+- [x] Implement Twitch chat command handlers (`!bomb`, `!heal`, `!dance`, `!clearmines`) and attach to A-Frame state and visual subsystems.
+- [x] Add interactive chat command emulator buttons directly in Section 4 of the Operations Dashboard.
 - [x] Document Twitch state architecture, event flows, and DOM interaction patterns in `MEMORY.md`.
 - [x] Complete documentation generation for this session.
 - [x] Check `npm install` progress.

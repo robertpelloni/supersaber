@@ -671,11 +671,25 @@ AFRAME.registerState({
       this.el.emit('spawn-random-obstacle');
     },
 
+    'twitch-heal': function (state) {
+      if (!state.isPlaying) return;
+      state.damage = Math.max(0, state.damage - 2);
+      console.log('Twitch Chat: Healed player! Current damage:', state.damage);
+    },
+
+    'twitch-dance': function (state) {
+      this.el.emit('stage-pulse-lasers');
+      console.log('Twitch Chat: Laser pulse dance triggered!');
+    },
+
+    'twitch-clear-mines': function (state) {
+      this.el.emit('clear-active-mines');
+      console.log('Twitch Chat: Clear active mines triggered!');
+    },
+
     'twitch-speed-up': function (state) {
       if (!state.isPlaying) return;
       state.score.multiplier = Math.min(state.score.multiplier * 2, 8);
-      // Actual audio/beat speedup would require modifying howler.js audio rate
-      // For this phase, we add a visual indicator or multiplier bump
       console.log('Twitch Speed Up Applied!');
     },
 

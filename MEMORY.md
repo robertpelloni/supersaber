@@ -23,6 +23,10 @@
     - `!vote [1-6]`: Dispatches `twitch-vote` (`{ user, option }`). Handled in `state/index.js` to increment `state.twitchVotes[option]` and record voter into `state.twitchVoters` to enforce single-vote per chatter.
     - `!startvote` / `!stopvote`: Moderator-restricted commands that toggle `state.twitchVotingActive` and reset poll tallies.
     - `!speedup` / `!slowdown`: Dispatches pacing adjustments affecting score multipliers.
+    - `!spawn` / `!bomb`: Dispatches `twitch-spawn-obstacle` which triggers `spawn-random-obstacle` on `beat-loader.js` generating a dynamic mine in front of the player.
+    - `!heal`: Dispatches `twitch-heal` which safely decrements damage by 2 points clamped at 0.
+    - `!dance`: Dispatches `twitch-dance` which triggers `stage-pulse-lasers` on the left and right stage laser rigs.
+    - `!clearmines`: Dispatches `twitch-clear-mines` which queries active mine beats in `beat-loader.js` and returns them to the pool.
     - `!ghostnotes` / `!nofail`: Dispatches direct toggles to `state.modifiers`.
   * **DOM & UI Sync (`src/index.html` and `src/templates/menu.html`):**
     - The Operations Dashboard (`#desktopUI`) listens for `twitch-connected`, updating connection badges to green `#a3be8c`.

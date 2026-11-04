@@ -18,6 +18,8 @@ All notable changes to this project will be documented in this file.
 - **Twitch Integration & Live Dashboard Polish:**
   - Extended `src/components/twitch-integration.js` to emit `twitch-connected`, `twitch-connection-error`, and real-time `twitch-chat-message` events.
   - Bound live Twitch chat message ticker (`#twitchRecentFeed`) and dynamic voting poll tally leader indicators (`#twitchLeaderOption`) to `#desktopUI`.
+  - Added new viewer commands: `!bomb`, `!heal`, `!dance`, and `!clearmines` with reactive state handlers and audio/visual bindings (`stage-pulse-lasers`, `clear-active-mines`).
+  - Added interactive streamer emulator buttons (`#cmdBomb`, `#cmdHeal`, `#cmdDance`, `#cmdClear`) in the Operations Dashboard.
   - Cleaned up duplicated `#twitchVotingBanner` and `#versionText` elements in `src/templates/menu.html`.
   - Documented complete Twitch state management, event flow, and DOM bindings in `MEMORY.md`.
 

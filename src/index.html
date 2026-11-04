@@ -580,6 +580,12 @@
           <button id="setTwitchChannel" class="dash-btn dash-btn-accent" title="Connect to specified Twitch IRC chat channel">Connect Chat</button>
           <button id="toggleTwitchVoting" class="dash-btn dash-btn-secondary" title="Trigger or toggle chat song vote poll">Vote Poll</button>
         </div>
+        <div style="display: flex; gap: 4px; margin-top: 6px;">
+          <button id="cmdBomb" class="dash-btn dash-btn-secondary" style="font-size: 10px; padding: 4px 6px;" title="Spawn random bomb obstacle (!bomb)">💣 Bomb</button>
+          <button id="cmdHeal" class="dash-btn dash-btn-secondary" style="font-size: 10px; padding: 4px 6px;" title="Heal player damage (!heal)">❤️ Heal</button>
+          <button id="cmdDance" class="dash-btn dash-btn-secondary" style="font-size: 10px; padding: 4px 6px;" title="Trigger laser pulse lightshow (!dance)">✨ Dance</button>
+          <button id="cmdClear" class="dash-btn dash-btn-secondary" style="font-size: 10px; padding: 4px 6px;" title="Clear active mines (!clearmines)">🧹 Clear</button>
+        </div>
         <div id="twitchVoteTally" style="margin-top: 6px; font-size: 11px; color: #88c0d0; display: flex; justify-content: space-between;">
           <span>Poll: <strong id="twitchPollStatus">Inactive</strong></span>
           <span id="twitchLeaderOption">Top: -</span>
@@ -780,8 +786,34 @@
         }
       });
 
-      // Listen for Twitch events from a-scene
+      // Interactive Streamer Chat Command Emulators
       const twitchSceneEl = document.querySelector('a-scene');
+      document.getElementById('cmdBomb').addEventListener('click', () => {
+        if (twitchSceneEl) {
+          twitchSceneEl.emit('twitch-spawn-obstacle');
+          logDash('Manual trigger: Spawn obstacle (!bomb)');
+        }
+      });
+      document.getElementById('cmdHeal').addEventListener('click', () => {
+        if (twitchSceneEl) {
+          twitchSceneEl.emit('twitch-heal');
+          logDash('Manual trigger: Heal damage (!heal)');
+        }
+      });
+      document.getElementById('cmdDance').addEventListener('click', () => {
+        if (twitchSceneEl) {
+          twitchSceneEl.emit('twitch-dance');
+          logDash('Manual trigger: Laser dance (!dance)');
+        }
+      });
+      document.getElementById('cmdClear').addEventListener('click', () => {
+        if (twitchSceneEl) {
+          twitchSceneEl.emit('twitch-clear-mines');
+          logDash('Manual trigger: Clear active mines (!clearmines)');
+        }
+      });
+
+      // Listen for Twitch events from a-scene
       if (twitchSceneEl) {
         twitchSceneEl.addEventListener('twitch-connected', (evt) => {
           const channel = evt.detail && evt.detail.channel ? evt.detail.channel : 'channel';
