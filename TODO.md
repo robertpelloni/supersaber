@@ -1,6 +1,9 @@
 # TODO
 
 ## Immediate Tasks
+- [x] Deploy and integrate multiplayer WebSocket relay server on port 3001 (`relay_server.js`).
+- [x] Fix recursive file watcher issue on Linux in `webpack.config.js`.
+- [x] Verify simultaneous execution of Webpack dev server and Multiplayer Relay via `tray_control.py`.
 - [x] Complete documentation generation for this session.
 - [x] Check `npm install` progress.
 - [x] Locate main camera rig in `src/index.html` to begin designing the 2D "corner of desk" layout.

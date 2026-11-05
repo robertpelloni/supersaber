@@ -17,10 +17,23 @@ AFRAME.registerComponent('twitch-integration', {
       channels: [this.data.channel]
     });
 
-    this.client.connect().catch(console.error);
+    this.client.connect().then(() => {
+      console.log('[Twitch] Connected successfully to #' + this.data.channel);
+      this.el.emit('twitch-connected', { channel: this.data.channel });
+    }).catch((err) => {
+      console.error('[Twitch] Connection error:', err);
+      this.el.emit('twitch-connection-error', { error: err });
+    });
 
     this.client.on('message', (channel, tags, message, self) => {
       if (self) return;
+
+      // Emit incoming chat message for UI loggers and viewer feeds
+      this.el.emit('twitch-chat-message', {
+        user: tags['display-name'] || tags.username,
+        message: message,
+        badges: tags.badges || {}
+      });
 
       const command = message.trim().toLowerCase();
 
@@ -29,9 +42,21 @@ AFRAME.registerComponent('twitch-integration', {
       // Basic Twitch chat commands mapping
       switch (command) {
         case '!spawn':
-          // Spawn a random bomb or block (example integration)
+        case '!bomb':
           console.log('Twitch Chat: Spawned an obstacle!');
           this.el.emit('twitch-spawn-obstacle');
+          break;
+        case '!heal':
+          console.log('Twitch Chat: Healed player!');
+          this.el.emit('twitch-heal');
+          break;
+        case '!dance':
+          console.log('Twitch Chat: Laser dance lightshow!');
+          this.el.emit('twitch-dance');
+          break;
+        case '!clearmines':
+          console.log('Twitch Chat: Clear mines!');
+          this.el.emit('twitch-clear-mines');
           break;
         case '!speedup':
           console.log('Twitch Chat: Speed increased!');
@@ -48,13 +73,8 @@ AFRAME.registerComponent('twitch-integration', {
         case '!ghostnotes':
           this.el.emit('twitch-toggle-ghost');
           break;
-        default:
-          if (command.startsWith('!vote ')) {
-            const option = parseInt(command.split(' ')[1], 10);
-            if (!isNaN(option) && option >= 1 && option <= 6) {
-              this.el.emit('twitch-vote', { user: tags.username, option: option });
-            }
-          }
+        case '!nofail':
+          this.el.emit('twitch-toggle-nofail');
           break;
         case '!startvote':
           if (isMod) {
@@ -72,8 +92,13 @@ AFRAME.registerComponent('twitch-integration', {
             console.log('[Twitch] Unauthorized stopvote attempt by ' + tags.username);
           }
           break;
-        case '!nofail':
-          this.el.emit('twitch-toggle-nofail');
+        default:
+          if (command.startsWith('!vote ')) {
+            const option = parseInt(command.split(' ')[1], 10);
+            if (!isNaN(option) && option >= 1 && option <= 6) {
+              this.el.emit('twitch-vote', { user: tags.username, option: option });
+            }
+          }
           break;
       }
     });

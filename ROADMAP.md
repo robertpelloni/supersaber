@@ -56,6 +56,11 @@
 - [x] Build interactive 3D timeline slider.
 - [x] Hook up audio waveform extraction and beat placement.
 
-## Phase 9: WebXR & Vite Migration
-- [x] Remove Webpack 2 dependencies and replace with Vite natively.
-- [x] Compile Nunjucks templates using a pre-build node script to decouple from complex loader chains.
+## Phase 8: Operations Consolidation & Multiplayer Relay (Current)
+- [x] Consolidated all disparate dashboard pages into a unified Operations Dashboard (`#desktopUI`).
+- [x] Implemented standalone WebSocket multiplayer relay server (`relay_server.js`) on port 3001.
+- [x] Integrated `tray_control.py` process manager monitoring Webpack dev server (3000) and relay (3001).
+- [ ] Migrate WebSocket relay protocol to decentralized WebRTC P2P DataChannels.
+
+## Phase 1 discrepancies:
+- Webpack build chain with Webpack 2 requires deprecated `babel-minify-webpack-plugin`. Upgrading it to 0.3.1 resolves babel compilation errors like `stmts.entries is not a function`.

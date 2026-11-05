@@ -95,6 +95,26 @@ AFRAME.registerComponent('beat-loader', {
         _lineLayer: Math.floor(Math.random() * 3)
       });
     });
+
+    this.el.sceneEl.addEventListener('stage-pulse-lasers', () => {
+      if (this.leftStageLasers && this.leftStageLasers.components['stage-lasers']) {
+        this.leftStageLasers.components['stage-lasers'].pulse && this.leftStageLasers.components['stage-lasers'].pulse();
+      }
+      if (this.rightStageLasers && this.rightStageLasers.components['stage-lasers']) {
+        this.rightStageLasers.components['stage-lasers'].pulse && this.rightStageLasers.components['stage-lasers'].pulse();
+      }
+    });
+
+    this.el.sceneEl.addEventListener('clear-active-mines', () => {
+      const beats = this.el.querySelectorAll('.beat[data-type="3"]');
+      if (beats) {
+        beats.forEach(b => {
+          if (b.components.beat) {
+            b.components.beat.returnToPool();
+          }
+        });
+      }
+    });
   },
 
   update: function (oldData) {

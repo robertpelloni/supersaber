@@ -6,11 +6,9 @@
     "deploy": "ghpages git@github.com:supermedium/supersaber.git -p .ghpages && rm -rf .ghpages",
     "lint": "semistandard -v | snazzy",
     "lint:fix": "semistandard --fix",
-    "predeploy": "npm run build && shx mkdir -p .ghpages && cp -r build/* .ghpages && cp -r vendor .ghpages/vendor",
-    "start": "vite",
-    "prebuild": "node build-nunjucks.js",
-    "test": "vitest run",
-    "relay": "node server.js"
+    "predeploy": "npm run build && shx mkdir -p .ghpages && cp -r index.html play.html assets build site vendor .ghpages",
+    "relay": "node relay_server.js",
+    "start": "webpack-dev-server --host 0.0.0.0 --progress --colors --hot --inline --port 3000"
   },
   "dependencies": {
     "@mediapipe/camera_utils": "^0.3.1675466862",
