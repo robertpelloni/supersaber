@@ -13,6 +13,10 @@ To truly evolve "Super Saber" into a next-generation platform, here is an exhaus
   - *Solution:* Pivot the UI layer out of the WebGL canvas. Render a transparent **Vue 3** or **React** app overlay on top of the `<canvas>`. Users point with their sabers via a custom 2D raycaster that maps 3D intersections to 2D CSS-styled DOM elements. This allows for infinitely scrolling, high-resolution leaderboards, and instant custom mod-loading menus without waiting for `a-scene` to compile geometries.
 - **Typescript Migration:**
   - Rewrite `/src/state/index.js` and all custom components into TypeScript to ensure rigid type safety. This eliminates runtime failures during multiplayer payload parsing (e.g. enforcing that `data.head.position` is always a `{x: number, y: number, z: number}`).
+- **Single Page Unified Operations Dashboard Expansion:**
+  - Extend the consolidated `#desktopUI` dashboard into a full docking overlay with hotkeys (e.g. `~` / `F1`) to dynamically collapse and pin sections during live VR / desktop gameplay sessions.
+- **WebSocket Relay Auto-Spawner:**
+  - Package a light Node.js or Python WebSocket relay runner that automatically starts alongside webpack-dev-server on port 3001 if not already running.
 
 ## 2. Gameplay Features & Concept Pivots
 - **Full In-Game Beatmap Editor:**

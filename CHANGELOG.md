@@ -2,26 +2,30 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.5.1] - 2026-10-19
-### Added
-- **Multiplayer Relay Server Integration:**
-  - Standalone WebSocket relay server (`relay_server.js`) on port 3001 using `ws.Server` with room isolation (`?room=ROOM1`) and payload broadcasting.
-  - Added `"relay": "node relay_server.js"` script to `package.json`.
-  - Configured `start.bat` to launch the relay server in the background and verify status with `tray_control.py`.
-- **Platform Compatibility & Watcher Resilience:**
-  - Resolved `ERR_FEATURE_UNAVAILABLE_ON_PLATFORM` in `webpack.config.js` when watching files on Linux systems without recursive `fs.watch`, falling back to watching directories individually.
-  - Formatted and cleaned up syntax in `src/components/custom-asset-loader.js`.
-
 ## [1.5.0] - 2026-10-19
 ### Added
+- **Custom Asset Loading Refinement:**
+  - Extended `custom-asset-loader.js` to support `.glb` / `.gltf` 3D model formats and `.wav` audio.
+  - Bound `custom-texture-loaded` and `custom-model-loaded` into centralized `state/index.js` state.
+  - Integrated interactive custom asset file browsing input directly into Section 5 of the Operations Dashboard.
 - **Unified Operations Dashboard Redesign & Consolidation:**
-  - Consolidated all disparate features, toggles, controls, and diagnostics from all pages into a single Operations Dashboard (`#desktopUI`) in `src/index.html`.
-  - Grouped into 7 prominent categories prioritized by value: Core Mode & Tracking, Gameplay Modifiers, Multiplayer & Networking, Twitch Live Integration, Custom Assets & Mod Files, Server & Tray Controls, and Architecture & Submodules.
+  - Combined and consolidated all disparate features, toggles, controls, and diagnostics from all pages into a single, cohesive, high-value Operations Dashboard (`#desktopUI`) in `src/index.html`.
+  - Reorganized into 6 prominent categories prioritized by value: Core Mode & Tracking, Gameplay Modifiers, Multiplayer & Networking, Twitch Live Integration, Server & Tray Controls, and Architecture & Submodules.
+  - Added descriptive labels, interactive modifier toggles, real-time status indicators, and contextual tooltip markers (`?`) for user guidance across all subsystems.
+  - Added diagnostic live event console log within the dashboard.
+  - Created `tray_control.py` process & system tray controller with port tracking (ports 3000 & 3001), recent log inspection, and graceful shutdown capabilities; linked to `start.bat`.
   - Sourced version bump to `v1.5.0` via `VERSION.md`.
-  - Created `tray_control.py` process & system tray controller with port tracking (ports 3000 & 3001), recent log inspection, and graceful shutdown capabilities.
 - **Twitch Integration & Live Dashboard Polish:**
   - Extended `src/components/twitch-integration.js` to emit `twitch-connected`, `twitch-connection-error`, and real-time `twitch-chat-message` events.
-  - Added interactive streamer commands: `!bomb`, `!heal`, `!dance`, and `!clearmines`.
+  - Bound live Twitch chat message ticker (`#twitchRecentFeed`) and dynamic voting poll tally leader indicators (`#twitchLeaderOption`) to `#desktopUI`.
+  - Added new viewer commands: `!bomb`, `!heal`, `!dance`, and `!clearmines` with reactive state handlers and audio/visual bindings (`stage-pulse-lasers`, `clear-active-mines`).
+  - Added interactive streamer emulator buttons (`#cmdBomb`, `#cmdHeal`, `#cmdDance`, `#cmdClear`) in the Operations Dashboard.
+  - Cleaned up duplicated `#twitchVotingBanner` and `#versionText` elements in `src/templates/menu.html`.
+  - Documented complete Twitch state management, event flow, and DOM bindings in `MEMORY.md`.
+
+## [1.4.0] - 2026-10-19
+### Added
+- Phase 7 Web Editor Waveform Extraction and dynamic timeline peaks visualizer.
 
 ## [1.1.7] - In Progress
 ### Added

@@ -11,11 +11,8 @@ if errorlevel 1 (
     exit /b 1
 )
 
-echo [SuperSaber] Checking server & tray status...
+echo [SuperSaber] Launching tray controller status monitor...
 python tray_control.py status
-
-echo [SuperSaber] Starting multiplayer relay server (port 3001) in background...
-start /b node relay_server.js
 
 npm start
 

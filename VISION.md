@@ -25,7 +25,7 @@ Super Saber aims to be the ultimate, all-encompassing rhythm game experience, br
 
 ## Ongoing Directives
 - **Documentation**: All models and implementors must heavily document new code, update these markdown files, and follow strict tracking protocols.
-- **Robust UI**: Every backend feature must have comprehensive, clear UI representations.
+- **Robust UI & Unified Dashboard**: Every backend feature must have comprehensive, clear UI representations. High-value features, modifiers, twitch integrations, multiplayer status, server controls, and submodules inventory must be united seamlessly into a single consolidated dashboard page with descriptive labels and tooltips.
 - **Testing**: No feature is complete until verified thoroughly.
 
 *Last updated during initial deep analysis and pivot phase.*

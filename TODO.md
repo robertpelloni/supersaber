@@ -1,9 +1,15 @@
 # TODO
 
 ## Immediate Tasks
-- [x] Deploy and integrate multiplayer WebSocket relay server on port 3001 (`relay_server.js`).
-- [x] Fix recursive file watcher issue on Linux in `webpack.config.js`.
-- [x] Verify simultaneous execution of Webpack dev server and Multiplayer Relay via `tray_control.py`.
+- [x] Consolidate and redesign Unified Dashboard UI (`#desktopUI`) in `src/index.html` combining all page features into a single high-value page.
+- [x] Integrate tooltip guidance markers across all dashboard feature items.
+- [x] Implement `tray_control.py` system tray and dev server controller with process checking and graceful shutdown.
+- [x] Refine custom asset loader to support .glb/.gltf models, .wav audio, and explicit file dialog browser inside dashboard.
+- [x] Clean up duplicated `#twitchVotingBanner` and `#versionText` elements in `src/templates/menu.html`.
+- [x] Refine Twitch integration with `twitch-connected`, `twitch-connection-error`, and real-time chat message streaming into dashboard UI.
+- [x] Implement Twitch chat command handlers (`!bomb`, `!heal`, `!dance`, `!clearmines`) and attach to A-Frame state and visual subsystems.
+- [x] Add interactive chat command emulator buttons directly in Section 4 of the Operations Dashboard.
+- [x] Document Twitch state architecture, event flows, and DOM interaction patterns in `MEMORY.md`.
 - [x] Complete documentation generation for this session.
 - [x] Check `npm install` progress.
 - [x] Locate main camera rig in `src/index.html` to begin designing the 2D "corner of desk" layout.

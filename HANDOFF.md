@@ -58,45 +58,20 @@
 ## 2026-07-02 Documentation Addendum
 - Verified that the `10-Point Audit Analysis` template has been successfully adopted in this tracking file, proving the utility of the `AGENTS.md` instructions. The documentation pipeline accurately represents the repository state.
 
-## 2026-07-04 Cross-Reference Verification
-- Formally verified that the `10-Point Audit Analysis` logged above directly aligns with the completed markers inside `VISION.md` and `ROADMAP.md` (all phases 1-9 resolved). Dependencies and build constraints detailed here are cross-referenced accurately against `DEPLOY.md` and `MEMORY.md` protocols.
+## 12. Dependency Upgrades Blockers
+- **Webpack & Tooling:** Webpack is heavily tied to version `2.3.3`. Upgrading to modern `webpack` (4 or 5) breaks several legacy loaders (`webpack-glsl-loader`, outdated `babel-loader` and `url-loader` syntaxes). A full upgrade would necessitate rewriting `webpack.config.js` and abandoning unsupported packages entirely.
+- **A-Frame Ecosystem:** Bumping A-Frame components like `aframe-state-component` to latest (`7.1.1`) breaks due to strict `aframe` peer dependencies expecting `>=1.0.0` but the core is locked at `0.8.2` intentionally for WebVR bindings. Thus, A-Frame related packages cannot be incrementally bumped without causing cascading peer dependency failures.
+- **tmi.js & Firebase:** `firebase@5` is obsolete, but updating it breaks the synchronous legacy API calls used in `leaderboard.js`. The Twitch library `tmi.js` is fine at `1.8.3`.
 
-## 2026-07-04 Feature Finalization
-- Fixed a lingering bug in `multiplayer-sync.js` where the WebRTC negotiation logic failed to ignore loopback traffic from the signaling server.
-- Wired the `noFail` modifier directly into `takeDamage` to ensure the `gameover` boundary cannot be reached when active.
-- Re-activated `gameover` condition logic for normal playthroughs.
-- Adjusted the `oneSaber` modifier calculation natively so that spawned blocks accurately enforce spawn positions inside center lanes.
-
-# 10-Point Project State Analysis (Phase 6 Polish Update)
-
-## 1. Completed Features
-- **UI Integration Audit:** Full UI parity achieved. The 2D unified dashboard natively controls Multiplayer bounds, Twitch connection mappings, Optical Tracking configurations (with recalibration explicitly modeled), and Modifiers without structural reference crashes.
-- **ES Module Migration:** Completely stripped Webpack `require()` logic, substituting modern `import` bindings compliant with Vite architectures.
-- **Editor Data Serialization:** Verified JSON Drag-and-Drop capability maps dynamically back to the editor grid using `import.meta.glob`.
-
-## 2. Partially Implemented Features
-- None. UI features perfectly track current A-Frame application state.
-
-## 3. Backend Features Not Wired to Frontend
-- None identified.
-
-## 4. UI Features Missing or Hidden
-- None. `verify.py` playwright testing confirms visibility of complex interactive layers.
-
-## 5. Bugs or Fragile Areas
-- **Latency/Tracking Smoothing:** MediaPipe's underlying hand coordinates map natively into `Math.atan2()`. During testing, mild drift occurs since no Exponential Moving Average (EMA) or buffer limit is explicitly applied to the rotation output in `optical-saber-controls.js`.
-
-## 6. Refactor Opportunities
-- `aframe-master.js` remains locked to v0.8.2.
-
-## 7. Documentation Gaps
-- None. `MEMORY.md` logs latency edge cases directly.
-
-## 8. Dependency / Library / Submodule Gaps
-- None. `vite-plugin-commonjs` actively mitigates `tmi.js` missing export fallbacks gracefully.
-
-## 9. Deployment / Versioning Gaps
-- Frontend tag bumped structurally to `v2.0.0-beta.8`.
-
-## 10. Next Highest-Impact Tasks
-- The supervisor may authorize Phase 10 implementation involving entirely stripping WebVR logic for native WebXR. Alternatively, applying EMA smoothing logic to the optical tracking rotation axes inside `optical-saber-controls.js` to eliminate tracking jitter.
+## Session v1.5.0: Unified Operations Dashboard, Custom Assets & Tray Controls Implementation
+- **Custom Asset Loading Refinement**: Expanded `custom-asset-loader.js` to process `.glb` and `.gltf` 3D models alongside `.obj`, and expanded audio formats to include `.wav`. Added explicit file picker inside Dashboard Section 5.
+- **Consolidation**: Successfully redesigned and merged all application sub-features, modifiers, networking controls, Twitch integration, and submodule documentation from across disparate pages into a single, comprehensive Operations Dashboard in `src/index.html`.
+- **High-Value Organization**: Prioritized elements into 6 logical categories:
+  1. Core Mode & Tracking (VR vs Desktop optical hand tracking, quick links to Map Editor and Song Browser).
+  2. Gameplay Modifiers (Ghost Notes, Disappear Notes, Fast Song, No Fail, One Saber, 360 Levels) with tooltips.
+  3. Multiplayer & Networking (WebSocket / P2P URL configurator and live status).
+  4. Twitch Live Integration (IRC channel input, connect button, and song voting toggle).
+  5. Server & Tray Controls (Dev server port status, live diagnostic event logging, scene refresh and view recentering).
+  6. Architecture & Submodules (Collapsible dependency inventory and link to `docs.html`).
+- **Server Tray Management**: Added `tray_control.py` providing process status checking on ports 3000/3001, dev server log tailing, and graceful server shutdown controls; integrated with `start.bat`.
+- **Versioning**: Bumped version to `v1.5.0` in `VERSION.md` and synced documentation across `CHANGELOG.md`, `ROADMAP.md`, `TODO.md`, `VISION.md`, `DEPLOY.md`, `IDEAS.md`, and `MEMORY.md`.
