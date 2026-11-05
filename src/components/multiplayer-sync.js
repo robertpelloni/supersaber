@@ -17,6 +17,9 @@ AFRAME.registerComponent('multiplayer-sync', {
     this.ws = null;
     this.lastTime = 0;
     this.remotePlayers = {}; // Track remote player entities
+    this.peerConnections = {}; // WebRTC connections
+    this.dataChannels = {};    // WebRTC data channels
+    this.localId = Math.random().toString(36).substr(2, 9); // Generate local peer ID
 
     // Find local rig entities to track
     this.rigEl = document.getElementById('cameraRig') || this.el.sceneEl.camera.el;
@@ -43,6 +46,8 @@ AFRAME.registerComponent('multiplayer-sync', {
 
       this.ws.onopen = () => {
         console.log('[Multiplayer] WebSocket connected.');
+        // Signal that we joined
+        this.ws.send(JSON.stringify({ type: 'join', id: this.localId }));
       };
 
       this.ws.onmessage = (event) => {
@@ -66,6 +71,14 @@ AFRAME.registerComponent('multiplayer-sync', {
       this.ws.close();
       this.ws = null;
     }
+    Object.keys(this.peerConnections).forEach(id => {
+      this.peerConnections[id].close();
+      delete this.peerConnections[id];
+    });
+    Object.keys(this.dataChannels).forEach(id => {
+      this.dataChannels[id].close();
+      delete this.dataChannels[id];
+    });
     // Cleanup remote players
     Object.keys(this.remotePlayers).forEach(id => {
       this.el.removeChild(this.remotePlayers[id].container);
@@ -73,10 +86,101 @@ AFRAME.registerComponent('multiplayer-sync', {
     });
   },
 
+  setupPeerConnection: function (id, isInitiator) {
+    if (this.peerConnections[id]) return;
+
+    const pc = new RTCPeerConnection({
+      iceServers: [
+        { urls: 'stun:stun.l.google.com:19302' },
+        { urls: 'stun:stun1.l.google.com:19302' }
+      ]
+    });
+    this.peerConnections[id] = pc;
+
+    pc.onicecandidate = (event) => {
+      if (event.candidate) {
+        this.ws.send(JSON.stringify({
+          type: 'candidate',
+          target: id,
+          id: this.localId,
+          candidate: event.candidate
+        }));
+      }
+    };
+
+    if (isInitiator) {
+      const dc = pc.createDataChannel('sync');
+      this.setupDataChannel(id, dc);
+      pc.createOffer().then(offer => {
+        return pc.setLocalDescription(offer);
+      }).then(() => {
+        this.ws.send(JSON.stringify({
+          type: 'offer',
+          target: id,
+          id: this.localId,
+          offer: pc.localDescription
+        }));
+      }).catch(e => console.error(e));
+    } else {
+      pc.ondatachannel = (event) => {
+        this.setupDataChannel(id, event.channel);
+      };
+    }
+  },
+
+  setupDataChannel: function (id, dc) {
+    this.dataChannels[id] = dc;
+    dc.onopen = () => { console.log(`[WebRTC] DataChannel open for ${id}`); };
+    dc.onclose = () => { console.log(`[WebRTC] DataChannel closed for ${id}`); delete this.dataChannels[id]; };
+    dc.onmessage = (event) => {
+      this.handleMessage(event.data);
+    };
+  },
+
   handleMessage: function (dataStr) {
     try {
       const data = JSON.parse(dataStr);
-      const id = data.id;
+      const id = data.id || data.source;
+
+      // Ignore echoes of our own messages
+      if (id === this.localId) return;
+      if (data.target && data.target !== this.localId) return;
+
+      // Handle WebRTC Signaling
+      if (data.type === 'join') {
+        // Someone joined, we should initiate a connection to them
+        this.setupPeerConnection(id, true);
+        return;
+      }
+      if (data.type === 'offer') {
+        this.setupPeerConnection(id, false);
+        this.peerConnections[id].setRemoteDescription(new RTCSessionDescription(data.offer))
+          .then(() => this.peerConnections[id].createAnswer())
+          .then(answer => this.peerConnections[id].setLocalDescription(answer))
+          .then(() => {
+            this.ws.send(JSON.stringify({
+              type: 'answer',
+              target: id,
+              id: this.localId,
+              answer: this.peerConnections[id].localDescription
+            }));
+          }).catch(e => console.error(e));
+        return;
+      }
+      if (data.type === 'answer') {
+        if (this.peerConnections[id]) {
+          this.peerConnections[id].setRemoteDescription(new RTCSessionDescription(data.answer)).catch(e => console.error(e));
+        }
+        return;
+      }
+      if (data.type === 'candidate') {
+        if (this.peerConnections[id]) {
+          this.peerConnections[id].addIceCandidate(new RTCIceCandidate(data.candidate)).catch(e => console.error(e));
+        }
+        return;
+      }
+
+      if (data.type !== 'update') return; // Ignore unknown or non-update messages
 
       if (!this.remotePlayers[id]) {
         // Create new remote player container
@@ -255,7 +359,12 @@ AFRAME.registerComponent('multiplayer-sync', {
             const name = data.scoreData.username || `Player ${id}`;
             const score = data.scoreData.score || 0;
             const combo = data.scoreData.combo || 0;
-            nameTag.setAttribute('text', `value: ${name}\nScore: ${score}\nCombo: ${combo}`);
+            let mods = [];
+            if (data.scoreData.modifiers) {
+               if (data.scoreData.modifiers.mode360) mods.push("360");
+               if (data.scoreData.modifiers.oneSaber) mods.push("OneSaber");
+            }
+            nameTag.setAttribute('text', `value: ${name}\nScore: ${score}\nCombo: ${combo}${mods.length > 0 ? '\n[' + mods.join(', ') + ']' : ''}`);
           }
         }
       }
@@ -312,8 +421,6 @@ AFRAME.registerComponent('multiplayer-sync', {
       }
     });
 
-    if (!this.ws || this.ws.readyState !== 1) return;
-
     if (time - this.lastTime > this.data.updateInterval) {
       this.lastTime = time;
 
@@ -328,7 +435,11 @@ AFRAME.registerComponent('multiplayer-sync', {
         scoreData: {
           username: localStorage.getItem('supersaberusername') || 'Player',
           score: state.score.score,
-          combo: state.score.combo
+          combo: state.score.combo,
+          modifiers: {
+            mode360: state.modifiers.mode360,
+            oneSaber: state.modifiers.oneSaber
+          }
         }
       };
 
@@ -346,7 +457,26 @@ AFRAME.registerComponent('multiplayer-sync', {
         };
       }
 
-      this.ws.send(JSON.stringify(payload));
+      const payloadStr = JSON.stringify(payload);
+      let sentViaWebRTC = false;
+
+      // Try WebRTC Data Channels first
+      Object.keys(this.dataChannels).forEach(id => {
+        const dc = this.dataChannels[id];
+        if (dc && dc.readyState === 'open') {
+          try {
+            dc.send(payloadStr);
+            sentViaWebRTC = true;
+          } catch (e) {
+            console.warn(`[WebRTC] Failed to send over datachannel to ${id}`, e);
+          }
+        }
+      });
+
+      // Fallback to WebSocket if no data channels are open yet
+      if (!sentViaWebRTC && this.ws && this.ws.readyState === 1) {
+        this.ws.send(payloadStr);
+      }
     }
   },
 

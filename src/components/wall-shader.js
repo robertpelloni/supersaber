@@ -1,4 +1,4 @@
-const COLORS = require('../constants/colors.js');
+import COLORS from '../constants/colors.js';
 
 const WALL_COLOR = new THREE.Color(COLORS.NEON_RED);
 const WALL_BG = new THREE.Color(COLORS.SKY_RED);

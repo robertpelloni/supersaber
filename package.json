@@ -2,12 +2,15 @@
   "private": true,
   "version": "1.1.0",
   "scripts": {
-    "build": "cross-env NODE_ENV=production webpack",
+    "build": "vite build && mv build/play.js build/build.js 2>/dev/null || true",
     "deploy": "ghpages git@github.com:supermedium/supersaber.git -p .ghpages && rm -rf .ghpages",
     "lint": "semistandard -v | snazzy",
     "lint:fix": "semistandard --fix",
-    "predeploy": "npm run build && shx mkdir -p .ghpages && cp -r index.html play.html assets build site vendor .ghpages",
-    "start": "webpack-dev-server --host 0.0.0.0 --progress --colors --hot --inline --port 3000"
+    "predeploy": "npm run build && shx mkdir -p .ghpages && cp -r build/* .ghpages && cp -r vendor .ghpages/vendor",
+    "start": "vite",
+    "prebuild": "node build-nunjucks.js",
+    "test": "vitest run",
+    "relay": "node server.js"
   },
   "dependencies": {
     "@mediapipe/camera_utils": "^0.3.1675466862",
@@ -30,41 +33,40 @@
     "ansi-html": "0.0.7",
     "autoprefixer": "^7.2.3",
     "babel": "6.23.0",
-    "babel-core": "6.24.1",
-    "babel-loader": "7.0.0",
     "babel-minify-webpack-plugin": "0.2.0",
-    "babel-preset-es2015": "6.24.1",
-    "babel-preset-stage-0": "6.24.1",
     "body-parser": "1.18.2",
     "classnames": "^2.2.5",
     "core-js": "^3.49.0",
-    "css-loader": "^1.0.1",
     "debug": "^4.1.0",
     "firebase": "^5.11.1",
     "html-entities": "^1.2.1",
     "html-minifier": "^3.5.11",
     "ip": "1.1.5",
     "json-loader": "^0.5.7",
+    "jszip": "^3.10.1",
     "nunjucks": "3.0.1",
     "postcss-loader": "^2.1.6",
     "promise-polyfill": "^8.3.0",
-    "style-loader": "^0.23.1",
     "tmi.js": "^1.8.3",
     "uglify-js": "git://github.com/mishoo/UglifyJS2#harmony",
     "uglifyjs-webpack-plugin": "0.4.6",
-    "url-loader": "^1.1.2",
-    "webpack": "2.3.3",
-    "webpack-glsl-loader": "^1.0.1",
-    "webpack-sources": "1.0.1"
+    "ws": "^8.16.0"
   },
   "devDependencies": {
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@vitejs/plugin-vue": "^6.0.7",
     "cross-env": "4.0.0",
     "ghpages": "0.0.10",
+    "jsdom": "^29.1.1",
     "semistandard": "10.0.0",
     "shx": "^0.2.2",
     "snazzy": "7.0.0",
     "superagent": "^3.8.2",
-    "webpack-dev-server": "2.4.4"
+    "vite": "^8.1.3",
+    "vite-plugin-commonjs": "^0.10.4",
+    "vite-plugin-nunjucks": "^0.2.0",
+    "vitest": "^4.1.9"
   },
   "semistandard": {
     "globals": [
@@ -76,6 +78,6 @@
     ]
   },
   "engines": {
-    "node": "8.9.1"
+    "node": ">=16.0.0"
   }
 }

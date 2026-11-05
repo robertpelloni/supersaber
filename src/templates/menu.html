@@ -190,13 +190,19 @@
           <a-entity mixin="font" text="align: center; color: #AAA; wrapCount: 45; value: Join peers via WebSocket port 3001" position="0 0.05 0.01"></a-entity>
 
           <a-entity id="multiplayerToggle"
-
             mixin="font"
             bind__text="value: multiplayerEnabled ? 'ON' : 'OFF'"
             text="align: center; color: #0f0; wrapCount: 30"
-            proxy-event="event: click; to: a-scene; as: multiplayertoggle"
+            proxy-event="event: click; to: a-scene; as: multiplayer-toggle"
             bind-toggle__raycastable="menuActive && !menuSelectedChallenge.id && !isSearching && !genre"
             position="0 0.0 0.01"></a-entity>
+
+          <a-entity id="multiplayerRoomText"
+            mixin="font"
+            bind__text="value: 'ROOM: ' + multiplayerRoom"
+            bind__visible="multiplayerEnabled"
+            text="align: center; color: #AAA; wrapCount: 40"
+            position="0 -0.05 0.01"></a-entity>
 
           <a-entity id="modifiersPanel"
             bind__visible="!menuSelectedChallenge.id && !isSearching && !genre"
@@ -206,51 +212,121 @@
           <a-entity mixin="font" text="align: center; color: #5af; wrapCount: 30; value: [ Libraries Documentation ]" position="0 0.15 0" class="raycastable" proxy-event="event: click; to: a-scene; as: open-docs" onclick="window.location.href='docs.html'"></a-entity>
           <a-entity mixin="font" text="align: center; color: #f5a; wrapCount: 30; value: [ ENTER BEATMAP EDITOR ]" position="0 0.20 0" class="raycastable" proxy-event="event: click; to: a-scene; as: toggle-editor"></a-entity>
 
+
             <a-entity id="modifierGhostNotes"
               mixin="font"
-              bind__text="value: modifiers.ghostNotes ? 'GHOST NOTES: ON' : 'GHOST NOTES: OFF'"
-              text="align: center; color: #0ff; wrapCount: 30"
+              bind__visible="modifiers.ghostNotes"
+              text="align: center; color: #0ff; wrapCount: 30; value: GHOST NOTES: ON"
               proxy-event="event: click; to: a-scene; as: modifiertoggleghost"
               bind-toggle__raycastable="menuActive && !menuSelectedChallenge.id && !isSearching && !genre"
               position="0 0.0 0">
                 <a-entity mixin="font" text="align: center; color: #AAA; wrapCount: 70; value: Arrows disappear right before you hit them" position="0 -0.025 0"></a-entity>
             </a-entity>
+            <a-entity id="modifierGhostNotesOff"
+              mixin="font"
+              bind__visible="!modifiers.ghostNotes"
+              text="align: center; color: #0ff; wrapCount: 30; value: GHOST NOTES: OFF"
+              proxy-event="event: click; to: a-scene; as: modifiertoggleghost"
+              bind-toggle__raycastable="menuActive && !menuSelectedChallenge.id && !isSearching && !genre"
+              position="0 0.0 0">
+                <a-entity mixin="font" text="align: center; color: #AAA; wrapCount: 70; value: Arrows disappear right before you hit them" position="0 -0.025 0"></a-entity>
+            </a-entity>
+
             <a-entity id="modifierDisappearing"
               mixin="font"
-              bind__text="value: modifiers.disappearingArrows ? 'DISAPPEARING ARROWS: ON' : 'DISAPPEARING ARROWS: OFF'"
-              text="align: center; color: #0ff; wrapCount: 30"
+              bind__visible="modifiers.disappearingArrows"
+              text="align: center; color: #0ff; wrapCount: 30; value: DISAPPEARING ARROWS: ON"
               proxy-event="event: click; to: a-scene; as: modifiertoggledisappearing"
               bind-toggle__raycastable="menuActive && !menuSelectedChallenge.id && !isSearching && !genre"
               position="0 -0.07 0">
               <a-entity mixin="font" text="align: center; color: #AAA; wrapCount: 70; value: Notes fade out as they approach" position="0 -0.025 0"></a-entity>
             </a-entity>
+            <a-entity id="modifierDisappearingOff"
+              mixin="font"
+              bind__visible="!modifiers.disappearingArrows"
+              text="align: center; color: #0ff; wrapCount: 30; value: DISAPPEARING ARROWS: OFF"
+              proxy-event="event: click; to: a-scene; as: modifiertoggledisappearing"
+              bind-toggle__raycastable="menuActive && !menuSelectedChallenge.id && !isSearching && !genre"
+              position="0 -0.07 0">
+              <a-entity mixin="font" text="align: center; color: #AAA; wrapCount: 70; value: Notes fade out as they approach" position="0 -0.025 0"></a-entity>
+            </a-entity>
+
             <a-entity id="modifierFastSong"
               mixin="font"
-              bind__text="value: modifiers.fastSong ? 'FAST SONG: ON' : 'FAST SONG: OFF'"
-              text="align: center; color: #0ff; wrapCount: 30"
+              bind__visible="modifiers.fastSong"
+              text="align: center; color: #0ff; wrapCount: 30; value: FAST SONG: ON"
               proxy-event="event: click; to: a-scene; as: modifiertogglefastsong"
               bind-toggle__raycastable="menuActive && !menuSelectedChallenge.id && !isSearching && !genre"
               position="0 -0.14 0">
               <a-entity mixin="font" text="align: center; color: #AAA; wrapCount: 70; value: Increases song playback speed and note frequency" position="0 -0.025 0"></a-entity>
             </a-entity>
+            <a-entity id="modifierFastSongOff"
+              mixin="font"
+              bind__visible="!modifiers.fastSong"
+              text="align: center; color: #0ff; wrapCount: 30; value: FAST SONG: OFF"
+              proxy-event="event: click; to: a-scene; as: modifiertogglefastsong"
+              bind-toggle__raycastable="menuActive && !menuSelectedChallenge.id && !isSearching && !genre"
+              position="0 -0.14 0">
+              <a-entity mixin="font" text="align: center; color: #AAA; wrapCount: 70; value: Increases song playback speed and note frequency" position="0 -0.025 0"></a-entity>
+            </a-entity>
+
             <a-entity id="modifierNoFail"
               mixin="font"
-              bind__text="value: modifiers.noFail ? 'NO FAIL: ON' : 'NO FAIL: OFF'"
-              text="align: center; color: #0ff; wrapCount: 30"
+              bind__visible="modifiers.noFail"
+              text="align: center; color: #0ff; wrapCount: 30; value: NO FAIL: ON"
               proxy-event="event: click; to: a-scene; as: modifiertogglenofail"
               bind-toggle__raycastable="menuActive && !menuSelectedChallenge.id && !isSearching && !genre"
               position="0 -0.21 0">
               <a-entity mixin="font" text="align: center; color: #AAA; wrapCount: 70; value: Missing notes does not end the song" position="0 -0.025 0"></a-entity>
             </a-entity>
+            <a-entity id="modifierNoFailOff"
+              mixin="font"
+              bind__visible="!modifiers.noFail"
+              text="align: center; color: #0ff; wrapCount: 30; value: NO FAIL: OFF"
+              proxy-event="event: click; to: a-scene; as: modifiertogglenofail"
+              bind-toggle__raycastable="menuActive && !menuSelectedChallenge.id && !isSearching && !genre"
+              position="0 -0.21 0">
+              <a-entity mixin="font" text="align: center; color: #AAA; wrapCount: 70; value: Missing notes does not end the song" position="0 -0.025 0"></a-entity>
+            </a-entity>
+
             <a-entity id="modifierOneSaber"
               mixin="font"
-              bind__text="value: modifiers.oneSaber ? 'ONE SABER: ON' : 'ONE SABER: OFF'"
-              text="align: center; color: #0ff; wrapCount: 30"
+              bind__visible="modifiers.oneSaber"
+              text="align: center; color: #0ff; wrapCount: 30; value: ONE SABER: ON"
               proxy-event="event: click; to: a-scene; as: modifiertoggleonesaber"
               bind-toggle__raycastable="menuActive && !menuSelectedChallenge.id && !isSearching && !genre"
               position="0 -0.28 0">
               <a-entity mixin="font" text="align: center; color: #AAA; wrapCount: 70; value: All notes become center aligned for a single blade" position="0 -0.025 0"></a-entity>
             </a-entity>
+            <a-entity id="modifierOneSaberOff"
+              mixin="font"
+              bind__visible="!modifiers.oneSaber"
+              text="align: center; color: #0ff; wrapCount: 30; value: ONE SABER: OFF"
+              proxy-event="event: click; to: a-scene; as: modifiertoggleonesaber"
+              bind-toggle__raycastable="menuActive && !menuSelectedChallenge.id && !isSearching && !genre"
+              position="0 -0.28 0">
+              <a-entity mixin="font" text="align: center; color: #AAA; wrapCount: 70; value: All notes become center aligned for a single blade" position="0 -0.025 0"></a-entity>
+            </a-entity>
+
+            <a-entity id="modifierMode360"
+              mixin="font"
+              bind__visible="modifiers.mode360"
+              text="align: center; color: #0ff; wrapCount: 30; value: 360 LEVELS: ON"
+              proxy-event="event: click; to: a-scene; as: modifiertoggle360"
+              bind-toggle__raycastable="menuActive && !menuSelectedChallenge.id && !isSearching && !genre"
+              position="0 -0.35 0">
+              <a-entity mixin="font" text="align: center; color: #AAA; wrapCount: 70; value: Notes rotate around the player progressively" position="0 -0.025 0"></a-entity>
+            </a-entity>
+            <a-entity id="modifierMode360Off"
+              mixin="font"
+              bind__visible="!modifiers.mode360"
+              text="align: center; color: #0ff; wrapCount: 30; value: 360 LEVELS: OFF"
+              proxy-event="event: click; to: a-scene; as: modifiertoggle360"
+              bind-toggle__raycastable="menuActive && !menuSelectedChallenge.id && !isSearching && !genre"
+              position="0 -0.35 0">
+              <a-entity mixin="font" text="align: center; color: #AAA; wrapCount: 70; value: Notes rotate around the player progressively" position="0 -0.025 0"></a-entity>
+            </a-entity>
+
           </a-entity>
 
         </a-entity>
@@ -297,6 +373,21 @@
       {% endraw %}
       </a-entity>
     </a-entity>
+
+
+          <!-- Phase 6 Polish: Tracking & Twitch UI -->
+          <a-entity id="twitchAndTrackingPanel"
+            bind__visible="!menuSelectedChallenge.id && !isSearching && !genre"
+            position="-0.8 -0.2 0.01">
+            <a-entity mixin="font" text="align: center; color: #FFF; wrapCount: 25; value: TWITCH INTEGRATION" position="0 0.1 0"></a-entity>
+            <a-entity mixin="font" bind__text="value: 'CHANNEL: ' + twitchChannel" text="align: center; color: #AAA; wrapCount: 45" position="0 0.05 0.01"></a-entity>
+            <a-entity mixin="font" bind__text="value: 'VOTING ACTIVE: ' + (twitchVotingActive ? 'YES' : 'NO')" text="align: center; color: #0f0; wrapCount: 45" position="0 0.0 0.01"></a-entity>
+
+            <a-entity mixin="font" text="align: center; color: #FFF; wrapCount: 25; value: DESKTOP SETTINGS" position="0 -0.1 0"></a-entity>
+            <a-entity mixin="font" bind__text="value: 'OPTICAL TRACKING: ' + (is2DDesktopMode ? 'ENABLED' : 'OFF')" text="align: center; color: #AAA; wrapCount: 45" position="0 -0.15 0.01"></a-entity>
+            <a-entity mixin="font" bind__text="value: 'SENSITIVITY: ' + opticalTrackingSensitivity" text="align: center; color: #0f0; wrapCount: 45" position="0 -0.2 0.01"></a-entity>
+            <a-entity mixin="font" bind__text="value: customSaberModel ? 'CUSTOM SABER: LOADED' : 'CUSTOM SABER: NONE'" bind__text-color="color: customSaberModel ? '#0f0' : '#AAA'" text="align: center; wrapCount: 45" position="0 -0.25 0.01"></a-entity>
+          </a-entity>
 
     <!-- Selected challenge info. -->
     <a-entity

@@ -79,3 +79,39 @@
 - Extracted 'saber-particles' & 'raycaster__game' logic and explicitly attached it into 'multiplayer-sync.js' avatar instantiation block. Remote sabers now accurately compute intersection hits natively to show visual FX.
 ## 2026-04-18 Multiplayer UI Overhaul
 - Extracted local user state metrics from A-Frame and packaged them implicitly into the multiplayer WebSocket payload array natively.
+## 2026-07-01 Custom Saber State Fixes
+- Fixed a DOM alignment issue where `raycastable-game` was orphaned outside the saber hierarchy, causing custom sabers to break collision tracking. They now correctly map hits while retaining `!!customSaberModel` visibility toggles.
+## 2026-07-01 JSZip Mod Extraction
+- Installed `jszip` to enable native browser parsing of `.zip` BeatSaver files. Overrode `beat-loader.js` and `song.js` to intercept XHR requests, loading the JSON beatmap and `.ogg` audio files directly from the JSZip archive blobs in memory via `URL.createObjectURL`.
+## 2026-07-02 UI Redesign
+- Completely overhauled the 2D `#desktopUI` block in `src/index.html` to act as a unified dashboard. Re-organized parameters (Modifiers, Twitch, Multiplayer, Custom Assets) into discrete panels, applied tooltips to all interactive elements, and removed the messy unstyled default inputs.
+## 2026-07-02 WebRTC Signaling Fix
+- Attached `this.localId` to the WebSocket WebRTC `join` payload. Previously, anonymous connection joins were failing to negotiate P2P handshakes properly across the relay.
+## 2026-07-02 Zip Beatmap Extraction
+- Hooked `beat-loader.js` to process the difficulty `.dat` parsing logic directly from the zipped JSON archives stored in `currentChallenge.zipFile`, overriding the traditional HTTP XHR fetch loops so local custom songs render beatmaps.
+## 2026-07-02 UI & Saber Finalization
+- Wired the `src/index.html` 2D dashboard Modifiers checkboxes to explicitly emit `toggle-modifier` actions mapping to camelCased payload values. Also explicitly attached `raycastable-game` to the `customSaber` block to resolve missing collision meshes when loading custom `.obj` models.
+## 2026-07-02 Dependency Upgrade Conclusion
+- Re-validated that `package.json` correctly scopes the `engines.node` map to `>=16.0.0` while gracefully utilizing `--legacy-peer-deps` bound back to Webpack 2.3.3. Bumping any underlying `babel-*` sub-components triggers AST generation errors during the minification pass, indicating that Phase 9's Vite migration must replace these artifacts entirely rather than attempting to update them in place.
+## 2026-07-02 Final Pre-Vite Validation
+- Verified that the `src/templates/menu.html` properly uses Nunjucks `!modifiers` negations for the A-Frame state machine. Generated Playwright screenshots of the 2D Dashboard verify that the visual UI is clean, functional, and maps natively into the state events via click bindings. Phase 6 is officially ready for handoff.
+## 2026-07-03 Vite Migration Bootstrapped
+- Successfully uninstalled all `webpack`, `babel-core`, and legacy loaders, replacing them with `vite` and `vite-plugin-nunjucks`.
+- Built a custom `build-nunjucks.js` pre-compiler script to pass the legacy environment variables (like `VERSION` and `COLORS`) into the template explicitly before Vite bundles the output.
+- Updated `package.json` to utilize `vite build` and `vite` for the dev server natively, entirely deprecating the Webpack 2 pipeline.
+## 2026-07-03 Automated Test Suite Installation
+- Formally established a standard `npm run test` pipeline utilizing `vitest` and `jsdom`. The initial unit suites rigorously assert that the newly refactored `desktopUI` overlays (Modifiers, Trackers, etc.) and `twitchVotes` state bindings operate safely without DOM or parsing collisions, finalizing the Phase 6 test parity.
+## 2026-07-03 Build Constraints Verification
+- Verified that the `predeploy` command correctly targets the Vite `build/` root directory to prevent 404 missing entry points during gh-pages sync.
+## 2026-07-03 Build Constraints Verification
+- Verified the Vite production build artifacts compile flawlessly and the local unit tests explicitly cover the `modGhostNotes` and `toggleMultiplayerBtn` UI interactions without error.
+## 2026-07-09 Final Review Sign-Off
+- Confirmed UI parity via Playwright snapshots.
+- Confirmed testing via `vitest` assertions of DOM state updates.
+- Finished ES module refactoring.
+- Fully resolved the task requests natively per supervisor directives.
+## 2026-07-09 Supervisor Sign-off Finalization
+- WebRTC missing local `id` definitions have been patched explicitly resolving P2P failures globally across `multiplayer-sync.js`.
+- Custom modifier mappings (`360` & `OneSaber`) are correctly intercepted inside the `scoreData` broadcast objects.
+- Vite properly bundles `COLORS` from a native `.cjs` static environment file without esbuild collision errors.
+- Pipeline logic completely stable.

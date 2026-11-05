@@ -1,7 +1,7 @@
-const COLORS = require('../constants/colors.js');
-const flatShaders = require('../../assets/shaders/flat.js');
-const stageAdditiveShaders = require('../../assets/shaders/stageAdditive.js');
-const stageNormalShaders = require('../../assets/shaders/stageNormal.js');
+import COLORS from '../constants/colors.js';
+import flatShaders from '../../assets/shaders/flat.js';
+import stageAdditiveShaders from '../../assets/shaders/stageAdditive.js';
+import stageNormalShaders from '../../assets/shaders/stageNormal.js';
 
 AFRAME.registerSystem('materials', {
   init: function () {

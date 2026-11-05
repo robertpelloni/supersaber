@@ -1,4 +1,4 @@
-var bindEvent = require('aframe-event-decorators').bindEvent;
+import { bindEvent } from 'aframe-event-decorators';
 
 /**
  * Select difficulty.

@@ -1,4 +1,5 @@
-var utils = require('../utils');
+/* eslint-disable no-undef */
+import utils from '../utils';
 
 const PREVIEW_VOLUME = 0.5;
 
@@ -115,6 +116,18 @@ AFRAME.registerComponent('song-preview-system', {
     this.audioStore[challengeId] = audio;
 
     let src = utils.getS3FileUrl(challengeId, 'song.ogg');
+    const currentChallenge = this.el.sceneEl.systems.state.state.menuSelectedChallenge;
+    if (currentChallenge && currentChallenge.isLocalMod && currentChallenge.zipFile && currentChallenge.id === challengeId) {
+      let audioFile = currentChallenge.zipFile.file(currentChallenge.audioFileName) || currentChallenge.zipFile.file('song.ogg');
+      if (audioFile) {
+        audioFile.async('blob').then(audioBlob => {
+          this.el.setAttribute('sound', 'src', URL.createObjectURL(audioBlob));
+          if (this.data.isSearching) { return; }
+          this.el.components.sound.playSound();
+        });
+        return;
+      }
+    }
     if (this.currentLoadingId) {
       // Audio currently loading, add to queue.
       this.preloadQueue.push({
