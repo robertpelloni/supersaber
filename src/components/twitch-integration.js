@@ -31,8 +31,10 @@ AFRAME.registerComponent('twitch-integration', {
       // Emit incoming chat message for UI loggers and viewer feeds
       this.el.emit('twitch-chat-message', {
         user: tags['display-name'] || tags.username,
+        color: tags.color || '#88c0d0',
         message: message,
-        badges: tags.badges || {}
+        badges: tags.badges || {},
+        timestamp: Date.now()
       });
 
       const command = message.trim().toLowerCase();

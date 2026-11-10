@@ -85,3 +85,8 @@
 - **Multiplayer Relay Architecture**: Dedicated WebSocket relay server (`relay_server.js`) listening on port 3001 using `ws.Server`. Routes client messages based on room query params (`?room=ROOM1`) and broadcasts state payloads.
 - **Linux Webpack Watcher**: `fs.watch('src', { recursive: true })` throws `ERR_FEATURE_UNAVAILABLE_ON_PLATFORM` in Linux containers. `webpack.config.js` safely catches this error and watches individual directories (`src`, `src/templates`).
 - **Tray & Process Control**: `tray_control.py` monitors port 3000 (dev server) and port 3001 (multiplayer relay), views logs, and stops processes cleanly.
+
+## 2026-10-19 Twitch Chat Refinements & DOM Throttling [v1.5.2]
+- **Twitch Chat State & Event Flow**: `twitch-integration.js` dispatches `twitch-chat-message` containing `{ user, color, message, badges, timestamp }`.
+- **State Storage & Bounding**: `src/state/index.js` appends messages to `twitchRecentMessages`, capped strictly at 30 items to prevent memory bloat over lengthy broadcast sessions.
+- **Frontend Live Feed Rendering**: In `src/index.html`, `#twitchRecentFeed` dynamically appends formatted chat lines with `[HH:MM:SS]` timestamps and colored usernames, trimming DOM nodes past 25 elements and auto-scrolling to the latest message.

@@ -53,7 +53,7 @@
 - `aframe-master.js` is locked at 0.8.2 in `vendor/` to maintain WebVR compatibility.
 
 ## 9. Deployment / Versioning Gaps
-- None. `VERSION.md` is strictly tracked (currently `v1.5.1`) and reflected across changelogs and UI.
+- None. `VERSION.md` is strictly tracked (currently `v1.5.2`) and reflected across changelogs and UI.
 
 ## 10. Next Highest-Impact Tasks
 - **WebRTC DataChannel Transition:** Introduce P2P WebRTC data channels for low-latency peer updates without central server bandwidth.

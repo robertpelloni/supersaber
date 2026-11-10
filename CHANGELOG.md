@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.5.2] - 2026-10-19
+### Added
+- Multi-line Twitch chat message feed with color-coded usernames, timestamps, and smooth auto-scrolling in `#desktopUI`.
+- Added performance cap bounding DOM elements in Twitch feed to 25 items and state history to 30 items.
+- Enhanced `twitch-integration.js` event payload with username color and precise UTC timestamp.
+
 ## [1.5.1] - 2026-10-19
 ### Added
 - **Multiplayer Relay Server Integration:**
