@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.5.2] - 2026-10-19
+### Added
+- Multi-line Twitch chat message feed with color-coded usernames, timestamps, and smooth auto-scrolling in `#desktopUI`.
+- Added performance cap bounding DOM elements in Twitch feed to 25 items and state history to 30 items.
+- Enhanced `twitch-integration.js` event payload with username color and precise UTC timestamp.
+
+## [1.5.1] - 2026-10-19
+### Added
+- **Multiplayer Relay Server Integration:**
+  - Standalone WebSocket relay server (`relay_server.js`) on port 3001 using `ws.Server` with room isolation (`?room=ROOM1`) and payload broadcasting.
+  - Added `"relay": "node relay_server.js"` script to `package.json`.
+  - Configured `start.bat` to launch the relay server in the background and verify status with `tray_control.py`.
+- **Platform Compatibility & Watcher Resilience:**
+  - Resolved `ERR_FEATURE_UNAVAILABLE_ON_PLATFORM` in `webpack.config.js` when watching files on Linux systems without recursive `fs.watch`, falling back to watching directories individually.
+  - Formatted and cleaned up syntax in `src/components/custom-asset-loader.js`.
+
 ## [1.5.0] - 2026-10-19
 ### Added
 - **Custom Asset Loading Refinement:**

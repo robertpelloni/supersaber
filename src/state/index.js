@@ -624,8 +624,15 @@ AFRAME.registerState({
       if (!state.twitchRecentMessages) {
         state.twitchRecentMessages = [];
       }
-      state.twitchRecentMessages.push(payload);
-      if (state.twitchRecentMessages.length > 20) {
+      const messageEntry = {
+        user: payload.user || 'Viewer',
+        color: payload.color || '#88c0d0',
+        message: payload.message || '',
+        badges: payload.badges || {},
+        timestamp: payload.timestamp || Date.now()
+      };
+      state.twitchRecentMessages.push(messageEntry);
+      if (state.twitchRecentMessages.length > 30) {
         state.twitchRecentMessages.shift();
       }
     },
